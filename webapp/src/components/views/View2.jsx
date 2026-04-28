@@ -91,6 +91,8 @@ export function View2() {
             showValuesToggle={!data.view2LayersWithoutValuesToggle.has(view2Layer)}
             threshold={threshold}
             focusPinnedInfo
+            focusZoom={11.8}
+            focusOffset={[-140, 0]}
           />
           <InfoPanel id="view2-info" layer={layer} />
         </div>

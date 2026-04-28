@@ -25,6 +25,8 @@ export function MapCard({
   pinnedInfo,
   onPinnedInfoChange,
   focusPinnedInfo = false,
+  focusZoom,
+  focusOffset,
 }) {
   const { data, language } = useI18n();
   const showNumericValues = useAppStore((state) => state.showNumericValues);
@@ -108,6 +110,8 @@ export function MapCard({
           onInspect={handleInspect}
           selectedTarget={selectedTarget}
           focusTarget={focusTarget}
+          focusZoom={focusZoom}
+          focusOffset={focusOffset}
         />
         <MapFloatingControls
           basemap={basemap}

@@ -61,7 +61,13 @@ export function View3() {
       />
       <div className="main-grid">
         <div className="map-stack">
-          <MapCard layer={layer} infoTargetId="view3-info" focusPinnedInfo />
+          <MapCard
+            layer={layer}
+            infoTargetId="view3-info"
+            focusPinnedInfo
+            focusZoom={11.8}
+            focusOffset={[-140, 0]}
+          />
           <InfoPanel id="view3-info" layer={layer} />
         </div>
         <aside className="side-panel">

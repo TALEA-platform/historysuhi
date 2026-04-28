@@ -94,6 +94,8 @@ export function View1({ csvInfo }) {
             year={selectedYear}
             overlays={view1Overlays}
             focusPinnedInfo
+            focusZoom={11.8}
+            focusOffset={[-140, 0]}
           />
           <div className="map-below-controls">
             <label className="year-slider">

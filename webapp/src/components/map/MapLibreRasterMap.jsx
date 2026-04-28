@@ -124,7 +124,7 @@ function ensureSelectedCellLayer(map) {
       filter: ["==", ["get", "kind"], "fill"],
       paint: {
         "fill-color": "#f2cf63",
-        "fill-opacity": 0.12,
+        "fill-opacity": 0.18,
       },
     });
   }
@@ -142,7 +142,7 @@ function ensureSelectedCellLayer(map) {
       paint: {
         "line-color": "#fff8d7",
         "line-opacity": 0.95,
-        "line-width": ["interpolate", ["linear"], ["zoom"], 9, 2.2, 13, 3.3, 16, 4.4],
+        "line-width": ["interpolate", ["linear"], ["zoom"], 9, 4.2, 13, 5.6, 16, 7.2],
       },
     });
   }
@@ -160,7 +160,7 @@ function ensureSelectedCellLayer(map) {
       paint: {
         "line-color": "#235f4d",
         "line-opacity": 0.98,
-        "line-width": ["interpolate", ["linear"], ["zoom"], 9, 1.1, 13, 1.8, 16, 2.6],
+        "line-width": ["interpolate", ["linear"], ["zoom"], 9, 2.2, 13, 3, 16, 4],
       },
     });
   }
@@ -189,6 +189,8 @@ export function MapLibreRasterMap({
   interactive = true,
   selectedTarget,
   focusTarget,
+  focusZoom,
+  focusOffset,
 }) {
   const { language } = useI18n();
   const containerRef = useRef(null);
@@ -323,28 +325,25 @@ export function MapLibreRasterMap({
     lastFocusKeyRef.current = focusTarget.key;
     map.easeTo({
       center: [focusTarget.lng, focusTarget.lat],
+      zoom: focusZoom == null ? map.getZoom() : Math.max(map.getZoom(), focusZoom),
+      offset: focusOffset || [0, 0],
       duration: 450,
       essential: true,
     });
-  }, [focusTarget, interactive, status]);
+  }, [focusOffset, focusTarget, focusZoom, interactive, status]);
 
   useEffect(() => {
     const map = mapRef.current;
     if (!interactive || !map || status !== "ready") return;
 
-    const apply = () => {
-      ensureSelectedCellLayer(map);
-      if (!selectedTarget?.key || !activeRasterRef.current?.cellFeatureAt) {
-        setSelectedCellFeature(map, null);
-        return;
-      }
+    ensureSelectedCellLayer(map);
+    if (!selectedTarget?.key || !activeRasterRef.current?.cellFeatureAt) {
+      setSelectedCellFeature(map, null);
+      return;
+    }
 
-      const feature = activeRasterRef.current.cellFeatureAt(selectedTarget.lng, selectedTarget.lat);
-      setSelectedCellFeature(map, feature);
-    };
-
-    if (map.isStyleLoaded()) apply();
-    else map.once("load", apply);
+    const feature = activeRasterRef.current.cellFeatureAt(selectedTarget.lng, selectedTarget.lat);
+    setSelectedCellFeature(map, feature);
   }, [selectedTarget, interactive, status]);
 
   useEffect(() => {
