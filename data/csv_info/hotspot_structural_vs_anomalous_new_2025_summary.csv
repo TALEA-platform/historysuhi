@@ -1,0 +1,2 @@
+year,structural_percentile,structural_threshold,temporal_z_threshold,valid_pixel_count,structural_count,anomalous_count,none_count,structural_only_count,anomalous_only_count,both_count
+2025,95.0,45.375247955322266,1.0,324656,16228,12177,300448,12031,7980,4197

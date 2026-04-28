@@ -1,0 +1,2 @@
+period,year_count,encoding_base,valid_pixel_count,structural_total_flags,anomalous_total_flags,both_total_flags,structural_pixels_ever,anomalous_pixels_ever,both_pixels_ever,packed_value_formula,both_rule
+2013_2025,13,100,343107,210877,646720,72431,57024,322944,50253,structural + 100*anomalous,years with both structural and anomalous increment both channels
