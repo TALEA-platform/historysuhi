@@ -1,0 +1,33 @@
+{
+  
+  "name": "talea-lst-webapp",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "homepage": "https://ilLeoo.github.io/historysuhi",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build && node scripts/prepare-dist.mjs",
+    "build:pairs": "node scripts/build_ndvi_delta_pairs.mjs",
+    "preview": "vite preview --host 127.0.0.1",
+    "lint": "eslint .",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"  
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "^5.0.4",
+    "geotiff": "^3.0.5",
+    "lucide-react": "^0.468.0",
+    "maplibre-gl": "^5.23.0",
+    "proj4": "^2.20.8",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "recharts": "^2.15.0",
+    "vite": "^6.0.5",
+    "zustand": "^5.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^9.16.0",
+    "gh-pages": "^6.3.0"
+  }
+}
