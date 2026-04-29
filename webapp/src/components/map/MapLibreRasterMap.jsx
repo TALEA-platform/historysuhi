@@ -68,16 +68,105 @@ function waitForMapReady(map) {
   return new Promise((resolve) => {
     let settled = false;
     const finish = () => {
-      if (settled) return;
+      if (settled || !map.isStyleLoaded()) return;
       settled = true;
       map.off("load", finish);
       map.off("idle", finish);
+      map.off("styledata", finish);
       resolve();
     };
 
-    map.once("load", finish);
-    map.once("idle", finish);
+    map.on("load", finish);
+    map.on("idle", finish);
+    map.on("styledata", finish);
+    finish();
   });
+}
+
+function waitForFreshStyleReady(map) {
+  return new Promise((resolve) => {
+    let sawStyleEvent = false;
+    let settled = false;
+    const finish = () => {
+      sawStyleEvent = true;
+      if (settled || !sawStyleEvent || !map.isStyleLoaded()) return;
+      settled = true;
+      map.off("load", finish);
+      map.off("idle", finish);
+      map.off("styledata", finish);
+      resolve();
+    };
+
+    map.on("load", finish);
+    map.on("idle", finish);
+    map.on("styledata", finish);
+  });
+}
+
+function waitForNextPaint() {
+  return new Promise((resolve) => {
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(resolve);
+    });
+  });
+}
+
+function restoreRenderedLayers(map, rendered, overlays, opacity) {
+  if (rendered) {
+    addOrUpdateImage(map, "talea-main-raster", rendered, opacity);
+  }
+
+  for (const overlay of overlays) {
+    addOrUpdateImage(map, overlay.id, overlay.rendered, overlay.opacity);
+  }
+}
+
+function getPersistentLayerIds(overlayIds, includeOrtho) {
+  const ids = [
+    "talea-main-raster",
+    ...overlayIds,
+    "bologna-boundary-casing",
+    "bologna-boundary-line",
+    "talea-selected-cell-fill",
+    "talea-selected-cell-casing",
+    "talea-selected-cell-line",
+  ];
+
+  if (includeOrtho) ids.unshift("ortho");
+  return new Set(ids);
+}
+
+function buildStyleWithPersistentLayers(previousStyle, nextStyle, overlayIds, includeOrtho) {
+  if (!previousStyle?.layers || !previousStyle?.sources) return nextStyle;
+
+  const persistentLayerIds = getPersistentLayerIds(overlayIds, includeOrtho);
+  const persistentLayers = previousStyle.layers.filter((layer) => persistentLayerIds.has(layer.id));
+  if (!persistentLayers.length) return nextStyle;
+
+  const persistentSourceIds = new Set(
+    persistentLayers
+      .map((layer) => layer.source)
+      .filter((sourceId) => typeof sourceId === "string"),
+  );
+
+  const persistentSources = {};
+  for (const sourceId of persistentSourceIds) {
+    if (previousStyle.sources[sourceId]) {
+      persistentSources[sourceId] = previousStyle.sources[sourceId];
+    }
+  }
+
+  return {
+    ...nextStyle,
+    sources: {
+      ...(nextStyle.sources || {}),
+      ...persistentSources,
+    },
+    layers: [
+      ...(nextStyle.layers || []),
+      ...persistentLayers,
+    ],
+  };
 }
 
 function ensureOrthoLayer(map, orthophoto) {
@@ -273,6 +362,7 @@ export function MapLibreRasterMap({
   const mapRef = useRef(null);
   const activeRasterRef = useRef(null);
   const overlayIdsRef = useRef([]);
+  const overlayRenderingsRef = useRef([]);
   const didFitRef = useRef(false);
   const lastFocusKeyRef = useRef(null);
   // We mirror callback props into refs so the map's "mousemove"/"click" handlers
@@ -420,7 +510,7 @@ export function MapLibreRasterMap({
 
   useEffect(() => {
     const map = mapRef.current;
-    if (!interactive || !map || status !== "ready") return;
+    if (!interactive || !map || status !== "ready" || !map.isStyleLoaded()) return;
 
     ensureSelectedCellLayer(map);
     if (!selectedTarget?.key || !activeRasterRef.current?.cellFeatureAt) {
@@ -437,14 +527,31 @@ export function MapLibreRasterMap({
     const map = mapRef.current;
     if (!map) return;
     const desiredBasemapStyle = getBasemapStyleKind(basemap);
+    const styleChanged = map.__taleaBasemapStyle !== desiredBasemapStyle;
 
-    if (map.__taleaBasemapStyle !== desiredBasemapStyle) {
+    if (styleChanged) {
+      const previousStyle = map.getStyle();
+      const includeOrthoInNextStyle = desiredBasemapStyle === "ortho";
       map.__taleaBasemapStyle = desiredBasemapStyle;
-      map.setStyle(getBasemapStyle(basemap));
-      return undefined;
+      map.setStyle(getBasemapStyle(basemap), {
+        transformStyle: (_oldStyle, nextStyle) => buildStyleWithPersistentLayers(
+          previousStyle,
+          nextStyle,
+          overlayIdsRef.current,
+          includeOrthoInNextStyle,
+        ),
+      });
     }
 
-    const apply = () => {
+    const apply = async () => {
+      restoreRenderedLayers(
+        map,
+        activeRasterRef.current,
+        overlayRenderingsRef.current,
+        rasterOpacityRef.current,
+      );
+      ensureBoundaryLayer(map);
+
       const showOrtho = basemap === "ortho";
       if (!showOrtho) {
         // Keep the orthophoto completely detached while OSM is active so year
@@ -463,6 +570,11 @@ export function MapLibreRasterMap({
         return;
       }
 
+      // Give the just-restored raster a paint before attaching the ortho tiles,
+      // so the selected TIFF appears first on direct ortho loads and basemap switches.
+      await waitForNextPaint();
+      if (cancelled) return;
+
       ensureOrthoLayer(map, orthophoto);
       // Hide every OpenFreeMap base layer when the user picks the orthophoto.
       // The ortho has minzoom 10 and only covers Bologna, so without this OFM
@@ -471,7 +583,8 @@ export function MapLibreRasterMap({
       map.setLayoutProperty("ortho", "visibility", "visible");
     };
 
-    waitForMapReady(map).then(() => {
+    const readyPromise = styleChanged ? waitForFreshStyleReady(map) : waitForMapReady(map);
+    readyPromise.then(() => {
       if (cancelled) return;
       apply();
     });
@@ -507,6 +620,7 @@ export function MapLibreRasterMap({
         addOrUpdateImage(map, "talea-main-raster", rendered, rasterOpacityRef.current);
 
         const activeOverlayIds = [];
+        const activeOverlayRenderings = [];
         for (const overlay of overlays) {
           const overlayRendered = await renderRasterImage({
             url: overlay.dataUrlForYear ? overlay.dataUrlForYear(year) : overlay.dataUrl,
@@ -517,13 +631,16 @@ export function MapLibreRasterMap({
           if (cancelled) return;
           const id = `talea-overlay-${overlay.id}`;
           activeOverlayIds.push(id);
-          addOrUpdateImage(map, id, overlayRendered, overlay.opacity ?? 0.72);
+          const overlayOpacity = overlay.opacity ?? 0.72;
+          activeOverlayRenderings.push({ id, rendered: overlayRendered, opacity: overlayOpacity });
+          addOrUpdateImage(map, id, overlayRendered, overlayOpacity);
         }
 
         for (const oldId of overlayIdsRef.current) {
           if (!activeOverlayIds.includes(oldId)) removeLayerAndSource(map, oldId);
         }
         overlayIdsRef.current = activeOverlayIds;
+        overlayRenderingsRef.current = activeOverlayRenderings;
         ensureBoundaryLayer(map);
         ensureSelectedCellLayer(map);
 
@@ -543,7 +660,7 @@ export function MapLibreRasterMap({
     return () => {
       cancelled = true;
     };
-  }, [layer, year, overlays, threshold, colorMode, reloadToken, basemap]);
+  }, [layer, year, overlays, threshold, colorMode, reloadToken]);
 
   useEffect(() => {
     const map = mapRef.current;
