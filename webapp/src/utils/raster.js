@@ -31,17 +31,17 @@ const rasterCopy = {
     hoverHint: "Passa su una zona della mappa per leggere cosa indica quel punto.",
     structuralDetail: (chronicYears, anomalousYears) => `${chronicYears} anni cronici, ${anomalousYears} anni anomali.`,
     detailByLayer: {
-      lst: "Temperatura superficiale osservata dal satellite.",
+      lst: "Temperatura di superficie osservata dal satellite.",
       zspat: "Confronto con la media urbana dello stesso anno.",
       anomaly: "Scostamento del 2025 rispetto alla storia dello stesso punto.",
       climatology: "**Media storica** estiva dello stesso punto: riferimento 2013-2025.",
       persistenceTemporal: "Numero di estati in cui il punto è stato **anomalo rispetto alla propria storia**.",
-      persistenceStructural: "Numero di estati in cui il punto è rientrato nel **top 5% delle aree più calde** della città.",
-      uhei: "Indice sintetico: più alto significa maggiore esposizione fisica al caldo.",
+      persistenceStructural: "Numero di estati in cui il punto è rientrato nel **top 5% delle aree con la temperatura di superficie più alta** della città.",
+      uhei: "Indice sintetico: più alto significa maggiore esposizione a temperature di superficie elevate.",
       ndvi: "Indice di vegetazione: più alto significa più verde osservabile.",
       albedo: "Riflettanza: più alto significa superfici riflettenti.",
-      hvi: "Rapporto tra caldo superficiale e mancanza di verde.",
-      hri: "Rapporto tra caldo superficiale e superfici poco riflettenti.",
+      hvi: "Rapporto tra temperatura di superficie e mancanza di verde.",
+      hri: "Rapporto tra temperatura di superficie e superfici poco riflettenti.",
       delta: "Differenza giorno-notte a scala 1 km.",
       default: "Lettura del punto selezionato.",
     },
@@ -74,12 +74,12 @@ const rasterCopy = {
       anomaly: "Departure of 2025 from the history of the same point.",
       climatology: "**Historical mean** summer value for the same point: 2013-2025 reference.",
       persistenceTemporal: "Number of summers in which the point was **anomalous compared with its own history**.",
-      persistenceStructural: "Number of summers in which the point ranked within the city's **top 5% hottest areas**.",
-      uhei: "Synthetic index: higher values mean greater physical exposure to heat.",
+      persistenceStructural: "Number of summers in which the point ranked within the city's **top 5% by surface temperature**.",
+      uhei: "Synthetic index: higher values mean greater exposure to high surface temperatures.",
       ndvi: "Vegetation index: higher values mean more observable greenery.",
       albedo: "Reflectance: higher values mean reflective surfaces.",
-      hvi: "Relationship between surface heat and lack of vegetation.",
-      hri: "Relationship between surface heat and poorly reflective surfaces.",
+      hvi: "Relationship between surface temperature and lack of vegetation.",
+      hri: "Relationship between surface temperature and poorly reflective surfaces.",
       delta: "Day-night difference at 1 km scale.",
       default: "Reading of the selected point.",
     },
@@ -222,8 +222,8 @@ function rasterContext(layer, value, language = "it") {
     }
     if (rounded === 2 || rounded === 10) {
       return isEnglish
-        ? "This point stands out in 2025 compared with its own history, even if it is not among Bologna's structurally hottest areas."
-        : "Questo punto emerge nel 2025 rispetto alla propria storia, anche se non rientra tra le aree strutturalmente più calde di Bologna.";
+        ? "This point stands out in 2025 compared with its own history, even if it is not among Bologna's areas with the structurally highest surface temperature."
+        : "Questo punto emerge nel 2025 rispetto alla propria storia, anche se non rientra tra le aree strutturalmente con la temperatura di superficie più alta di Bologna.";
     }
     if (rounded === 3 || rounded === 11) {
       return isEnglish
@@ -246,13 +246,13 @@ function rasterContext(layer, value, language = "it") {
     }
     if (chronicYears) {
       return isEnglish
-        ? "This point is repeatedly among Bologna's hottest areas, even if it does not often behave anomalously compared with itself."
-        : "Questo punto rientra ripetutamente tra le aree più calde di Bologna, anche se non si comporta spesso in modo anomalo rispetto a se stesso.";
+        ? "This point is repeatedly among Bologna's areas with the highest surface temperature, even if it does not often behave anomalously compared with itself."
+        : "Questo punto rientra ripetutamente tra le aree con la temperatura di superficie più alta di Bologna, anche se non si comporta spesso in modo anomalo rispetto a se stesso.";
     }
     if (anomalousYears) {
       return isEnglish
-        ? `This point shows ${anomalousSignal} compared with its own history, without being one of Bologna's structurally hottest areas.`
-        : `Questo punto mostra ${anomalousSignal} rispetto alla propria storia, senza essere una delle aree strutturalmente più calde di Bologna.`;
+        ? `This point shows ${anomalousSignal} compared with its own history, without being one of Bologna's areas with the structurally highest surface temperature.`
+        : `Questo punto mostra ${anomalousSignal} rispetto alla propria storia, senza essere una delle aree strutturalmente con la temperatura di superficie più alta di Bologna.`;
     }
     return isEnglish
       ? "This point does not show a chronic or anomalous signal in the available period."
@@ -262,8 +262,8 @@ function rasterContext(layer, value, language = "it") {
   switch (layer.id) {
     case "lst":
       return isEnglish
-        ? "This is the surface reading at the selected point in the chosen year, so paved areas and roofs can be much warmer than the surrounding air."
-        : "Questa è la lettura superficiale del punto selezionato nell'anno scelto, quindi aree pavimentate e tetti possono risultare molto più caldi dell'aria circostante.";
+        ? "This is the surface temperature reading at the selected point in the chosen year: paved areas and roofs can be much warmer than the surrounding air."
+        : "Questa è la temperatura di superficie del punto selezionato nell'anno scelto: aree pavimentate e tetti possono risultare molto più caldi dell'aria circostante.";
     case "zspat":
       if (Math.abs(value) < 0.2) {
         return isEnglish
@@ -272,11 +272,11 @@ function rasterContext(layer, value, language = "it") {
       }
       return value > 0
         ? (isEnglish
-          ? "This point is warmer than Bologna's average in the selected year."
-          : "Questo punto è più caldo della media di Bologna nell'anno selezionato.")
+          ? "This point's surface temperature is above Bologna's average in the selected year."
+          : "Questo punto ha una temperatura di superficie sopra la media di Bologna nell'anno selezionato.")
         : (isEnglish
-          ? "This point is cooler than Bologna's average in the selected year."
-          : "Questo punto è più fresco della media di Bologna nell'anno selezionato.");
+          ? "This point's surface temperature is below Bologna's average in the selected year."
+          : "Questo punto ha una temperatura di superficie sotto la media di Bologna nell'anno selezionato.");
     case "anomaly":
       if (Math.abs(value) < 0.5) {
         return isEnglish
@@ -285,11 +285,11 @@ function rasterContext(layer, value, language = "it") {
       }
       return value > 0
         ? (isEnglish
-          ? "In 2025 this point was warmer than its own historical pattern."
-          : "Nel 2025 questo punto è stato più caldo del proprio comportamento storico.")
+          ? "In 2025 this point's surface temperature was above its own historical pattern."
+          : "Nel 2025 questo punto ha avuto una temperatura sopra il proprio comportamento storico.")
         : (isEnglish
-          ? "In 2025 this point was cooler than its own historical pattern."
-          : "Nel 2025 questo punto è stato più fresco del proprio comportamento storico.");
+          ? "In 2025 this point's surface temperature was below its own historical pattern."
+          : "Nel 2025 questo punto ha avuto una temperatura sotto il proprio comportamento storico.");
     case "climatology":
       return isEnglish
         ? "This value represents the usual summer surface behaviour of this point across the 2013-2025 series."
@@ -316,13 +316,13 @@ function rasterContext(layer, value, language = "it") {
     case "persistenceStructural":
       if (value <= 0) {
         return isEnglish
-          ? "This point does not enter Bologna's hottest 5% in the available series."
-          : "Questo punto non entra nel 5% più caldo di Bologna nella serie disponibile.";
+          ? "This point does not enter Bologna's top 5% by surface temperature in the available series."
+          : "Questo punto non entra nel 5% di Bologna con la temperatura di superficie più alta nella serie disponibile.";
       }
       if (value < 2) {
         return isEnglish
-          ? "This point appears among Bologna's hottest areas only occasionally."
-          : "Questo punto compare tra le aree più calde di Bologna solo occasionalmente.";
+          ? "This point appears among Bologna's areas with the highest surface temperature only occasionally."
+          : "Questo punto compare tra le aree con la temperatura di superficie più alta di Bologna solo occasionalmente.";
       }
       if (value < 9) {
         return isEnglish
@@ -330,12 +330,12 @@ function rasterContext(layer, value, language = "it") {
           : "Questo punto mostra un pattern di caldo strutturale ricorrente in diverse estati.";
       }
       return isEnglish
-        ? "This point is persistently among Bologna's hottest areas across much of the observed period."
-        : "Questo punto rientra in modo persistente tra le aree più calde di Bologna in gran parte del periodo osservato.";
+        ? "This point is persistently among Bologna's areas with the highest surface temperature across much of the observed period."
+        : "Questo punto rientra in modo persistente tra le aree con la temperatura di superficie più alta di Bologna in gran parte del periodo osservato.";
     case "uhei":
       return isEnglish
-        ? "Higher values at this point indicate a more unfavourable combination of heat, little greenery and weak reflectance."
-        : "Valori più alti in questo punto indicano una combinazione più sfavorevole di caldo, poco verde e bassa riflettanza.";
+        ? "Higher values at this point indicate a more unfavourable combination of high surface temperature, little greenery and weak reflectance."
+        : "Valori più alti in questo punto indicano una combinazione più sfavorevole di temperatura di superficie alta, poco verde e bassa riflettanza.";
     case "ndvi":
       return value >= 0.45
         ? (isEnglish
@@ -355,34 +355,34 @@ function rasterContext(layer, value, language = "it") {
     case "hvi":
       if (Math.abs(value) < 0.08) {
         return isEnglish
-          ? "At this point the balance between surface heat and vegetation is close to the middle of the scale."
-          : "In questo punto l'equilibrio tra caldo superficiale e vegetazione è vicino al centro della scala.";
+          ? "At this point the balance between surface temperature and vegetation is close to the middle of the scale."
+          : "In questo punto l'equilibrio tra temperatura di superficie e vegetazione è vicino al centro della scala.";
       }
       return value > 0
         ? (isEnglish
-          ? "At this point heat weighs more than vegetation in the combined reading."
-          : "In questo punto il caldo pesa più della vegetazione nella lettura combinata.")
+          ? "At this point surface temperature weighs more than vegetation in the combined reading."
+          : "In questo punto la temperatura di superficie pesa più della vegetazione nella lettura combinata.")
         : (isEnglish
-          ? "At this point vegetation and cooler conditions weigh more in the combined reading."
-          : "In questo punto vegetazione e condizioni più fresche pesano di più nella lettura combinata.");
+          ? "At this point vegetation and lower-temperature conditions weigh more in the combined reading."
+          : "In questo punto vegetazione e condizioni con temperatura più bassa pesano di più nella lettura combinata.");
     case "hri":
       if (Math.abs(value) < 0.08) {
         return isEnglish
-          ? "At this point the balance between heat and reflectance is close to the middle of the scale."
-          : "In questo punto l'equilibrio tra caldo e riflettanza è vicino al centro della scala.";
+          ? "At this point the balance between surface temperature and reflectance is close to the middle of the scale."
+          : "In questo punto l'equilibrio tra temperatura di superficie e riflettanza è vicino al centro della scala.";
       }
       return value > 0
         ? (isEnglish
-          ? "At this point heat is associated more with dark or absorbent surfaces."
-          : "In questo punto il caldo è più associato a superfici scure o assorbenti.")
+          ? "At this point high surface temperature is associated more with dark or absorbent surfaces."
+          : "In questo punto la temperatura di superficie elevata è più associata a superfici scure o assorbenti.")
         : (isEnglish
-          ? "At this point cooler or more reflective surfaces weigh more in the combined reading."
-          : "In questo punto superfici più fresche o più riflettenti pesano di più nella lettura combinata.");
+          ? "At this point lower-temperature or more reflective surfaces weigh more in the combined reading."
+          : "In questo punto superfici con temperatura più bassa o più riflettenti pesano di più nella lettura combinata.");
     case "delta":
       if (value >= 11) {
         return isEnglish
-          ? "This point shows a strong day-night surface swing, with much warmer daytime conditions than nighttime ones."
-          : "Questo punto mostra una forte escursione superficiale giorno-notte, con condizioni diurne molto più calde di quelle notturne.";
+          ? "This point shows a strong day-night surface swing, with much higher daytime surface temperatures than nighttime ones."
+          : "Questo punto mostra una forte escursione superficiale giorno-notte, con temperature di superficie diurne molto più alte di quelle notturne.";
       }
       if (value <= 8) {
         return isEnglish

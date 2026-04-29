@@ -30,7 +30,7 @@ export function Header() {
       languageAriaLabel: "Language",
     }
     : {
-      brandTitle: "Talea · Temperature Superficiali di Bologna",
+      brandTitle: "Talea · Temperature di Superficie di Bologna",
       brandSubtitle: "Bologna · dati satellitari 2013-2025 · superficie",
       guide: "Guida",
       methodology: "Metodologia",

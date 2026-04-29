@@ -40,10 +40,10 @@ export function View2() {
       historicalDescription:
         "Start here to read the **historical mean**, chronic heat and recurring anomalies before looking at 2025.",
       climatologyBody: "Historical summer mean 2013-2025: the normal reference",
-      temporalBody: "How many summers a point was hotter than its own normal",
+      temporalBody: "How many summers a point's temperature was above its own normal",
       thresholdLabel: "Minimum threshold",
       thresholdSuffix: "years",
-      structuralBody: "How many summers a point ranks among the city's hottest surfaces",
+      structuralBody: "How many summers a point ranks among the city's highest surface temperatures",
       bivariateBody: "Long-term critical areas and repeated anomalies",
       recentGroup: "How 2025 fits into the historical pattern",
       recentDescription:
@@ -63,10 +63,10 @@ export function View2() {
       historicalDescription:
         "La lettura parte dalla **media storica**, dal caldo cronico e dalle anomalie ricorrenti, prima del confronto con il 2025.",
       climatologyBody: "Media storica estiva 2013-2025: il riferimento normale",
-      temporalBody: "Quante estati il punto è stato più caldo del proprio normale",
+      temporalBody: "Quante estati il punto ha avuto temperatura sopra il proprio normale",
       thresholdLabel: "Soglia minima",
       thresholdSuffix: "anni",
-      structuralBody: "Quante estati il punto è tra le superfici più calde della città",
+      structuralBody: "Quante estati il punto è tra le superfici con la temperatura più alta della città",
       bivariateBody: "Criticità di sempre e anomalie ripetute",
       recentGroup: "Come il 2025 si inserisce nello schema storico",
       recentDescription:

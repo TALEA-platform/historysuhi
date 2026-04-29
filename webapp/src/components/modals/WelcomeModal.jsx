@@ -36,7 +36,7 @@ export function WelcomeModal() {
     }
     : {
       kicker: "Benvenuto",
-      title: "Temperature Superficiali di Bologna",
+      title: "Temperature di Superficie di Bologna",
       lead:
         "In questa webapp interattiva, sviluppata nell'ambito del progetto Talea, si osserva come si scaldano le **superfici** di Bologna in estate (2013–2025): strade, tetti, piazzali e vegetazione osservati dal satellite. Non è la temperatura dell'aria, ma una lettura utile di dove si accumula il caldo e perché.",
       hint:

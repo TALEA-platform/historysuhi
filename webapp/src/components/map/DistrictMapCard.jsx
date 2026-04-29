@@ -62,9 +62,9 @@ export const DistrictMapCard = forwardRef(function DistrictMapCard({
       legendType: "districtHeat",
       numericLegend: [formatValue(min), formatValue(mid), formatValue(max)],
       legend: [
-        language === "en" ? "lower values" : "valori piu bassi",
+        language === "en" ? "lower values" : "valori più bassi",
         language === "en" ? "middle" : "intermedi",
-        language === "en" ? "higher values" : "valori piu alti",
+        language === "en" ? "higher values" : "valori più alti",
       ],
     };
   }, [data.districtMetrics, entities, language, metricKey]);

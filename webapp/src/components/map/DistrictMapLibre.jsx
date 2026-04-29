@@ -2,33 +2,62 @@ import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState }
 import maplibregl from "maplibre-gl";
 import { appUrl } from "../../lib/appPaths.js";
 import { BOLOGNA_CITY_BOUNDS, BOLOGNA_MAX_PAN_BOUNDS } from "../../lib/mapBounds.js";
+import { getOrthophotoConfig } from "../../lib/orthophoto.js";
 import { useAppStore } from "../../store/appStore.js";
 import { useI18n } from "../../i18n/useI18n.js";
 
-function style() {
-  return {
-    version: 8,
-    sources: {
-      osm: {
+// OpenFreeMap-hosted vector basemap (OSM-derived). Swap the slug to switch look.
+const BASEMAP_STYLE_URL = "https://tiles.openfreemap.org/styles/liberty";
+// Anything we add ourselves keeps these IDs/prefixes so the basemap toggle can
+// hide every OpenFreeMap layer (the rest) when the user picks the orthophoto.
+const APP_LAYER_IDS = new Set(["ortho"]);
+const APP_LAYER_PREFIXES = ["talea-", "districts", "bologna-", "quartieri-"];
+
+function isAppLayer(id) {
+  if (APP_LAYER_IDS.has(id)) return true;
+  return APP_LAYER_PREFIXES.some((prefix) => id.startsWith(prefix));
+}
+
+function setBasemapLayersVisibility(map, visible) {
+  const style = map.getStyle();
+  if (!style?.layers) return;
+  const value = visible ? "visible" : "none";
+  for (const layer of style.layers) {
+    if (isAppLayer(layer.id)) continue;
+    map.setLayoutProperty(layer.id, "visibility", value);
+  }
+}
+
+function ensureOrthoLayer(map, orthophoto) {
+  if (map.__taleaOrthoYear !== orthophoto.year) {
+    if (map.getLayer("ortho")) map.removeLayer("ortho");
+    if (map.getSource("ortho")) map.removeSource("ortho");
+  }
+
+  if (!map.getSource("ortho")) {
+    map.addSource("ortho", {
+      type: "raster",
+      tiles: orthophoto.tiles,
+      tileSize: 256,
+      minzoom: 10,
+      maxzoom: 20,
+      attribution: orthophoto.attribution,
+    });
+    map.__taleaOrthoYear = orthophoto.year;
+  }
+  if (!map.getLayer("ortho")) {
+    // Keep ortho underneath the district fills/lines so the data still reads.
+    const beforeId = map.getLayer("districts-fill") ? "districts-fill" : undefined;
+    map.addLayer(
+      {
+        id: "ortho",
         type: "raster",
-        tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
-        tileSize: 256,
-        attribution: "© OpenStreetMap contributors",
+        source: "ortho",
+        layout: { visibility: "none" },
       },
-      ortho: {
-        type: "raster",
-        tiles: ["https://sitmappe.comune.bologna.it/tms/tileserver/Ortofoto2024/{z}/{x}/{y}.png"],
-        tileSize: 256,
-        minzoom: 10,
-        maxzoom: 20,
-        attribution: "SIT Comune di Bologna · Ortofoto 2024",
-      },
-    },
-    layers: [
-      { id: "osm", type: "raster", source: "osm", layout: { visibility: "visible" } },
-      { id: "ortho", type: "raster", source: "ortho", layout: { visibility: "none" } },
-    ],
-  };
+      beforeId,
+    );
+  }
 }
 
 function normalizeName(value) {
@@ -125,6 +154,7 @@ export const DistrictMapLibre = forwardRef(function DistrictMapLibre({
   const colorblindMode = useAppStore((state) => state.colorblindMode);
   const districtOpacity = useAppStore((state) => state.districtOpacity);
   const loadingLabel = language === "en" ? "Loading areas..." : "Caricamento aree...";
+  const orthophoto = useMemo(() => getOrthophotoConfig(2025), []);
 
   useEffect(() => {
     interactionModeRef.current = interactionMode;
@@ -213,7 +243,7 @@ export const DistrictMapLibre = forwardRef(function DistrictMapLibre({
     if (!containerRef.current || mapRef.current) return;
     const map = new maplibregl.Map({
       container: containerRef.current,
-      style: style(),
+      style: BASEMAP_STYLE_URL,
       bounds: BOLOGNA_CITY_BOUNDS,
       fitBoundsOptions: { padding: 24 },
       minZoom: 9,
@@ -224,7 +254,13 @@ export const DistrictMapLibre = forwardRef(function DistrictMapLibre({
     map.addControl(new maplibregl.AttributionControl({ compact: true }), "bottom-right");
     map.addControl(new maplibregl.NavigationControl({ visualizePitch: false }), "top-right");
     mapRef.current = map;
-    map.on("load", () => setMapReady(true));
+    map.on("load", () => {
+      // MapLibre v5 renders the compact attribution expanded by default; collapse
+      // it on init so the user only sees the "i" button until they tap it.
+      const attribEl = map.getContainer().querySelector(".maplibregl-ctrl-attrib.maplibregl-compact");
+      if (attribEl) attribEl.classList.remove("maplibregl-compact-show");
+      setMapReady(true);
+    });
     return () => {
       map.remove();
       mapRef.current = null;
@@ -235,9 +271,11 @@ export const DistrictMapLibre = forwardRef(function DistrictMapLibre({
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !mapReady) return;
-    map.setLayoutProperty("osm", "visibility", basemap === "osm" ? "visible" : "none");
-    map.setLayoutProperty("ortho", "visibility", basemap === "ortho" ? "visible" : "none");
-  }, [basemap, mapReady]);
+    ensureOrthoLayer(map, orthophoto);
+    const showOrtho = basemap === "ortho";
+    setBasemapLayersVisibility(map, !showOrtho);
+    map.setLayoutProperty("ortho", "visibility", showOrtho ? "visible" : "none");
+  }, [basemap, mapReady, orthophoto]);
 
   // Compute the 6 quartiere outlines once from the source geojson. We render them as a
   // separate layer so we can keep statistical-area borders thin while still emphasising the

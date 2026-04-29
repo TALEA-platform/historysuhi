@@ -40,13 +40,13 @@ export function View1({ csvInfo }) {
       compareTitle: "Compare two years",
       baseLayers: "Base layer",
       overlays: "Overlays",
-      lstBody: "Absolute surface heat in the selected year",
+      lstBody: "Absolute surface temperature in the selected year",
       zspatBody: "Difference from the current urban average",
-      hotspotBody: "Hotter than the historical behaviour of the same place, not simply the hottest place in the city",
+      hotspotBody: "Surface temperature above the historical behaviour of the same place, not simply the place with the highest temperature in the city",
       hotspotHelp:
         "This overlay highlights areas **anomalous compared with their own history**. A place can be very hot and still not appear here if it is hot in almost every year.",
       summaryLabel: "Reading",
-      summaryValue: "surface heat",
+      summaryValue: "surface temperature",
     }
     : {
       metricLabel: "Anno selezionato",
@@ -56,13 +56,13 @@ export function View1({ csvInfo }) {
       compareTitle: "Confronta due anni",
       baseLayers: "Layer base",
       overlays: "Sovrapposizioni",
-      lstBody: "Valore assoluto del caldo superficiale nell'anno scelto",
+      lstBody: "Valore assoluto della temperatura di superficie nell'anno scelto",
       zspatBody: "Scostamento dalla media urbana dell'anno corrente",
-      hotspotBody: "Più calde del comportamento storico dello stesso luogo, non le più calde della città",
+      hotspotBody: "Temperatura di superficie sopra il comportamento storico dello stesso luogo, non le aree con la temperatura più alta della città",
       hotspotHelp:
-        "Questa sovrapposizione evidenzia le aree **anomale rispetto alla propria storia**. Una zona può essere molto calda ma non comparire qui se è calda quasi sempre.",
+        "Questa sovrapposizione evidenzia le aree **anomale rispetto alla propria storia**. Una zona può avere una temperatura alta ma non comparire qui se la sua temperatura è alta quasi sempre.",
       summaryLabel: "Lettura",
-      summaryValue: "caldo superficiale",
+      summaryValue: "temperatura di superficie",
     };
 
   // If the user switches to a layer that does not support compare, disable it.
@@ -209,13 +209,13 @@ function describeYear(stat, language) {
   const hotspot = Number(stat?.hotspot ?? 0);
   if (language === "en") {
     let mood;
-    if (anomaly < -3) mood = "**exceptionally cool**";
-    else if (anomaly < -0.7) mood = "**clearly cooler**";
-    else if (anomaly < -0.2) mood = "**slightly cooler**";
+    if (anomaly < -3) mood = "**with exceptionally low temperatures**";
+    else if (anomaly < -0.7) mood = "**with clearly lower temperatures**";
+    else if (anomaly < -0.2) mood = "**with slightly lower temperatures**";
     else if (anomaly < 0.3) mood = "**close to the historical average**";
-    else if (anomaly < 0.7) mood = "**slightly warmer**";
-    else if (anomaly < 1.7) mood = "**clearly warmer**";
-    else if (anomaly < 2.5) mood = "**much warmer**";
+    else if (anomaly < 0.7) mood = "**with slightly higher temperatures**";
+    else if (anomaly < 1.7) mood = "**with clearly higher temperatures**";
+    else if (anomaly < 2.5) mood = "**with much higher temperatures**";
     else mood = "**record-breaking**";
     let exceptional;
     if (hotspot >= 50) exceptional = "broad areas flagged as exceptionally hot";
@@ -224,21 +224,21 @@ function describeYear(stat, language) {
     else if (hotspot >= 0.5) exceptional = "few areas flagged as exceptionally hot";
     else exceptional = "almost no area flagged as exceptionally hot";
     if (anomaly >= 2.5) {
-      return `Summer ${mood}: the hottest in the 2013-2025 series, with ${exceptional}.`;
+      return `Summer ${mood}: the one with the highest mean surface temperature in the 2013-2025 series, with ${exceptional}.`;
     }
     if (anomaly < -3) {
-      return `One of the coolest summers in the 2013-2025 series, with ${exceptional}.`;
+      return `One of the summers with the lowest mean surface temperature in the 2013-2025 series, with ${exceptional}.`;
     }
-    return `Summer ${mood} than the 2013-2025 historical average, with ${exceptional}.`;
+    return `Summer ${mood} compared with the 2013-2025 historical average, with ${exceptional}.`;
   }
   let mood;
-  if (anomaly < -3) mood = "**eccezionalmente fresca**";
-  else if (anomaly < -0.7) mood = "**chiaramente più fresca**";
-  else if (anomaly < -0.2) mood = "**leggermente più fresca**";
+  if (anomaly < -3) mood = "**con temperature eccezionalmente basse**";
+  else if (anomaly < -0.7) mood = "**con temperature chiaramente più basse**";
+  else if (anomaly < -0.2) mood = "**con temperature leggermente più basse**";
   else if (anomaly < 0.3) mood = "**vicina alla media storica**";
-  else if (anomaly < 0.7) mood = "**leggermente più calda**";
-  else if (anomaly < 1.7) mood = "**chiaramente più calda**";
-  else if (anomaly < 2.5) mood = "**molto più calda**";
+  else if (anomaly < 0.7) mood = "**con temperature leggermente più alte**";
+  else if (anomaly < 1.7) mood = "**con temperature chiaramente più alte**";
+  else if (anomaly < 2.5) mood = "**con temperature molto più alte**";
   else mood = "**da record**";
   let exceptional;
   if (hotspot >= 50) exceptional = "ampie aree classificate come eccezionalmente calde";
@@ -247,10 +247,10 @@ function describeYear(stat, language) {
   else if (hotspot >= 0.5) exceptional = "poche aree classificate come eccezionalmente calde";
   else exceptional = "quasi nessuna area classificata come eccezionalmente calda";
   if (anomaly >= 2.5) {
-    return `Estate ${mood}: la più calda della serie 2013-2025, con ${exceptional}.`;
+    return `Estate ${mood}: quella con la temperatura di superficie media più alta della serie 2013-2025, con ${exceptional}.`;
   }
   if (anomaly < -3) {
-    return `Una delle estati più fresche della serie 2013-2025, con ${exceptional}.`;
+    return `Una delle estati con la temperatura di superficie media più bassa della serie 2013-2025, con ${exceptional}.`;
   }
   return `Estate ${mood} rispetto alla media storica 2013-2025, con ${exceptional}.`;
 }

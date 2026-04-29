@@ -22,7 +22,7 @@ export function OnboardingModal() {
       projectNote:
         "TALEA is a European project led by the Municipality of Bologna to address urban heat islands by combining nature-based solutions, digital tools and citizen participation, with the goal of creating more inclusive climate shelters in public space.",
       lead: [
-        "The map you are viewing shows **Bologna's surface heat in summer** as observed by satellites: roads, roofs, squares and vegetation. It is not air temperature, but it helps explain where the city stores more heat.",
+        "The map you are viewing shows **Bologna's surface temperature in summer** as observed by satellites: roads, roofs, squares and vegetation. It is not air temperature, but it helps explain where the city stores more heat.",
         "The five views are arranged as a reading path: they begin with the citywide pattern, then move to change over time, physical drivers and, at the end, local summaries.",
       ],
       stepsAria: "Suggested steps",
@@ -47,13 +47,13 @@ export function OnboardingModal() {
       importantTitle: "Three important things",
       important: [
         "**Surface, not air.** A road can be much hotter than the air measured by a weather station.",
-        "**Anomalous does not mean hottest in absolute terms.** It means different from the usual behaviour of that same place.",
+        "**Anomalous does not mean the highest surface temperature in absolute terms.** It means different from the usual behaviour of that same place.",
         "**Districts and statistical areas are summaries.** They help compare zones, not describe every street or building.",
       ],
       guideCards: [
         {
           title: "1. Where it gets hot",
-          text: "This opening view shows where the surface gets hottest in a selected year and how that reading compares with the city average.",
+          text: "This opening view shows where the surface temperature is highest in a selected year and how that reading compares with the city average.",
         },
         {
           title: "2. Heat history",
@@ -84,7 +84,7 @@ export function OnboardingModal() {
       projectNote:
         "TALEA è un progetto europeo guidato dal Comune di Bologna per affrontare il problema delle isole di calore urbane combinando soluzioni basate sulla natura, strumenti digitali e partecipazione dei cittadini, con l'obiettivo di creare spazi pubblici più inclusivi e capaci di funzionare come rifugi climatici.",
       lead: [
-        "Questa webapp mostra il **calore delle superfici di Bologna in estate** osservato dai satelliti: strade, tetti, piazze e vegetazione. Non è la temperatura dell'aria, ma aiuta a capire dove la città accumula più calore.",
+        "Questa webapp mostra la **temperatura di superficie di Bologna in estate** osservata dai satelliti: strade, tetti, piazze e vegetazione. Non è la temperatura dell'aria, ma aiuta a capire dove la città accumula più calore.",
         "La webapp è divisa in cinque sezioni, che seguono un percorso di lettura: si parte dal quadro generale della città, poi si passa ai cambiamenti nel tempo, ai fattori fisici e, alla fine, alle sintesi locali.",
       ],
       stepsAria: "Passi consigliati",
@@ -109,13 +109,13 @@ export function OnboardingModal() {
       importantTitle: "Tre cose importanti",
       important: [
         "**Superficie non aria.** Una strada può essere molto più calda dell'aria misurata da una stazione meteo.",
-        "**Anomalo non significa più caldo in assoluto.** Significa diverso dal comportamento abituale di quello stesso luogo.",
+        "**Anomalo non significa con la temperatura più alta in assoluto.** Significa diverso dal comportamento abituale di quello stesso luogo.",
         "**Quartieri e aree statistiche sono sintesi.** Servono per confrontare zone, non per descrivere ogni strada o edificio.",
       ],
       guideCards: [
         {
           title: "1. Dove fa caldo",
-          text: "Viene mostrato dove le superfici si scaldano di più nell'anno selezionato e come quel dato si confronta con la media urbana.",
+          text: "Viene mostrato dove la temperatura di superficie è più alta nell'anno selezionato e come quel dato si confronta con la media urbana.",
         },
         {
           title: "2. Storia del caldo",

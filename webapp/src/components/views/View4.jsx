@@ -89,7 +89,7 @@ export function View4({ csvInfo }) {
       bannerLabel: "Reading",
       bannerValue: "day-night range",
       bannerText:
-        "This view shows the **day-night temperature range** (how much surfaces heat up during the day and cool down at night) observed in summer **2025**. A high value indicates a strong day-night swing; a low value can indicate surfaces that change little, or areas that are **already cooler during the day** and therefore have less heat to lose overnight.",
+        "This view shows the **day-night temperature range** (how much surfaces heat up during the day and cool down at night) observed in summer **2025**. A high value indicates a strong day-night swing; a low value can indicate surfaces that change little, or areas with **already lower daytime temperatures** that therefore have less heat to lose overnight.",
       panelTitle: "Relationships",
       panelText:
         "These charts compare the day-night range with two local factors: surface reflectivity and vegetation density.",
@@ -100,10 +100,10 @@ export function View4({ csvInfo }) {
       bannerLabel: "Lettura",
       bannerValue: "escursione termica",
       bannerText:
-        "Questa sezione mostra l'**escursione termica** tra giorno e notte (quanto le superfici si scaldano di giorno e si raffreddano di notte) osservata nell'estate **2025**. Un valore alto indica una forte differenza tra giorno e notte; un valore basso può indicare superfici che cambiano poco o zone **già più fresche di giorno**, che hanno quindi meno calore da perdere durante la notte.",
+        "Questa sezione mostra l'**escursione termica** tra giorno e notte (quanto le superfici si scaldano di giorno e si raffreddano di notte) osservata nell'estate **2025**. Un valore alto indica una forte differenza tra giorno e notte; un valore basso può indicare superfici che cambiano poco o zone **con temperatura già più bassa di giorno**, che hanno quindi meno calore da perdere durante la notte.",
       panelTitle: "Relazioni",
       panelText:
-        "Questi grafici mettono in relazione l'escursione giorno-notte con due fattori locali: riflettenza delle superfici e densita' della vegetazione.",
+        "Questi grafici mettono in relazione l'escursione giorno-notte con due fattori locali: riflettenza delle superfici e densità della vegetazione.",
     };
 
   return (

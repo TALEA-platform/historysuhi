@@ -108,7 +108,7 @@ export const supportConfig = {
       selector: ".threshold",
       label: {
         en: "This slider filters the map: it keeps only the areas that exceed at least this number of summers. Keep it low for a broader picture, raise it to isolate the most recurring cases.",
-        it: "Questo cursore filtra la mappa: mantiene solo le aree che superano almeno questo numero di estati. Tienilo basso per un quadro piu ampio, alzalo per isolare i casi piu ricorrenti.",
+        it: "Questo cursore filtra la mappa: mantiene solo le aree che superano almeno questo numero di estati. Tienilo basso per un quadro più ampio, alzalo per isolare i casi più ricorrenti.",
       },
     },
     {

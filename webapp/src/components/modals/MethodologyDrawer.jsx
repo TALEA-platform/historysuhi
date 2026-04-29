@@ -2,6 +2,7 @@ import { X } from "lucide-react";
 import { useAppStore } from "../../store/appStore.js";
 import { dataAvailability } from "../../data/layers.js";
 import { useI18n } from "../../i18n/useI18n.js";
+import { ORTHOPHOTO_AVAILABLE_YEARS_LABEL } from "../../lib/orthophoto.js";
 import { RichText } from "../ui/RichText.jsx";
 
 export function MethodologyDrawer() {
@@ -28,7 +29,7 @@ export function MethodologyDrawer() {
           title: "What is measured",
           paragraphs: [
             "LST maps measure **surface temperature**: how warm surfaces appear from above, such as roads, roofs, paved areas and vegetation. They do not directly measure the air temperature.",
-            "This distinction matters: on a summer day a dark or asphalted surface can be much hotter than the air, while a green area can stay cooler even if it is in the same district.",
+            "This distinction matters: on a summer day a dark or asphalted surface can be much hotter than the air, while a green area can stay at a lower temperature even if it is in the same district.",
           ],
         },
         satellites: {
@@ -53,12 +54,12 @@ export function MethodologyDrawer() {
             "The satellite looks at the surface from above: shade, facades, porticoes and perceived comfort are not fully described.",
             "The 30 m resolution reads city blocks and urban portions, not small single objects. The day-night map is even more general, at 1 km resolution.",
             "District and statistical-area data are averages: they help comparisons, but they do not remove internal differences within each area.",
-            "The satellite orthophoto used as the basemap is from 2024: buildings, roofs and vegetation visible on the map reflect that year, so they may not match the situation in past summers you select.",
+            `The orthophoto basemap follows the closest available Bologna orthophoto year. Available years in the app are ${ORTHOPHOTO_AVAILABLE_YEARS_LABEL}: summers 2013-2016 use 2017, 2019 uses 2020, and aggregated or 2025-only views use 2025. Buildings, roofs and vegetation can therefore reflect a nearby year rather than the exact summer being analysed.`,
           ],
         },
         availableData: {
           title: "Data available in the app",
-          yearlyLst: `${dataAvailability.yearlyLst.length} annual summer surface heat maps`,
+          yearlyLst: `${dataAvailability.yearlyLst.length} annual summer surface temperature maps`,
           yearlyHotspots: `${dataAvailability.yearlyTemporalHotspots.length} annual exceptionally hot area maps`,
           boundaries: "Municipal boundaries, districts and statistical areas used to make comparisons easier to read",
           metadata: "Dates, times, satellite and observation quality for every summer from 2013 to 2025",
@@ -84,8 +85,8 @@ export function MethodologyDrawer() {
         satellite: {
           title: "Che cosa viene misurato",
           paragraphs: [
-            "Le mappe LST misurano la **temperatura superficiale**: quanto sono calde le superfici viste dall'alto, come strade, tetti, piazzali e vegetazione. Non misurano direttamente la temperatura dell'aria.",
-            "Questa distinzione è importante: in una giornata estiva una superficie scura o asfaltata può essere molto più calda dell'aria, mentre una zona verde può restare più fresca anche se si trova nello stesso quartiere.",
+            "Le mappe LST misurano la **temperatura di superficie**: quanto sono calde le superfici viste dall'alto, come strade, tetti, piazzali e vegetazione. Non misurano direttamente la temperatura dell'aria.",
+            "Questa distinzione è importante: in una giornata estiva una superficie scura o asfaltata può essere molto più calda dell'aria, mentre una zona verde può restare a una temperatura più bassa anche se si trova nello stesso quartiere.",
           ],
         },
         satellites: {
@@ -110,12 +111,12 @@ export function MethodologyDrawer() {
             "Il satellite vede la superficie dall'alto: ombra, facciate, portici e comfort percepito dalle persone non sono descritti completamente.",
             "La risoluzione a 30 m legge isolati e porzioni urbane, non singoli oggetti piccoli. La mappa giorno-notte è ancora più generale, a 1 km di risoluzione.",
             "I dati per quartiere e per area statistica sono medie: aiutano il confronto, ma non cancellano le differenze interne a ogni zona.",
-            "L'ortofoto satellitare usata come sfondo è del 2024: edifici, tetti e vegetazione visibili sulla mappa fotografano quell'anno, quindi possono non corrispondere alla situazione delle estati passate che selezioni.",
+            `L'ortofoto di sfondo segue l'anno di ortofoto disponibile più vicino tra quelli pubblicati dal Comune di Bologna. Nell'app sono disponibili ${ORTHOPHOTO_AVAILABLE_YEARS_LABEL}: per le estati 2013-2016 viene usata l'ortofoto 2017, per il 2019 viene usata quella 2020, mentre nelle viste aggregate o centrate sul 2025 viene usata la 2025. Per questo edifici, tetti e vegetazione possono riflettere un anno vicino, ma non sempre esattamente l'estate analizzata.`,
           ],
         },
         availableData: {
           title: "Dati disponibili nell'app",
-          yearlyLst: `${dataAvailability.yearlyLst.length} mappe annuali del caldo superficiale estivo`,
+          yearlyLst: `${dataAvailability.yearlyLst.length} mappe annuali della temperatura di superficie estiva`,
           yearlyHotspots: `${dataAvailability.yearlyTemporalHotspots.length} mappe annuali delle aree eccezionalmente calde`,
           boundaries: "Confini comunali, quartieri e aree statistiche usati per rendere più leggibile il confronto",
           metadata: "Date, orari, satellite e qualità delle osservazioni per ogni estate dal 2013 al 2025",

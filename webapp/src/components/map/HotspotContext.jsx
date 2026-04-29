@@ -15,13 +15,13 @@ export function HotspotContext({ selectedYear, yearlyStats }) {
       title: data.rasterOverlays.temporalHotspot.title,
       share: `${(stat?.hotspot ?? 0).toFixed(2)}% of the area in ${selectedYear}`,
       description:
-        "They are not necessarily **the hottest zones in Bologna**. They are points that, in the selected year, were **anomalous compared with their own history**: hotter than that same place usually is.",
+        "They are not necessarily **the zones with the highest surface temperature in Bologna**. They are points that, in the selected year, were **anomalous compared with their own history**: with a surface temperature above what that same place usually shows.",
     }
     : {
       title: data.rasterOverlays.temporalHotspot.title,
       share: `${(stat?.hotspot ?? 0).toFixed(2)}% dell'area nel ${selectedYear}`,
       description:
-        "Non sono necessariamente **le zone più calde di Bologna**. Sono punti che, nell'anno selezionato, sono stati **anomali rispetto alla propria storia**: più caldi di quanto quello stesso luogo sia di solito.",
+        "Non sono necessariamente **le zone con la temperatura di superficie più alta di Bologna**. Sono punti che, nell'anno selezionato, sono stati **anomali rispetto alla propria storia**: con una temperatura sopra quanto quello stesso luogo mostra di solito.",
     };
   return (
     <div className="hotspot-context">

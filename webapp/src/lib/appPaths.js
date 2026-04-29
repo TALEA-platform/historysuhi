@@ -7,7 +7,7 @@ function normalizeBasePath(pathname) {
 
 function getRuntimeBasePath() {
   if (typeof window === "undefined") return "/";
-  if (import.meta.env?.DEV) return "/";
+  if (import.meta.env?.DEV) return normalizeBasePath(import.meta.env?.BASE_URL || "/");
   const pathname = window.location.pathname || "/";
   const legacyViewMatch = pathname.match(/^(.*?\/)view\/v[1-5]\/?$/);
   if (legacyViewMatch) return legacyViewMatch[1] || "/";

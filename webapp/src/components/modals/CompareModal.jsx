@@ -32,16 +32,16 @@ export function CompareModal() {
       close: "Close",
       kicker: "Compare years",
       title: `${compareYear} ↔ ${selectedYear}`,
-      leftLabel: "Left year",
-      rightLabel: "Right year",
+      leftLabel: "Year",
+      rightLabel: "Year",
       drag: "Drag to compare",
     }
     : {
       close: "Chiudi",
       kicker: "Confronta anni",
       title: `${compareYear} ↔ ${selectedYear}`,
-      leftLabel: "Anno sinistro",
-      rightLabel: "Anno destro",
+      leftLabel: "Anno",
+      rightLabel: "Anno",
       drag: "Trascina per confrontare",
     };
 
@@ -130,7 +130,11 @@ export function CompareModal() {
               handlePointer(event);
             }}
             onPointerMove={(event) => {
-              if (event.buttons === 1) handlePointer(event);
+              // Mouse pointermove also fires on hover; only drag while a button is held.
+              // Touch and pen pointermoves only fire while the pointer is down (capture
+              // is set on pointerdown), so we skip the buttons check for them.
+              if (event.pointerType === "mouse" && (event.buttons & 1) === 0) return;
+              handlePointer(event);
             }}
             title={copy.drag}
           >

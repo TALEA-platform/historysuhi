@@ -2,7 +2,7 @@
 // Centralised here so view components can stay focused on layout and behaviour.
 
 export const views = [
-  { id: "v1", title: "Dove fa caldo", subtitle: "Caldo osservato" },
+  { id: "v1", title: "Dove fa caldo", subtitle: "Temperatura di superficie osservata" },
   { id: "v2", title: "Cosa è normale, cosa è cambiato", subtitle: "Storia 2013-2025" },
   { id: "v3", title: "Perché fa caldo qui", subtitle: "Fattori fisici" },
   { id: "v4", title: "Giorno e notte", subtitle: "Raffreddamento" },
@@ -22,7 +22,7 @@ export const viewCopy = {
   },
   v3: {
     kicker: "Sezione 3",
-    title: "Perché alcune zone accumulano più caldo.",
+    title: "Perché in alcune zone la temperatura di superficie è più alta.",
     note: "La sezione mette a fuoco i fattori fisici che aiutano a spiegare l'accumulo di calore, come verde, materiali e capacità delle superfici di riflettere la luce.",
   },
   v4: {

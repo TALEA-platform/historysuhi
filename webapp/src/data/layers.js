@@ -28,20 +28,20 @@ export const view1Layers = {
   lst: {
     id: "lst",
     title: "Dove la superficie si scalda di più",
-    subtitle: "Superfici più calde e più fresche nell'anno scelto",
+    subtitle: "Temperatura di superficie nell'anno scelto",
     description:
-      "Mostra il caldo superficiale osservato nell'anno scelto. È una lettura diretta: indica quanto risultano calde strade, tetti, piazzali e vegetazione nelle osservazioni satellitari estive.",
+      "Mostra la temperatura di superficie osservata nell'anno scelto. È una lettura diretta: indica quanto risultano calde strade, tetti, piazzali e vegetazione nelle osservazioni satellitari estive.",
     explanation:
-      "Usalo per capire dove le superfici si scaldano di più in valore assoluto. Una strada o un tetto possono essere molto più caldi dell'aria respirata dalle persone (dato satellitare, superficiale).",
+      "Usalo per capire dove le superfici raggiungono la temperatura più alta in valore assoluto. Una strada o un tetto possono avere una temperatura di superficie molto più alta della temperatura dell'aria respirata dalle persone (dato satellitare, misurato sulla superficie).",
     details: [
-      "Blu e verde indicano superfici relativamente fresche; arancio e rosso indicano superfici molto calde.",
+      "Blu e verde indicano superfici con temperatura più bassa; arancio e rosso indicano superfici con temperatura molto alta.",
       "Questa mappa permette di confrontare anni diversi con il cursore Confronta.",
-      "È diversa dal secondo layer perché mostra il valore del caldo, non il rapporto con la media urbana dell'anno.",
+      "È diversa dal secondo layer perché mostra il valore della temperatura, non il rapporto con la media urbana dell'anno.",
       "Le aree tratteggiate indicano dato non disponibile: in quel punto il satellite non ha raccolto osservazioni estive valide nell'anno scelto.",
     ],
-    legendTitle: "Superfici calde/fresche",
+    legendTitle: "Temperatura di superficie",
     legendType: "surfaceHeat",
-    legend: ["più fresca", "fresca", "intermedia", "calda", "molto calda", "tra le più calde"],
+    legend: ["tra le meno calde", "meno calda", "intermedia", "calda", "molto calda", "tra le più calde"],
     numericLegend: ["28", "32", "36", "40", "44", "48", "54 °C"],
     noDataLabel: "Dato non disponibile",
     noDataDescription:
@@ -54,22 +54,22 @@ export const view1Layers = {
   },
   zspat: {
     id: "zspat",
-    title: "Zone più calde e più fresche nell'anno scelto",
+    title: "Zone dove la temperatura cambia rispetto alla media",
     subtitle: "Quanto un punto si discosta dalla media urbana dell'anno",
     description:
-      "Questa mappa mostra se un punto è più caldo o più fresco della media di Bologna **nello stesso anno**. Non mostra quanto è calda una superficie in assoluto.",
+      "Questa mappa mostra di quanto la temperatura di un punto è sopra o sotto la media di Bologna **nello stesso anno**. Non indica il valore assoluto della temperatura di superficie.",
     explanation: "Usala per leggere gli squilibri interni alla città: blu significa sotto la media urbana dell'anno, bianco circa in linea, rosso sopra la media urbana dell'anno.",
     details: [
       "In questa mappa, due anni non si confrontano direttamente: ogni anno viene ricalibrato sulla propria media urbana.",
-      "Una zona può apparire rossa anche in un anno non estremo, se è più calda del resto della città in quell'anno.",
+      "Una zona può apparire rossa anche in un anno non estremo, se la sua temperatura è sopra la media del resto della città in quell'anno.",
       "Serve per capire le differenze tra quartieri e parti urbane nello stesso anno selezionato.",
       "Le aree tratteggiate indicano dato non disponibile: in quel punto il satellite non ha raccolto osservazioni estive valide nell'anno scelto.",
     ],
     valueInfo:
-      "Quando attivi i valori, il numero non è una temperatura. È uno **scostamento standardizzato**: 0 significa vicino alla media urbana dell'anno, valori positivi indicano zone più calde della media, valori negativi zone più fresche.",
+      "Quando attivi i valori, il numero non è una temperatura. È uno **scostamento standardizzato**: 0 significa vicino alla media urbana dell'anno, valori positivi indicano zone con temperatura sopra la media, valori negativi zone con temperatura sotto la media.",
     legendTitle: "Rispetto alla città",
     legendType: "diverging",
-    legend: ["molto più fresca", "più fresca", "in linea", "più calda", "molto più calda"],
+    legend: ["molto sotto media", "sotto media", "in linea", "sopra media", "molto sopra media"],
     numericLegend: ["-2σ", "-1σ", "0", "+1σ", "+2σ"],
     noDataLabel: "Dato non disponibile",
     noDataDescription:
@@ -85,25 +85,25 @@ export const view1Layers = {
 export const view2Layers = {
   anomaly: {
     id: "anomaly",
-    title: "Più caldo o più fresco del normale nel 2025",
+    title: "Quanto il 2025 si discosta dalla temperatura abituale",
     subtitle: "Quanto il 2025 si discosta dalla temperatura abituale della stessa zona",
     description:
       "Mostra dove il 2025 è stato diverso dal comportamento abituale negli anni 2013-2025. Non risponde a 'dove fa più caldo?', ma a 'dove il 2025 è stato **anomalo rispetto alla propria storia**?'.",
-    explanation: "Blu indica zone più fresche del proprio normale, bianco zone in linea, rosso zone più calde del proprio normale. Ogni punto viene confrontato con la propria storia, non con il resto della città.",
+    explanation: "Blu indica zone con temperatura sotto la propria media storica, bianco zone in linea, rosso zone con temperatura sopra la propria media storica. Ogni punto viene confrontato con la propria storia, non con il resto della città.",
     details: [
       "Una zona abitualmente calda può risultare bianca se nel 2025 si è comportata come al solito.",
-      "Una zona non molto calda in assoluto può risultare rossa se nel 2025 è stata più calda della sua storia.",
+      "Una zona non molto calda in assoluto può risultare rossa se nel 2025 ha avuto temperature sopra la sua media storica.",
     ],
     inspectNote: "Il valore indica la differenza fra il 2025 e il comportamento abituale dello stesso punto.",
     legendTitle: "Scostamento dal normale",
     legendType: "diverging",
     legend: [
-      "più fresco del normale",
-      "leggermente più fresco",
+      "sotto la media storica",
+      "leggermente sotto",
       "in linea",
-      "leggermente più caldo",
-      "più caldo del normale",
-      "molto più caldo",
+      "leggermente sopra",
+      "sopra la media storica",
+      "molto sopra",
     ],
     numericLegend: ["-10", "-5", "-2", "0", "+2", "+5", "+10 °C"],
     dataUrl: raster("anomaly_2025_summer_30m.tif"),
@@ -116,8 +116,8 @@ export const view2Layers = {
     title: "Temperatura abituale",
     subtitle: "Media storica 2013-2025: il riferimento con cui leggere gli altri layer",
     description:
-      "Mostra la **media storica** della temperatura superficiale nelle estati 2013-2025. È la mappa di base della seconda sezione: aiuta a capire quali zone sono normalmente calde o fresche.",
-    explanation: "Questa mappa descrive il comportamento abituale della superficie. Un'area industriale, un grande parcheggio o parti del centro possono risultare calde anche quando non sono anomale: significa che sono calde in modo ricorrente.",
+      "Mostra la **media storica** della temperatura di superficie nelle estati 2013-2025. È la mappa di base della seconda sezione: aiuta a capire dove la temperatura media è alta o bassa.",
+    explanation: "Questa mappa descrive il comportamento abituale della superficie. Un'area industriale, un grande parcheggio o parti del centro possono avere temperature alte anche quando non sono anomale: significa che la loro temperatura è alta in modo ricorrente.",
     details: [
       "È diversa dal layer della prima sezione: non mostra un anno selezionato, ma una media su 13 estati.",
       "Serve per distinguere il caldo abituale dal caldo anomalo.",
@@ -129,7 +129,7 @@ export const view2Layers = {
     inspectNote: "Calcolato sulla superficie osservata.",
     legendTitle: "Media storica 2013-2025",
     legendType: "habitualHeat",
-    legend: ["storicamente fresca", "fresca", "intermedia", "calda", "molto calda", "storicamente tra le più calde"],
+    legend: ["storicamente bassa", "bassa", "intermedia", "alta", "molto alta", "storicamente tra le più alte"],
     numericLegend: ["28", "32", "36", "40", "44", "48", "54 °C"],
     dataUrl: raster("climatology_mean_2013_2025_30m.tif"),
     raster: { palette: "habitualHeat", range: [28, 54], alpha: 255 },
@@ -145,14 +145,14 @@ export const view2Layers = {
       "Un'area può essere molto calda ma avere poche anomalie se è calda quasi sempre nello stesso modo. Per esempio, una zona centrale può essere costantemente calda ma variare poco da un anno all'altro.",
     details: [
       "Il numero indica in quante estati il punto è stato anomalo rispetto a se stesso.",
-      "Anomalia rara non significa automaticamente zona fresca: può indicare anche caldo costante e poco variabile.",
+      "Anomalia rara non significa automaticamente temperatura bassa: può indicare anche temperatura alta in modo costante e poco variabile.",
       "Il massimo osservato in questo dato è 5 anni: non tutte le 13 estati hanno prodotto anomalie nello stesso punto.",
     ],
     moreInfo: [
       "Questa mappa va letta insieme ad **Aree cronicamente calde**. Se una zona ha poche anomalie ma molti anni cronici, probabilmente è una criticità stabile più che un'eccezione temporanea.",
       "Se una zona ha molte anomalie ma non è cronica, può essere un luogo dove il comportamento cambia in alcuni anni specifici.",
     ],
-    inspectNote: "Poche anomalie non indicano per forza fresco: controlla anche il layer delle aree cronicamente calde.",
+    inspectNote: "Poche anomalie non indicano per forza temperatura bassa: controlla anche il layer delle aree cronicamente calde.",
     legendTitle: "Persistenza anomalie",
     legendType: "persistence",
     legendLayout: "compact",
@@ -173,10 +173,10 @@ export const view2Layers = {
   persistenceStructural: {
     id: "persistenceStructural",
     title: "Aree cronicamente calde",
-    subtitle: "Zone che in molti anni rientrano tra le più calde della città",
+    subtitle: "Zone che in molti anni rientrano tra quelle con la temperatura di superficie più alta della città",
     description:
-      "Mostra quante volte ogni punto è rientrato nel **top 5% delle aree più calde** di Bologna. In questa lettura, 'cronico' indica una criticità ripetuta nello spazio urbano, anno dopo anno.",
-    explanation: "Serve a riconoscere le zone che sono spesso tra le più calde della città, anche quando non risultano anomale rispetto alla propria storia.",
+      "Mostra quante volte ogni punto è rientrato nel **top 5% delle aree con la temperatura di superficie più alta** di Bologna. In questa lettura, 'cronico' indica una criticità ripetuta nello spazio urbano, anno dopo anno.",
+    explanation: "Serve a riconoscere le zone che spesso hanno la temperatura di superficie più alta della città, anche quando non risultano anomale rispetto alla propria storia.",
     details: [
       "Il numero può arrivare a 13 perché la visualizzazione copre 13 estati, dal 2013 al 2025.",
       "Confrontala con 'Caldo cronico e caldo anomalo' per capire se una criticità è stabile, ricorrente o entrambe.",
@@ -214,7 +214,7 @@ export const view2Layers = {
     explanation:
       "Arancio indica caldo cronico; viola indica anomalia del 2025; il colore più scuro indica entrambe le condizioni nello stesso luogo.",
     details: [
-      "Cronico significa che il punto è nel **top 5% delle aree più calde** dell'anno selezionato (2025).",
+      "Cronico significa che il punto è nel **top 5% delle aree con la temperatura di superficie più alta** dell'anno selezionato (2025).",
       "Anomalo 2025 significa che nel 2025 il punto è stato **anomalo rispetto alla propria storia**.",
       "La classe entrambe segnala luoghi già critici che nel 2025 sono stati anche fuori dal normale.",
     ],
@@ -231,7 +231,7 @@ export const view2Layers = {
     id: "structuralVsTemporal",
     title: "Caldo cronico e caldo anomalo",
     subtitle: "Distingue le zone da sempre calde da quelle spesso anomale",
-    description: "Incrocia, sull'intero periodo 2013-2025, quante volte una zona è stata nel **top 5% delle aree più calde** e quante volte è stata **anomala rispetto alla propria storia**.",
+    description: "Incrocia, sull'intero periodo 2013-2025, quante volte una zona è stata nel **top 5% delle aree con la temperatura di superficie più alta** e quante volte è stata **anomala rispetto alla propria storia**.",
     explanation: "",
     details: [
       "La tinta arancio aumenta con gli anni di caldo cronico.",
@@ -240,7 +240,7 @@ export const view2Layers = {
       "Cronico arriva a 13 anni perché la serie copre 13 estati. Anomalo arriva a 5 anni perché questo è il massimo presente nell'attuale dato di persistenza delle anomalie.",
     ],
     moreInfo: [
-      "Bassa anomalia non significa necessariamente area fresca. Può anche indicare una zona sempre calda e stabile, come alcune parti del centro storico.",
+      "Bassa anomalia non significa necessariamente area con temperatura bassa. Può anche indicare una zona con temperatura sempre alta e stabile, come alcune parti del centro storico.",
       "Una prevalenza di arancio con poco viola indica una criticità soprattutto strutturale. Una prevalenza di viola indica un comportamento che cambia più spesso rispetto alla storia locale.",
       "Per capire le cause fisiche, esplora la terza sezione: vegetazione, superfici riflettenti e materiali aiutano a leggere perché una zona trattiene o accumula calore.",
     ],
@@ -263,15 +263,15 @@ export const view3Layers = {
     id: "uhei",
     title: "Esposizione complessiva al caldo",
     subtitle: "Dove caldo, poco verde e superfici scure si presentano insieme",
-    description: "Mostra dove tre condizioni si sommano nello stesso posto: superfici più calde, poco verde e superfici che riflettono poco la luce solare. Quando le tre coincidono, l'esposizione complessiva al caldo è più alta — non perché una di queste cause basti da sola, ma perché si rinforzano a vicenda.",
+    description: "Mostra dove tre condizioni si sommano nello stesso posto: temperatura di superficie più alta, poco verde e superfici che riflettono poco la luce solare. Quando le tre coincidono, l'esposizione complessiva al caldo è più alta — non perché una di queste cause basti da sola, ma perché si rinforzano a vicenda.",
     explanation: "È il layer guida della terza sezione. Serve per individuare dove gli interventi dovrebbero essere integrati: non solo alberi, non solo materiali, ma combinazione dei fattori.",
     details: [
-      "Valori più alti indicano maggiore esposizione complessiva al caldo superficiale.",
+      "Valori più alti indicano maggiore esposizione complessiva alla temperatura di superficie elevata.",
       "Non è una misura sanitaria o sociale: descrive condizioni fisiche osservate da satellite.",
       "Va letto insieme ai layer della vegetazione e dell'albedo per capire quale fattore pesa di più.",
     ],
     valueInfo:
-      "Questo valore è un **indice sintetico, non una temperatura in °C**. Il numero combina caldo superficiale, poca vegetazione e superfici poco riflettenti: valori più alti indicano condizioni fisiche più esposte al caldo.",
+      "Questo valore è un **indice sintetico, non una temperatura in °C**. Il numero combina temperatura di superficie, poca vegetazione e superfici poco riflettenti: valori più alti indicano condizioni fisiche più esposte al caldo.",
     legendTitle: "Esposizione al caldo",
     legendType: "uhei",
     legend: ["molto favorita", "favorita", "intermedia", "esposta", "molto esposta"],
@@ -321,19 +321,19 @@ export const view3Layers = {
   },
   hvi: {
     id: "hvi",
-    title: "Caldo e mancanza di verde",
+    title: "Temperatura di superficie e mancanza di verde",
     subtitle: "Aiuta a capire dove una maggiore presenza di verde potrebbe fare più differenza",
-    description: "Layer di approfondimento: mette insieme caldo superficiale e mancanza di verde. È utile quando vuoi capire dove il verde potrebbe avere maggiore impatto.",
-    explanation: "Rosso significa caldo con poco verde; blu significa più fresco e vegetato. Non sostituisce l'indice di esposizione complessiva al caldo: ne spiega una componente.",
+    description: "Layer di approfondimento: mette insieme temperatura di superficie e mancanza di verde. È utile quando vuoi capire dove il verde potrebbe avere maggiore impatto.",
+    explanation: "Rosso significa temperatura alta con poco verde; blu significa temperatura più bassa e più vegetato. Non sostituisce l'indice di esposizione complessiva al caldo: ne spiega una componente.",
     details: [
-      "Serve a leggere il rapporto tra caldo e vegetazione.",
+      "Serve a leggere il rapporto tra temperatura di superficie e vegetazione.",
       "È più utile per ragionare su priorità di mitigazione che per descrivere una temperatura.",
     ],
     valueInfo:
-      "Questo è un **indice di confronto**, non una misura in °C. Valori positivi indicano situazioni dove caldo superficiale e poca vegetazione pesano di più; valori negativi indicano condizioni relativamente più fresche o più vegetate.",
-    legendTitle: "Caldo e verde",
+      "Questo è un **indice di confronto**, non una misura in °C. Valori positivi indicano situazioni dove temperatura di superficie elevata e poca vegetazione pesano di più; valori negativi indicano condizioni con temperatura relativamente più bassa o con più vegetazione.",
+    legendTitle: "Temperatura e verde",
     legendType: "diverging",
-    legend: ["fresco e verde", "intermedio", "caldo e poco verde"],
+    legend: ["bassa e verde", "intermedio", "alta e poco verde"],
     numericLegend: ["-0.98", "0", "+0.52"],
     dataUrl: raster("HVI_2025_summer_30m.tif"),
     raster: { palette: "diverging", range: [-0.98, 0.52], alpha: 255 },
@@ -341,19 +341,19 @@ export const view3Layers = {
   },
   hri: {
     id: "hri",
-    title: "Caldo e superfici poco riflettenti",
+    title: "Temperatura di superficie e superfici poco riflettenti",
     subtitle: "Aiuta a leggere il peso di tetti, pavimentazioni e materiali che assorbono calore",
-    description: "Layer di approfondimento: mette insieme caldo superficiale e superfici poco riflettenti. Aiuta a leggere dove materiali, tetti e pavimentazioni possono pesare sul caldo.",
-    explanation: "Rosso significa caldo con superfici scure o assorbenti; blu significa più fresco e più riflettente. Non sostituisce l'indice di esposizione complessiva al caldo: ne spiega una componente.",
+    description: "Layer di approfondimento: mette insieme temperatura di superficie e superfici poco riflettenti. Aiuta a leggere dove materiali, tetti e pavimentazioni possono pesare sul caldo.",
+    explanation: "Rosso significa temperatura alta con superfici scure o assorbenti; blu significa temperatura più bassa e più riflettente. Non sostituisce l'indice di esposizione complessiva al caldo: ne spiega una componente.",
     details: [
-      "Serve a leggere il rapporto tra caldo e materiali assorbenti.",
+      "Serve a leggere il rapporto tra temperatura di superficie e materiali assorbenti.",
       "È un supporto per ragionare su pavimentazioni, tetti, piazzali e superfici minerali.",
     ],
     valueInfo:
-      "Questo è un **indice di confronto**, non una temperatura. Valori positivi indicano caldo associato a superfici poco riflettenti; valori negativi indicano condizioni più fresche o superfici più riflettenti.",
-    legendTitle: "Caldo e superfici",
+      "Questo è un **indice di confronto**, non una temperatura. Valori positivi indicano temperatura alta associata a superfici poco riflettenti; valori negativi indicano condizioni con temperatura più bassa o superfici più riflettenti.",
+    legendTitle: "Temperatura e superfici",
     legendType: "diverging",
-    legend: ["fresco e chiaro", "intermedio", "caldo e scuro"],
+    legend: ["temp. bassa, riflettente", "intermedio", "temp. alta, assorbente"],
     numericLegend: ["-0.46", "0", "+0.90"],
     dataUrl: raster("HRI_2025_summer_30m.tif"),
     raster: { palette: "diverging", range: [-0.46, 0.9], alpha: 255 },
@@ -364,10 +364,10 @@ export const view3Layers = {
 export const deltaLayer = {
   id: "delta",
   title: "Differenza tra giorno e notte",
-  subtitle: "Dove la superficie si raffredda molto e dove tende a restare calda",
+  subtitle: "Dove la temperatura di superficie scende molto la notte e dove tende a restare alta",
   description:
     "Mostra quanto cambia la temperatura tra giorno e notte sulla superficie osservata. Un valore alto significa che la superficie è molto più calda di giorno rispetto alla notte; un valore basso significa che cambia meno.",
-  explanation: "Questa mappa non dice semplicemente dove fa più caldo. Aiuta a capire il comportamento giornaliero delle superfici. Il centro può raffreddarsi intorno alla media durante la notte, ma durante il giorno può assorbire molto calore perché ha molte superfici assorbenti. Le colline possono mostrare una differenza più bassa perché sono già più fresche e accumulano meno calore da perdere.",
+  explanation: "Questa mappa non dice semplicemente dove fa più caldo. Aiuta a capire il comportamento giornaliero delle superfici. Il centro può raffreddarsi intorno alla media durante la notte, ma durante il giorno può assorbire molto calore perché ha molte superfici assorbenti. Le colline possono mostrare una differenza più bassa perché hanno già una temperatura più bassa e accumulano meno calore da perdere.",
   details: [
     "La griglia è più grossolana dei layer Landsat: ogni cella rappresenta un'area ampia di circa 1 km.",
     "Un valore basso non va letto automaticamente come problema: può indicare una zona che resta calda, ma anche una zona che non si scalda molto durante il giorno.",
@@ -405,21 +405,21 @@ export const districtMetrics = {
     unit: "",
     description: "Sintesi dell'esposizione complessiva al caldo.",
     valueInfo:
-      "È un **indice sintetico medio dell'area selezionata**, non una temperatura e non una misura diretta del rischio per la salute. Riassume tre condizioni fisiche: **caldo superficiale**, **presenza di verde** e **capacità delle superfici di riflettere la luce**. Il numero non ha unità: serve soprattutto per confrontare le aree selezionate tra loro. Valori più alti indicano una combinazione più sfavorevole; valori più bassi non significano assenza di caldo, ma condizioni medie meno critiche.",
+      "È un **indice sintetico medio dell'area selezionata**, non una temperatura e non una misura diretta del rischio per la salute. Riassume tre condizioni fisiche: **temperatura di superficie**, **presenza di verde** e **capacità delle superfici di riflettere la luce**. Il numero non ha unità: serve soprattutto per confrontare le aree selezionate tra loro. Valori più alti indicano una combinazione più sfavorevole; valori più bassi non significano assenza di caldo, ma condizioni medie meno critiche.",
   },
   lst: {
-    label: "Calore superficiale",
+    label: "Temperatura di superficie",
     unit: "°C",
-    description: "Temperatura superficiale media.",
+    description: "Temperatura di superficie media.",
     valueInfo:
-      "È la **temperatura superficiale media** dell'area selezionata, espressa in °C. Descrive quanto si scaldano tetti, strade, piazzali e vegetazione osservati dal satellite.",
+      "È la **temperatura di superficie media** dell'area selezionata, espressa in °C. Descrive quanto si scaldano tetti, strade, piazzali e vegetazione osservati dal satellite.",
   },
   anomaly: {
     label: "Scostamento dal normale",
     unit: "°C",
     description: "Quanto il 2025 si discosta dal comportamento abituale dell'area.",
     valueInfo:
-      "È lo **scostamento medio del 2025** rispetto al comportamento abituale della stessa area selezionata. Si misura in °C perché confronta due temperature superficiali. Un valore positivo indica che nel 2025 l'area è stata più calda del suo normale; un valore negativo indica che è stata più fresca del suo normale. Non dice se l'area è calda in assoluto: dice quanto il 2025 si è discostato dalla sua storia.",
+      "È lo **scostamento medio del 2025** rispetto al comportamento abituale della stessa area selezionata. Si misura in °C perché confronta due temperature di superficie. Un valore positivo indica che nel 2025 l'area ha avuto una temperatura sopra il suo normale; un valore negativo indica che ha avuto una temperatura sotto il suo normale. Non dice se l'area è calda in assoluto: dice quanto il 2025 si è discostato dalla sua storia.",
   },
   hotspotPercent: {
     label: "Quota area critica",

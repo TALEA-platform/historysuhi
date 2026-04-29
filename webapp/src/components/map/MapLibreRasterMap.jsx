@@ -1,40 +1,116 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { renderRasterImage } from "../../lib/rasterRenderer.js";
 import { appUrl } from "../../lib/appPaths.js";
 import { BOLOGNA_MAX_PAN_BOUNDS } from "../../lib/mapBounds.js";
+import { getOrthophotoConfig } from "../../lib/orthophoto.js";
 import { useAppStore } from "../../store/appStore.js";
 import { useI18n } from "../../i18n/useI18n.js";
 
 const BOLOGNA_CENTER = [11.34, 44.49];
 const BOLOGNA_BOUNDARY_URL = appUrl("data/webapp_vectors/bologna_boundary_outline.geojson");
 const EMPTY_FEATURE_COLLECTION = { type: "FeatureCollection", features: [] };
-
-function baseStyle() {
+// OpenFreeMap-hosted vector basemap (OSM-derived). Swap to positron / bright /
+// dark / 3d by changing the slug. Attribution is carried inside the style.
+const BASEMAP_STYLE_URL = "https://tiles.openfreemap.org/styles/liberty";
+// Minimal empty style used when the orthophoto is selected so the map can render
+// the yearly TIFF and the ortho tiles without pulling OpenFreeMap resources.
+function createOrthoOnlyStyle() {
   return {
     version: 8,
-    sources: {
-      osm: {
-        type: "raster",
-        tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
-        tileSize: 256,
-        attribution: "© OpenStreetMap contributors",
-      },
-      ortho: {
-        type: "raster",
-        tiles: ["https://sitmappe.comune.bologna.it/tms/tileserver/Ortofoto2024/{z}/{x}/{y}.png"],
-        tileSize: 256,
-        minzoom: 10,
-        maxzoom: 20,
-        attribution: "SIT Comune di Bologna · Ortofoto 2024",
-      },
-    },
+    sources: {},
     layers: [
-      { id: "osm", type: "raster", source: "osm", layout: { visibility: "visible" } },
-      { id: "ortho", type: "raster", source: "ortho", layout: { visibility: "none" } },
+      {
+        id: "talea-empty-background",
+        type: "background",
+        paint: {
+          "background-color": "rgba(255, 255, 255, 0)",
+        },
+      },
     ],
   };
+}
+
+function getBasemapStyleKind(basemap) {
+  return basemap === "ortho" ? "ortho" : "osm";
+}
+
+function getBasemapStyle(basemap) {
+  return basemap === "ortho" ? createOrthoOnlyStyle() : BASEMAP_STYLE_URL;
+}
+// Anything we add to the style ourselves keeps these prefixes/IDs so the basemap
+// toggle knows which layers belong to OpenFreeMap (everything else) and can hide
+// them when the user switches to the orthophoto.
+const APP_LAYER_IDS = new Set(["ortho"]);
+const APP_LAYER_PREFIXES = ["talea-", "districts", "bologna-", "quartieri-"];
+
+function isAppLayer(id) {
+  if (APP_LAYER_IDS.has(id)) return true;
+  return APP_LAYER_PREFIXES.some((prefix) => id.startsWith(prefix));
+}
+
+function setBasemapLayersVisibility(map, visible) {
+  const style = map.getStyle();
+  if (!style?.layers) return;
+  const value = visible ? "visible" : "none";
+  for (const layer of style.layers) {
+    if (isAppLayer(layer.id)) continue;
+    map.setLayoutProperty(layer.id, "visibility", value);
+  }
+}
+
+function waitForMapReady(map) {
+  if (map.isStyleLoaded()) {
+    return Promise.resolve();
+  }
+
+  return new Promise((resolve) => {
+    let settled = false;
+    const finish = () => {
+      if (settled) return;
+      settled = true;
+      map.off("load", finish);
+      map.off("idle", finish);
+      resolve();
+    };
+
+    map.once("load", finish);
+    map.once("idle", finish);
+  });
+}
+
+function ensureOrthoLayer(map, orthophoto) {
+  if (map.__taleaOrthoYear !== orthophoto.year) {
+    if (map.getLayer("ortho")) map.removeLayer("ortho");
+    if (map.getSource("ortho")) map.removeSource("ortho");
+  }
+
+  if (!map.getSource("ortho")) {
+    map.addSource("ortho", {
+      type: "raster",
+      tiles: orthophoto.tiles,
+      tileSize: 256,
+      minzoom: 10,
+      maxzoom: 20,
+      attribution: orthophoto.attribution,
+    });
+    map.__taleaOrthoYear = orthophoto.year;
+  }
+  if (!map.getLayer("ortho")) {
+    // Sit ortho below the heat raster (if it's been added already) so the
+    // overlay still wins; otherwise drop it at the top of the OpenFreeMap stack.
+    const beforeId = map.getLayer("talea-main-raster") ? "talea-main-raster" : undefined;
+    map.addLayer(
+      {
+        id: "ortho",
+        type: "raster",
+        source: "ortho",
+        layout: { visibility: "none" },
+      },
+      beforeId,
+    );
+  }
 }
 
 function addOrUpdateImage(map, id, rendered, opacity) {
@@ -206,12 +282,14 @@ export function MapLibreRasterMap({
   const onInspectRef = useRef(onInspect);
   const onViewChangeRef = useRef(onViewChange);
   const basemap = useAppStore((state) => state.basemap);
+  const initialBasemapRef = useRef(basemap);
   const colorblindMode = useAppStore((state) => state.colorblindMode);
   const rasterOpacity = useAppStore((state) => state.rasterOpacity);
   const rasterOpacityRef = useRef(rasterOpacity);
   const [status, setStatus] = useState("loading");
   const [reloadToken, setReloadToken] = useState(0);
   const colorMode = colorblindMode ? "accessible" : "default";
+  const orthophoto = useMemo(() => getOrthophotoConfig(year), [year]);
   const copy = language === "en"
     ? {
       loading: "Loading map...",
@@ -246,9 +324,10 @@ export function MapLibreRasterMap({
 
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
+    const initialBasemap = initialBasemapRef.current;
     const map = new maplibregl.Map({
       container: containerRef.current,
-      style: baseStyle(),
+      style: getBasemapStyle(initialBasemap),
       center: BOLOGNA_CENTER,
       zoom: 10,
       minZoom: 9,
@@ -259,7 +338,14 @@ export function MapLibreRasterMap({
     });
 
     map.addControl(new maplibregl.AttributionControl({ compact: true }), "bottom-right");
+    // MapLibre v5 renders the compact attribution expanded by default; collapse
+    // it on init so the user only sees the "i" button until they tap it.
+    map.once("load", () => {
+      const attribEl = map.getContainer().querySelector(".maplibregl-ctrl-attrib.maplibregl-compact");
+      if (attribEl) attribEl.classList.remove("maplibregl-compact-show");
+    });
     if (interactive) map.addControl(new maplibregl.NavigationControl({ visualizePitch: false }), "top-right");
+    map.__taleaBasemapStyle = getBasemapStyleKind(initialBasemap);
     mapRef.current = map;
 
     if (interactive) {
@@ -347,16 +433,53 @@ export function MapLibreRasterMap({
   }, [selectedTarget, interactive, status]);
 
   useEffect(() => {
+    let cancelled = false;
     const map = mapRef.current;
     if (!map) return;
+    const desiredBasemapStyle = getBasemapStyleKind(basemap);
+
+    if (map.__taleaBasemapStyle !== desiredBasemapStyle) {
+      map.__taleaBasemapStyle = desiredBasemapStyle;
+      map.setStyle(getBasemapStyle(basemap));
+      return undefined;
+    }
+
     const apply = () => {
-      if (!map.getLayer("osm") || !map.getLayer("ortho")) return;
-      map.setLayoutProperty("osm", "visibility", basemap === "osm" ? "visible" : "none");
-      map.setLayoutProperty("ortho", "visibility", basemap === "ortho" ? "visible" : "none");
+      const showOrtho = basemap === "ortho";
+      if (!showOrtho) {
+        // Keep the orthophoto completely detached while OSM is active so year
+        // changes only spend time decoding the main TIFF the user is looking at.
+        removeLayerAndSource(map, "ortho");
+        delete map.__taleaOrthoYear;
+        setBasemapLayersVisibility(map, true);
+        return;
+      }
+
+      if (status !== "ready") {
+        // When the ortho is selected, let the main TIFF finish first and only
+        // then start loading the background tiles.
+        setBasemapLayersVisibility(map, true);
+        if (map.getLayer("ortho")) map.setLayoutProperty("ortho", "visibility", "none");
+        return;
+      }
+
+      ensureOrthoLayer(map, orthophoto);
+      // Hide every OpenFreeMap base layer when the user picks the orthophoto.
+      // The ortho has minzoom 10 and only covers Bologna, so without this OFM
+      // would still bleed through at the edges and at low zooms.
+      setBasemapLayersVisibility(map, false);
+      map.setLayoutProperty("ortho", "visibility", "visible");
     };
-    if (map.isStyleLoaded()) apply();
-    else map.once("load", apply);
-  }, [basemap]);
+
+    waitForMapReady(map).then(() => {
+      if (cancelled) return;
+      apply();
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [basemap, orthophoto, status]);
 
   useEffect(() => {
     let cancelled = false;
@@ -366,10 +489,7 @@ export function MapLibreRasterMap({
     async function render() {
       setStatus("loading");
       try {
-        await new Promise((resolve) => {
-          if (map.isStyleLoaded()) resolve();
-          else map.once("load", resolve);
-        });
+        await waitForMapReady(map);
         if (cancelled) return;
         activeRasterRef.current = null;
         onHoverRef.current?.(null);
@@ -423,7 +543,7 @@ export function MapLibreRasterMap({
     return () => {
       cancelled = true;
     };
-  }, [layer, year, overlays, threshold, colorMode, reloadToken]);
+  }, [layer, year, overlays, threshold, colorMode, reloadToken, basemap]);
 
   useEffect(() => {
     const map = mapRef.current;
