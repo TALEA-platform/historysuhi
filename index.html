@@ -2,13 +2,27 @@
 <html lang="it">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      // The layout was designed for a minimum width of ~750px. On narrow phones
+      // we lock the layout viewport to 750 so the design holds together; tablets
+      // and desktops keep device-width. The meta is written during parse via
+      // document.write so the browser commits to the right viewport on the first
+      // layout — mutating an existing meta after parse can leave DevTools'
+      // mobile emulation stuck at the original width.
+      (function () {
+        var narrow = window.screen && window.screen.width < 750;
+        var content = narrow
+          ? "width=750"
+          : "width=device-width, initial-scale=1.0";
+        document.write('<meta name="viewport" content="' + content + '">');
+      })();
+    </script>
     <title>Talea · Mappa del Calore Urbano · Bologna</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-    <script type="module" crossorigin src="/historysuhi/assets/index-Bw6ItPyE.js"></script>
-    <link rel="stylesheet" crossorigin href="/historysuhi/assets/index-BkLbG1tl.css">
+    <script type="module" crossorigin src="/historysuhi/assets/index-BWTXvX7I.js"></script>
+    <link rel="stylesheet" crossorigin href="/historysuhi/assets/index-Bew43GDM.css">
   </head>
   <body>
     <div id="root"></div>
