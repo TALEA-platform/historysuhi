@@ -363,7 +363,6 @@ export function MapLibreRasterMap({
   const activeRasterRef = useRef(null);
   const overlayIdsRef = useRef([]);
   const overlayRenderingsRef = useRef([]);
-  const didFitRef = useRef(false);
   const lastFocusKeyRef = useRef(null);
   // We mirror callback props into refs so the map's "mousemove"/"click" handlers
   // (registered once on mount) always read the *current* values without resubscribing.
@@ -376,6 +375,24 @@ export function MapLibreRasterMap({
   const colorblindMode = useAppStore((state) => state.colorblindMode);
   const rasterOpacity = useAppStore((state) => state.rasterOpacity);
   const rasterOpacityRef = useRef(rasterOpacity);
+  const mapLng = useAppStore((state) => state.mapLng);
+  const mapLat = useAppStore((state) => state.mapLat);
+  const mapZoom = useAppStore((state) => state.mapZoom);
+  const mapBearing = useAppStore((state) => state.mapBearing);
+  const mapPitch = useAppStore((state) => state.mapPitch);
+  const setMapViewport = useAppStore((state) => state.setMapViewport);
+  const initialViewStateRef = useRef(
+    mapLng == null || mapLat == null || mapZoom == null
+      ? null
+      : {
+        center: [mapLng, mapLat],
+        zoom: mapZoom,
+        bearing: mapBearing,
+        pitch: mapPitch,
+      },
+  );
+  const didFitRef = useRef(Boolean(initialViewStateRef.current));
+  const skipInitialViewportSyncRef = useRef(!initialViewStateRef.current);
   const [status, setStatus] = useState("loading");
   const [reloadToken, setReloadToken] = useState(0);
   const colorMode = colorblindMode ? "accessible" : "default";
@@ -415,11 +432,14 @@ export function MapLibreRasterMap({
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
     const initialBasemap = initialBasemapRef.current;
+    const initialViewState = initialViewStateRef.current;
     const map = new maplibregl.Map({
       container: containerRef.current,
       style: getBasemapStyle(initialBasemap),
-      center: BOLOGNA_CENTER,
-      zoom: 10,
+      center: initialViewState?.center || BOLOGNA_CENTER,
+      zoom: initialViewState?.zoom ?? 10,
+      bearing: initialViewState?.bearing ?? 0,
+      pitch: initialViewState?.pitch ?? 0,
       minZoom: 9,
       maxZoom: 18,
       maxBounds: BOLOGNA_MAX_PAN_BOUNDS,
@@ -448,6 +468,20 @@ export function MapLibreRasterMap({
           pitch: map.getPitch(),
         });
       });
+      map.on("moveend", () => {
+        if (skipInitialViewportSyncRef.current) {
+          skipInitialViewportSyncRef.current = false;
+          return;
+        }
+        const center = map.getCenter();
+        setMapViewport({
+          lng: center.lng,
+          lat: center.lat,
+          zoom: map.getZoom(),
+          bearing: map.getBearing(),
+          pitch: map.getPitch(),
+        });
+      });
     }
 
     map.on("mousemove", (event) => {
@@ -466,7 +500,7 @@ export function MapLibreRasterMap({
       map.remove();
       mapRef.current = null;
     };
-  }, [interactive]);
+  }, [interactive, setMapViewport]);
 
   useEffect(() => {
     const map = mapRef.current;

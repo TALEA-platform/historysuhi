@@ -3,6 +3,10 @@ import { useAppStore } from "../store/appStore.js";
 import { buildAppHref } from "../lib/appPaths.js";
 import { DEFAULT_LANGUAGE } from "../i18n/config.js";
 
+function formatNumber(value, digits) {
+  return String(Number(value.toFixed(digits)));
+}
+
 // Keeps the current URL in sync with the relevant slice of the store so a refresh
 // (or a copy-pasted link) restores the same view, layer, year and overlays.
 //
@@ -37,6 +41,11 @@ export function useUrlSync() {
   const basemap = useAppStore((state) => state.basemap);
   const mapInteractionMode = useAppStore((state) => state.mapInteractionMode);
   const rasterOpacity = useAppStore((state) => state.rasterOpacity);
+  const mapLng = useAppStore((state) => state.mapLng);
+  const mapLat = useAppStore((state) => state.mapLat);
+  const mapZoom = useAppStore((state) => state.mapZoom);
+  const mapBearing = useAppStore((state) => state.mapBearing);
+  const mapPitch = useAppStore((state) => state.mapPitch);
 
   useEffect(() => {
     const search = new URLSearchParams();
@@ -77,6 +86,13 @@ export function useUrlSync() {
     if (basemap !== "osm") search.set("basemap", basemap);
     if (mapInteractionMode !== "navigate") search.set("mode", mapInteractionMode);
     if (rasterOpacity !== 0.72) search.set("opacity", String(rasterOpacity));
+    if (mapLng != null && mapLat != null && mapZoom != null) {
+      search.set("lng", formatNumber(mapLng, 5));
+      search.set("lat", formatNumber(mapLat, 5));
+      search.set("zoom", formatNumber(mapZoom, 2));
+      if (mapBearing) search.set("bearing", formatNumber(mapBearing, 1));
+      if (mapPitch) search.set("pitch", formatNumber(mapPitch, 1));
+    }
 
     window.history.replaceState(null, "", buildAppHref(search));
   }, [
@@ -102,5 +118,10 @@ export function useUrlSync() {
     basemap,
     mapInteractionMode,
     rasterOpacity,
+    mapLng,
+    mapLat,
+    mapZoom,
+    mapBearing,
+    mapPitch,
   ]);
 }

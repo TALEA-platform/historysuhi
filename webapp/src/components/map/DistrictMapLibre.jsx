@@ -153,6 +153,23 @@ export const DistrictMapLibre = forwardRef(function DistrictMapLibre({
   const basemap = useAppStore((state) => state.basemap);
   const colorblindMode = useAppStore((state) => state.colorblindMode);
   const districtOpacity = useAppStore((state) => state.districtOpacity);
+  const mapLng = useAppStore((state) => state.mapLng);
+  const mapLat = useAppStore((state) => state.mapLat);
+  const mapZoom = useAppStore((state) => state.mapZoom);
+  const mapBearing = useAppStore((state) => state.mapBearing);
+  const mapPitch = useAppStore((state) => state.mapPitch);
+  const setMapViewport = useAppStore((state) => state.setMapViewport);
+  const initialViewStateRef = useRef(
+    mapLng == null || mapLat == null || mapZoom == null
+      ? null
+      : {
+        center: [mapLng, mapLat],
+        zoom: Math.max(9, Math.min(17, mapZoom)),
+        bearing: mapBearing,
+        pitch: mapPitch,
+      },
+  );
+  const skipInitialViewportSyncRef = useRef(!initialViewStateRef.current);
   const loadingLabel = language === "en" ? "Loading areas..." : "Caricamento aree...";
   const orthophoto = useMemo(() => getOrthophotoConfig(2025), []);
 
@@ -241,11 +258,16 @@ export const DistrictMapLibre = forwardRef(function DistrictMapLibre({
 
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
+    const initialViewState = initialViewStateRef.current;
     const map = new maplibregl.Map({
       container: containerRef.current,
       style: BASEMAP_STYLE_URL,
-      bounds: BOLOGNA_CITY_BOUNDS,
-      fitBoundsOptions: { padding: 24 },
+      ...(initialViewState
+        ? initialViewState
+        : {
+          bounds: BOLOGNA_CITY_BOUNDS,
+          fitBoundsOptions: { padding: 24 },
+        }),
       minZoom: 9,
       maxZoom: 17,
       maxBounds: BOLOGNA_MAX_PAN_BOUNDS,
@@ -261,12 +283,26 @@ export const DistrictMapLibre = forwardRef(function DistrictMapLibre({
       if (attribEl) attribEl.classList.remove("maplibregl-compact-show");
       setMapReady(true);
     });
+    map.on("moveend", () => {
+      if (skipInitialViewportSyncRef.current) {
+        skipInitialViewportSyncRef.current = false;
+        return;
+      }
+      const center = map.getCenter();
+      setMapViewport({
+        lng: center.lng,
+        lat: center.lat,
+        zoom: map.getZoom(),
+        bearing: map.getBearing(),
+        pitch: map.getPitch(),
+      });
+    });
     return () => {
       map.remove();
       mapRef.current = null;
       setMapReady(false);
     };
-  }, []);
+  }, [setMapViewport]);
 
   useEffect(() => {
     const map = mapRef.current;
