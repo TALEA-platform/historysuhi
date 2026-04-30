@@ -2991,21 +2991,22 @@ a {
 
 .scatter .scatter-point {
   pointer-events: none;
-  stroke: rgba(12, 47, 36, 0.28);
-  stroke-width: 0.2;
-  opacity: 0.92;
-  transition: r 120ms ease-out;
+  fill: var(--scatter-point-fill);
+  stroke: rgba(12, 47, 36, 0.24);
+  stroke-width: 0.18;
+  opacity: 0.96;
+  transition: r 120ms ease-out, fill 120ms ease-out, stroke 120ms ease-out, opacity 120ms ease-out;
 }
 
 .scatter .scatter-point.is-hovered {
-  stroke: rgba(12, 47, 36, 0.72);
-  stroke-width: 0.45;
+  stroke: rgba(12, 47, 36, 0.78);
+  stroke-width: 0.36;
   opacity: 1;
 }
 
 .scatter .scatter-point.is-selected {
-  stroke: var(--t-blue);
-  stroke-width: 0.7;
+  stroke: rgba(12, 47, 36, 0.78);
+  stroke-width: 0.58;
   opacity: 1;
 }
 

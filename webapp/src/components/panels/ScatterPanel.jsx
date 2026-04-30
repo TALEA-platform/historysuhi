@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
 import { RichText, RichTextInline } from "../ui/RichText.jsx";
+import { deltaLayer } from "../../data/layers.js";
 import { useI18n } from "../../i18n/useI18n.js";
+import { getInterpolatedPaletteCss, getPaletteGradientCss } from "../../lib/rasterRenderer.js";
 import { useAppStore } from "../../store/appStore.js";
 
 // Single SVG scatter plot used in View 4: albedo vs DeltaLST, from real CSV pairs.
@@ -23,7 +25,7 @@ const SCATTER_LAYOUT_INLINE = {
 };
 
 const SCATTER_EPSILON = 0.000001;
-const SCATTER_COLOR_SCALE = "linear-gradient(90deg, hsl(211 68% 42%), hsl(198 50% 62%), hsl(38 42% 78%), hsl(19 78% 60%), hsl(7 70% 44%))";
+const SCATTER_DELTA_RANGE = deltaLayer?.raster?.range || [6, 14];
 
 function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
@@ -34,12 +36,12 @@ function scaleValue(value, min, max, start, end) {
   return start + (ratio * (end - start));
 }
 
-function colorForResidual(value, extent) {
-  const ratio = clamp(((value / Math.max(SCATTER_EPSILON, extent)) + 1) / 2, 0, 1);
-  const hue = 211 - ((211 - 7) * ratio);
-  const saturation = 45 + (ratio * 25);
-  const lightness = 44 + ((1 - Math.abs((ratio * 2) - 1)) * 34);
-  return `hsl(${hue} ${saturation}% ${lightness}%)`;
+function normalizeRangeValue(value, range = SCATTER_DELTA_RANGE) {
+  return clamp(
+    (value - range[0]) / Math.max(SCATTER_EPSILON, range[1] - range[0]),
+    0,
+    1,
+  );
 }
 
 // Pick rounded "nice" tick values that divide [min, max] into roughly `target` intervals.
@@ -88,7 +90,13 @@ function getTickDecimals(ticks = [], fallback = 1, maxDecimals = 4) {
   return maxDecimals;
 }
 
-function buildScatterModel(csvPoints = [], selectedPointKey = null, qualitativeCopy = null, layout = SCATTER_LAYOUT_INLINE) {
+function buildScatterModel(
+  csvPoints = [],
+  selectedPointKey = null,
+  qualitativeCopy = null,
+  layout = SCATTER_LAYOUT_INLINE,
+  colorMode = "default",
+) {
   const validPoints = csvPoints.filter((point) => Number.isFinite(point?.x) && Number.isFinite(point?.y));
   if (!validPoints.length) {
     return { points: [], trendLine: null, axes: null, qualAxes: null };
@@ -109,11 +117,6 @@ function buildScatterModel(csvPoints = [], selectedPointKey = null, qualitativeC
   const numerator = validPoints.reduce((sum, point) => sum + ((point.x - meanX) * (point.y - meanY)), 0);
   const slope = denominator <= SCATTER_EPSILON ? 0 : numerator / denominator;
   const intercept = meanY - (slope * meanX);
-  const residuals = validPoints.map((point) => point.y - ((slope * point.x) + intercept));
-  const residualExtent = Math.max(
-    SCATTER_EPSILON,
-    ...residuals.map((value) => Math.abs(value)),
-  );
   const startY = clamp((slope * minX) + intercept, minY, maxY);
   const endY = clamp((slope * maxX) + intercept, minY, maxY);
 
@@ -127,13 +130,13 @@ function buildScatterModel(csvPoints = [], selectedPointKey = null, qualitativeC
     return "mid";
   };
 
-  const points = validPoints.map((point, index) => ({
+  const points = validPoints.map((point) => ({
     ...point,
     rawX: point.x,
     rawY: point.y,
     plotX: scaleValue(point.x, minX, maxX, xStart, xEnd),
     plotY: scaleValue(point.y, minY, maxY, yBottom, yTop),
-    fill: colorForResidual(residuals[index], residualExtent),
+    fill: getInterpolatedPaletteCss("thermal", normalizeRangeValue(point.y), colorMode),
     isSelected: point.key === selectedPointKey,
     xBucket: bucketFor(point.x, xLowBound, xHighBound),
     yBucket: bucketFor(point.y, yLowBound, yHighBound),
@@ -203,6 +206,8 @@ export function ScatterPanel({
 }) {
   const { language } = useI18n();
   const showNumericValues = useAppStore((state) => state.showNumericValues);
+  const colorblindMode = useAppStore((state) => state.colorblindMode);
+  const colorMode = colorblindMode ? "accessible" : "default";
   const copy = language === "en"
     ? {
       chart: "Chart",
@@ -210,8 +215,8 @@ export function ScatterPanel({
       ariaLabel: "Scatter chart",
       deltaAxis: "Δ °C",
       trendLegend: "Average trend",
-      lowLegend: "more stable",
-      highLegend: "more variable",
+      lowLegend: "cools less",
+      highLegend: "cools more",
       rangeTitle: "day-night range",
       rangeBuckets: { low: "lower", mid: "medium", high: "wider" },
       switchLabel: "Chart view",
@@ -226,7 +231,7 @@ export function ScatterPanel({
             "**Absorbing surfaces:** often show a wider day-night range.",
             "**Reflective surfaces:** often show a smaller range because they warm less during the day.",
           ],
-          note: "The dashed line shows the average pattern for Bologna. Blue points are more stable than expected; red points are more variable.",
+          note: "The dashed line shows the average pattern for Bologna. Dot colors follow the same cooling scale as the map, so color repeats the day-night value while position explains the relationship.",
           axisLabel: "reflectance",
           surfaceTitle: "surface",
           surfaceBuckets: { low: "absorbing", mid: "medium", high: "reflective" },
@@ -239,7 +244,7 @@ export function ScatterPanel({
             "**Greener areas:** often have a smaller day-night range.",
             "**Sparsely vegetated or built-up areas:** tend to swing more between day and night.",
           ],
-          note: "The dashed line shows the average pattern for Bologna. Blue points are more stable than expected; red points are more variable.",
+          note: "The dashed line shows the average pattern for Bologna. Dot colors follow the same cooling scale as the map, so color repeats the day-night value while position explains the relationship.",
           axisLabel: "NDVI",
           surfaceTitle: "vegetation",
           surfaceBuckets: { low: "sparse", mid: "moderate", high: "dense" },
@@ -252,8 +257,8 @@ export function ScatterPanel({
       ariaLabel: "Grafico scatter",
       deltaAxis: "Δ °C",
       trendLegend: "Tendenza media",
-      lowLegend: "più stabile",
-      highLegend: "più variabile",
+      lowLegend: "si raffredda poco",
+      highLegend: "si raffredda molto",
       rangeTitle: "escursione",
       rangeBuckets: { low: "bassa", mid: "media", high: "ampia" },
       switchLabel: "Vista grafico",
@@ -268,7 +273,7 @@ export function ScatterPanel({
             "**Superfici assorbenti:** mostrano spesso un'escursione più ampia.",
             "**Superfici riflettenti:** mostrano spesso un'escursione più bassa perché si scaldano meno durante il giorno.",
           ],
-          note: "La linea tratteggiata mostra l'andamento medio di Bologna. I punti blu sono più stabili del previsto; quelli rossi più variabili.",
+          note: "La linea tratteggiata mostra l'andamento medio di Bologna. I colori dei punti seguono la stessa scala di raffreddamento della mappa, mentre la posizione spiega la relazione con riflettanza ed escursione.",
           axisLabel: "riflettanza",
           surfaceTitle: "superficie",
           surfaceBuckets: { low: "assorbente", mid: "media", high: "riflettente" },
@@ -281,7 +286,7 @@ export function ScatterPanel({
             "**Aree molto verdi:** mostrano spesso un'escursione più contenuta.",
             "**Aree poco vegetate o costruite:** tendono a oscillare di più tra giorno e notte.",
           ],
-          note: "La linea tratteggiata mostra l'andamento medio di Bologna. I punti blu sono più stabili del previsto; quelli rossi più variabili.",
+          note: "La linea tratteggiata mostra l'andamento medio di Bologna. I colori dei punti seguono la stessa scala di raffreddamento della mappa, mentre la posizione spiega la relazione con vegetazione ed escursione.",
           axisLabel: "NDVI",
           surfaceTitle: "vegetazione",
           surfaceBuckets: { low: "scarsa", mid: "moderata", high: "densa" },
@@ -299,6 +304,10 @@ export function ScatterPanel({
     }
     return source;
   }, [csvInfo.albedoDeltaPairs, metric]);
+  const scaleBackground = useMemo(
+    () => getPaletteGradientCss("thermal", colorMode),
+    [colorMode],
+  );
 
   return (
     <div className="relation-scatter-panel">
@@ -311,6 +320,8 @@ export function ScatterPanel({
         onSelectPoint={onSelectPoint}
         showNumericValues={showNumericValues}
         onMetricChange={onMetricChange}
+        colorMode={colorMode}
+        scaleBackground={scaleBackground}
       />
     </div>
   );
@@ -325,6 +336,8 @@ function ScatterPanelBody({
   onSelectPoint,
   showNumericValues,
   onMetricChange,
+  colorMode,
+  scaleBackground,
 }) {
   return (
     <div className="scatter-block">
@@ -364,6 +377,7 @@ function ScatterPanelBody({
           selectedPointKey={selectedPointKey}
           onSelectPoint={onSelectPoint}
           showNumericValues={showNumericValues}
+          colorMode={colorMode}
           tooltipCopy={{
             surfaceTitle: metricCopy.surfaceTitle,
             rangeTitle: copy.rangeTitle,
@@ -379,7 +393,7 @@ function ScatterPanelBody({
         </div>
         <div className="scatter-guide scatter-guide--scale">
           <span>{copy.lowLegend}</span>
-          <i className="scatter-guide-scale" style={{ background: SCATTER_COLOR_SCALE }} />
+          <i className="scatter-guide-scale" style={{ backgroundImage: scaleBackground }} />
           <span>{copy.highLegend}</span>
         </div>
       </div>
@@ -409,6 +423,7 @@ function ScatterSvg({
   selectedPointKey = null,
   onSelectPoint,
   showNumericValues = false,
+  colorMode = "default",
   tooltipCopy = null,
 }) {
   const [hoveredKey, setHoveredKey] = useState(null);
@@ -422,8 +437,8 @@ function ScatterSvg({
     [tooltipCopy],
   );
   const { points, trendLine, axes, qualAxes } = useMemo(
-    () => buildScatterModel(csvPoints, selectedPointKey, qualitativeCopy, layout),
-    [csvPoints, selectedPointKey, qualitativeCopy, layout],
+    () => buildScatterModel(csvPoints, selectedPointKey, qualitativeCopy, layout, colorMode),
+    [csvPoints, selectedPointKey, qualitativeCopy, layout, colorMode],
   );
 
   const xTickDecimals = useMemo(
@@ -587,7 +602,8 @@ function ScatterSvg({
             cx={point.plotX}
             cy={point.plotY}
             r={radius}
-            fill={point.fill}
+              style={{ "--scatter-point-fill": point.fill }}
+              fill={point.fill}
           />
         );
       })}

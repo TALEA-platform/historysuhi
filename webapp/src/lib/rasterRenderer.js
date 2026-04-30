@@ -80,6 +80,10 @@ function getPaletteSet(colorMode) {
   return palettesByMode[colorMode] || palettesByMode.default;
 }
 
+function rgbToCss([red, green, blue]) {
+  return `rgb(${red} ${green} ${blue})`;
+}
+
 function interpolateColor(paletteName, normalized, colorMode = "default") {
   const palettes = getPaletteSet(colorMode);
   const scale = palettes[paletteName] || palettes.thermal;
@@ -95,6 +99,16 @@ function interpolateColor(paletteName, normalized, colorMode = "default") {
     Math.round(a[1] + (b[1] - a[1]) * t),
     Math.round(a[2] + (b[2] - a[2]) * t),
   ];
+}
+
+export function getInterpolatedPaletteCss(paletteName, normalized, colorMode = "default") {
+  return rgbToCss(interpolateColor(paletteName, normalized, colorMode));
+}
+
+export function getPaletteGradientCss(paletteName, colorMode = "default") {
+  const palettes = getPaletteSet(colorMode);
+  const scale = palettes[paletteName] || palettes.thermal;
+  return `linear-gradient(90deg, ${scale.join(", ")})`;
 }
 
 function interpolateRgb(scale, normalized) {

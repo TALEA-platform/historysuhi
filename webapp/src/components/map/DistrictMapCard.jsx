@@ -31,7 +31,7 @@ export const DistrictMapCard = forwardRef(function DistrictMapCard({
       districtPill: "districts",
       dataYear: "2025 data",
       inspectHint: `Click ${isStatistical ? "a statistical area" : "a district"} to update the card.`,
-      opacityLabel: "Areas",
+      opacityLabel: "Transparency",
       findArea: "Find an area",
     }
     : {
@@ -39,7 +39,7 @@ export const DistrictMapCard = forwardRef(function DistrictMapCard({
       districtPill: "quartieri",
       dataYear: "dati 2025",
       inspectHint: `Clicca ${isStatistical ? "un'area statistica" : "un quartiere"} per aggiornare la scheda.`,
-      opacityLabel: "Aree",
+      opacityLabel: "Trasparenza",
       findArea: "Trova una zona",
     };
   const legendLayer = useMemo(() => {
