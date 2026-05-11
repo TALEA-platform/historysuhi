@@ -8,20 +8,26 @@ const hotspotData = (name) => appUrl(`data/hotspots/${name}`);
 
 export const years = Array.from({ length: 13 }, (_, index) => 2013 + index);
 
+// View 1 changes the raster by year, so its numeric legends use one domain that
+// covers every yearly map. This keeps colors comparable across the slider and
+// in the compare modal.
+const view1LstRange = [25.9, 63.1];
+const view1ZspatRange = [-4.4, 4.4];
+
 export const yearlyStats = [
-  { year: 2021, lst: 42.3, anomaly: 2.56, hotspot: 56.2 },
-  { year: 2018, lst: 41.5, anomaly: 1.75, hotspot: 40.0 },
-  { year: 2017, lst: 41.6, anomaly: 1.86, hotspot: 38.9 },
-  { year: 2022, lst: 41.3, anomaly: 1.62, hotspot: 33.8 },
-  { year: 2013, lst: 40.2, anomaly: 0.5, hotspot: 7.9 },
-  { year: 2015, lst: 40.1, anomaly: 0.39, hotspot: 5.2 },
-  { year: 2024, lst: 39.9, anomaly: 0.19, hotspot: 2.3 },
-  { year: 2023, lst: 39.6, anomaly: -0.12, hotspot: 8.6 },
-  { year: 2025, lst: 38.9, anomaly: -0.81, hotspot: 3.75 },
-  { year: 2020, lst: 39.1, anomaly: -0.58, hotspot: 1.9 },
-  { year: 2016, lst: 38.6, anomaly: -1.11, hotspot: 0.4 },
-  { year: 2019, lst: 38.7, anomaly: -0.97, hotspot: 0.3 },
-  { year: 2014, lst: 34.4, anomaly: -5.28, hotspot: 0 },
+  { year: 2013, lst: 40.7, anomaly: 0.35, hotspot: 5.71 },
+  { year: 2014, lst: 34.9, anomaly: -5.46, hotspot: 0 },
+  { year: 2015, lst: 40.8, anomaly: 0.46, hotspot: 5.67 },
+  { year: 2016, lst: 39.4, anomaly: -0.95, hotspot: 0.26 },
+  { year: 2017, lst: 41.6, anomaly: 1.28, hotspot: 28.05 },
+  { year: 2018, lst: 42.6, anomaly: 2.22, hotspot: 52.51 },
+  { year: 2019, lst: 39.5, anomaly: -0.89, hotspot: 0.25 },
+  { year: 2020, lst: 39.9, anomaly: -0.5, hotspot: 1.21 },
+  { year: 2021, lst: 42.7, anomaly: 2.36, hotspot: 51.08 },
+  { year: 2022, lst: 41.9, anomaly: 1.49, hotspot: 33.29 },
+  { year: 2023, lst: 40.6, anomaly: 0.27, hotspot: 9.35 },
+  { year: 2024, lst: 40.5, anomaly: 0.12, hotspot: 2.06 },
+  { year: 2025, lst: 39.6, anomaly: -0.76, hotspot: 2.39 },
 ];
 
 export const view1Layers = {
@@ -42,13 +48,13 @@ export const view1Layers = {
     legendTitle: "Temperatura di superficie",
     legendType: "surfaceHeat",
     legend: ["tra le meno calde", "meno calda", "intermedia", "calda", "molto calda", "tra le più calde"],
-    numericLegend: ["28", "32", "36", "40", "44", "48", "54 °C"],
+    numericLegend: ["26", "32", "38", "45", "51", "57", "63 \u00b0C"],
     noDataLabel: "Dato non disponibile",
     noDataDescription:
       "In questo punto il satellite non ha raccolto osservazioni estive valide nell'anno selezionato, quindi la mappa lascia il punto come dato non disponibile.",
     dataUrl: gee(2025),
     dataUrlForYear: gee,
-    raster: { palette: "surfaceHeat", range: [28, 54], alpha: 255, noDataStyle: "hatched", maskToBoundary: true },
+    raster: { palette: "surfaceHeat", range: view1LstRange, alpha: 255, noDataStyle: "hatched", maskToBoundary: true },
     className: "layer-lst",
     method: "LST mediana estiva, Landsat 8/9, risoluzione 30 m.",
   },
@@ -70,13 +76,13 @@ export const view1Layers = {
     legendTitle: "Rispetto alla città",
     legendType: "diverging",
     legend: ["molto sotto media", "sotto media", "in linea", "sopra media", "molto sopra media"],
-    numericLegend: ["-2σ", "-1σ", "0", "+1σ", "+2σ"],
+    numericLegend: ["-4.4\u03c3", "-2.2\u03c3", "0", "+2.2\u03c3", "+4.4\u03c3"],
     noDataLabel: "Dato non disponibile",
     noDataDescription:
       "In questo punto il satellite non ha raccolto osservazioni estive valide nell'anno selezionato, quindi la mappa lascia il punto come dato non disponibile.",
     dataUrl: gee(2025),
     dataUrlForYear: gee,
-    raster: { palette: "diverging", range: [-2.5, 2.5], alpha: 255, transform: "zscore", noDataStyle: "hatched", maskToBoundary: true },
+    raster: { palette: "diverging", range: view1ZspatRange, neutral: 0, alpha: 255, transform: "zscore", noDataStyle: "hatched", maskToBoundary: true },
     className: "layer-zspat",
     method: "z-score spaziale anno per anno.",
   },
@@ -105,9 +111,9 @@ export const view2Layers = {
       "sopra la media storica",
       "molto sopra",
     ],
-    numericLegend: ["-10", "-5", "-2", "0", "+2", "+5", "+10 °C"],
+    numericLegend: ["-9.8", "0", "+7.4 \u00b0C"],
     dataUrl: raster("anomaly_2025_summer_30m.tif"),
-    raster: { palette: "diverging", range: [-6, 6], alpha: 255 },
+    raster: { palette: "diverging", range: [-9.8, 7.4], neutral: 0, alpha: 255 },
     className: "layer-anomaly",
     method: "",
   },
@@ -130,9 +136,9 @@ export const view2Layers = {
     legendTitle: "Media storica 2013-2025",
     legendType: "habitualHeat",
     legend: ["storicamente bassa", "bassa", "intermedia", "alta", "molto alta", "storicamente tra le più alte"],
-    numericLegend: ["28", "32", "36", "40", "44", "48", "54 °C"],
+    numericLegend: ["30.0", "42.2", "54.4 \u00b0C"],
     dataUrl: raster("climatology_mean_2013_2025_30m.tif"),
-    raster: { palette: "habitualHeat", range: [28, 54], alpha: 255 },
+    raster: { palette: "habitualHeat", range: [30, 54.4], alpha: 255 },
     className: "layer-climatology",
   },
   persistenceTemporal: {
@@ -275,9 +281,9 @@ export const view3Layers = {
     legendTitle: "Esposizione al caldo",
     legendType: "uhei",
     legend: ["molto favorita", "favorita", "intermedia", "esposta", "molto esposta"],
-    numericLegend: ["0.78", "1.2", "1.45", "1.88", "2.39"],
+    numericLegend: ["0.84", "1.60", "2.35"],
     dataUrl: raster("UHEI_2025_summer_30m.tif"),
-    raster: { palette: "uhei", range: [0.78, 2.39], alpha: 255, transparentValues: [0] },
+    raster: { palette: "uhei", range: [0.84, 2.35], alpha: 255, transparentValues: [0] },
     className: "layer-uhei",
   },
   ndvi: {
@@ -290,13 +296,13 @@ export const view3Layers = {
       "Questo è un indice satellitare: distingue superfici vegetate da superfici minerali o costruite.",
     ],
     valueInfo:
-      "Questo è un **indice di vegetazione**, non una percentuale e non una temperatura. In questa lettura va da 0 a 1: vicino a 0 significa poco verde osservabile, vicino a 1 vegetazione più presente e vitale.",
+      "Questo è un **indice di vegetazione**, non una percentuale e non una temperatura. La scala della legenda è tarata sui valori visibili dentro Bologna: valori più bassi indicano poco verde osservabile, valori più alti vegetazione più presente e vitale.",
     legendTitle: "Verde",
     legendType: "green",
     legend: ["poco verde", "verde intermedio", "verde denso"],
-    numericLegend: ["0", "0.5", "1"],
+    numericLegend: ["0.07", "0.50", "0.89"],
     dataUrl: raster("NDVI_2025_summer_30m.tif"),
-    raster: { palette: "green", range: [0, 1], alpha: 255, maskToBoundary: true },
+    raster: { palette: "green", range: [0.07, 0.89], alpha: 255, maskToBoundary: true },
     className: "layer-ndvi",
   },
   albedo: {
@@ -314,9 +320,9 @@ export const view3Layers = {
     legendTitle: "Albedo",
     legendType: "albedo",
     legend: ["assorbente", "intermedia", "riflettente"],
-    numericLegend: ["0.15", "0.20", "0.26"],
+    numericLegend: ["0.14", "0.18", "0.22"],
     dataUrl: raster("Albedo_2025_summer_30m.tif"),
-    raster: { palette: "albedo", range: [0.15, 0.26], alpha: 255, maskToBoundary: true },
+    raster: { palette: "albedo", range: [0.14, 0.22], alpha: 255, maskToBoundary: true },
     className: "layer-albedo",
   },
   hvi: {
@@ -334,9 +340,9 @@ export const view3Layers = {
     legendTitle: "Temperatura e verde",
     legendType: "diverging",
     legend: ["bassa e verde", "intermedio", "alta e poco verde"],
-    numericLegend: ["-0.98", "0", "+0.52"],
+    numericLegend: ["-0.93", "0", "+0.44"],
     dataUrl: raster("HVI_2025_summer_30m.tif"),
-    raster: { palette: "diverging", range: [-0.98, 0.52], alpha: 255 },
+    raster: { palette: "diverging", range: [-0.93, 0.44], neutral: 0, alpha: 255 },
     className: "layer-hvi",
   },
   hri: {
@@ -354,9 +360,9 @@ export const view3Layers = {
     legendTitle: "Temperatura e superfici",
     legendType: "diverging",
     legend: ["temp. bassa, riflettente", "intermedio", "temp. alta, assorbente"],
-    numericLegend: ["-0.46", "0", "+0.90"],
+    numericLegend: ["-0.46", "0", "+0.83"],
     dataUrl: raster("HRI_2025_summer_30m.tif"),
-    raster: { palette: "diverging", range: [-0.46, 0.9], alpha: 255 },
+    raster: { palette: "diverging", range: [-0.46, 0.83], neutral: 0, alpha: 255 },
     className: "layer-hri",
   },
 };
@@ -380,7 +386,7 @@ export const deltaLayer = {
   legendTitle: "Raffreddamento",
   legendType: "thermal",
   legend: ["si raffredda poco", "medio", "si raffredda molto"],
-  numericLegend: ["6", "9.4", "14 °C"],
+  numericLegend: ["6.0", "9.0", "12.0 \u00b0C"],
   dataUrl: csvInfo("albedo_deltalst_2025_1km_pairs.csv"),
   raster: {
     sourceType: "csvGrid",
@@ -391,7 +397,7 @@ export const deltaLayer = {
     valueKey: "delta_lst_1km",
     cellSize: 1000,
     palette: "thermal",
-    range: [6, 14],
+    range: [5.98, 12.01],
     alpha: 255,
     maskToBoundary: true,
     renderScale: 16,

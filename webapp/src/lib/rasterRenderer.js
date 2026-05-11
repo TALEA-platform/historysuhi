@@ -17,8 +17,8 @@ const RASTER_FETCH_RETRIES = 2;
 
 const palettesByMode = {
   default: {
-    surfaceHeat: ["#2c7bb6", "#00a6ca", "#7fd5d2", "#ffffbf", "#fdae61", "#f46d43", "#a50026"],
-    habitualHeat: ["#355c7d", "#6c8fb0", "#b8c6bf", "#f1ead0", "#d9b26f", "#a86f4c", "#6f3f37"],
+    surfaceHeat: ["#2166ac", "#66c2a5", "#fee08b", "#fdae61", "#f46d43", "#d73027", "#7f0000"],
+    habitualHeat: ["#2166ac", "#66c2a5", "#fee08b", "#fdae61", "#f46d43", "#d73027", "#7f0000"],
     thermal: ["#fff5c0", "#fed976", "#feb24c", "#fd8d3c", "#fc4e2a", "#e31a1c", "#b10026"],
     diverging: ["#2166ac", "#4393c3", "#92c5de", "#f7f7f7", "#f4a582", "#d6604d", "#b2182b"],
     green: ["#f5f0d0", "#d9e8a3", "#87c472", "#21a84a", "#004d19"],
@@ -27,8 +27,8 @@ const palettesByMode = {
     persistence: ["#fff5c0", "#feb24c", "#fc4e2a", "#e31a1c", "#b10026"],
   },
   accessible: {
-    surfaceHeat: ["#00204d", "#174a7e", "#3f6f8f", "#728c8a", "#a69f72", "#d7b955", "#ffe604"],
-    habitualHeat: ["#2d004b", "#542788", "#8073ac", "#b2abd2", "#d8daeb", "#fee08b", "#d95f0e"],
+    surfaceHeat: ["#3b0f70", "#8c6bb1", "#f1eef6", "#fee391", "#fdae61", "#e6550d", "#7f2704"],
+    habitualHeat: ["#3b0f70", "#8c6bb1", "#f1eef6", "#fee391", "#fdae61", "#e6550d", "#7f2704"],
     thermal: ["#f7fcf0", "#ccebc5", "#7bccc4", "#43a2ca", "#0868ac", "#084081", "#00204d"],
     diverging: ["#5e4fa2", "#3288bd", "#66c2a5", "#ffffbf", "#fdae61", "#f46d43", "#9e0142"],
     green: ["#f7fcf0", "#ccebc5", "#7bccc4", "#2b8cbe", "#084081"],
@@ -99,6 +99,17 @@ function interpolateColor(paletteName, normalized, colorMode = "default") {
     Math.round(a[1] + (b[1] - a[1]) * t),
     Math.round(a[2] + (b[2] - a[2]) * t),
   ];
+}
+
+function normalizeToRange(value, range, neutral = null) {
+  const [min, max] = range;
+  if (Number.isFinite(neutral) && min < neutral && neutral < max) {
+    if (value < neutral) {
+      return 0.5 * ((value - min) / Math.max(0.000001, neutral - min));
+    }
+    return 0.5 + (0.5 * ((value - neutral) / Math.max(0.000001, max - neutral)));
+  }
+  return (value - min) / Math.max(0.000001, max - min);
 }
 
 export function getInterpolatedPaletteCss(paletteName, normalized, colorMode = "default") {
@@ -916,7 +927,7 @@ export async function renderRasterImage({ url, raster = {}, threshold, colorMode
           continue;
         }
 
-        const normalized = (renderedValue - range[0]) / Math.max(0.000001, range[1] - range[0]);
+        const normalized = normalizeToRange(renderedValue, range, raster.neutral);
         const color = interpolateColor(raster.palette || "thermal", normalized, colorMode);
         output[out] = color[0];
         output[out + 1] = color[1];

@@ -28,6 +28,24 @@ export const csvInfoSources = {
   zscoreSpatial2025: appUrl("data/csv_info/zscore_spatial_2025_summary.csv"),
 };
 
+// Derived from the clipped yearly rasters served by the app, so View 1's
+// summary numbers describe the same pixels the user sees on the map.
+const visibleYearlyLstStats = {
+  2013: { count: 156437, mean: 40.716293, anomalyMean: 0.353384, median: 41.353947, p95: 46.221207, hotspotFraction: 5.7116 },
+  2014: { count: 156437, mean: 34.903055, anomalyMean: -5.459854, median: 35.116058, p95: 40.523369, hotspotFraction: 0 },
+  2015: { count: 156437, mean: 40.827637, anomalyMean: 0.464728, median: 41.528267, p95: 47.13587, hotspotFraction: 5.6668 },
+  2016: { count: 156437, mean: 39.4165, anomalyMean: -0.946409, median: 39.573158, p95: 45.807625, hotspotFraction: 0.2551 },
+  2017: { count: 156437, mean: 41.638411, anomalyMean: 1.275502, median: 42.119583, p95: 46.238297, hotspotFraction: 28.0509 },
+  2018: { count: 156437, mean: 42.578148, anomalyMean: 2.215239, median: 43.230438, p95: 49.35553, hotspotFraction: 52.51 },
+  2019: { count: 156428, mean: 39.4745, anomalyMean: -0.888409, median: 40.137131, p95: 44.966793, hotspotFraction: 0.2525 },
+  2020: { count: 156336, mean: 39.865457, anomalyMean: -0.497452, median: 40.48748, p95: 45.775154, hotspotFraction: 1.205 },
+  2021: { count: 156433, mean: 42.726445, anomalyMean: 2.363536, median: 43.473118, p95: 48.176315, hotspotFraction: 51.0825 },
+  2022: { count: 156437, mean: 41.857111, anomalyMean: 1.494202, median: 42.295612, p95: 48.037884, hotspotFraction: 33.2894 },
+  2023: { count: 156434, mean: 40.630564, anomalyMean: 0.267655, median: 41.535103, p95: 47.137238, hotspotFraction: 9.3539 },
+  2024: { count: 156437, mean: 40.482563, anomalyMean: 0.119654, median: 40.933529, p95: 46.07423, hotspotFraction: 2.0609 },
+  2025: { count: 156437, mean: 39.601133, anomalyMean: -0.761776, median: 40.372974, p95: 45.223145, hotspotFraction: 2.3914 },
+};
+
 function projectRingToUtm(ring) {
   return ring.map(([lng, lat]) => proj4("EPSG:4326", "EPSG:32632", [lng, lat]));
 }
@@ -225,11 +243,12 @@ function buildYearlyStats(tables) {
   return lstRows
     .map((row) => {
       const hotspot = hotspotRows.get(row.year);
+      const visible = visibleYearlyLstStats[row.year];
       return {
         year: row.year,
-        lst: row.lst_mean,
-        anomaly: row.anom_mean,
-        hotspot: hotspot ? hotspot.temporal_hotspot_fraction * 100 : 0,
+        lst: visible?.mean ?? row.lst_mean,
+        anomaly: visible?.anomalyMean ?? row.anom_mean,
+        hotspot: visible?.hotspotFraction ?? (hotspot ? hotspot.temporal_hotspot_fraction * 100 : 0),
       };
     })
     .filter((row) => Number.isFinite(row.year) && Number.isFinite(row.lst))
@@ -242,19 +261,20 @@ function buildYearlyDetails(tables) {
   return Object.fromEntries((tables.lstAnomalies || []).map((row) => {
     const hotspot = hotspotRows.get(row.year);
     const acquisition = acquisitions[row.year] || null;
+    const visible = visibleYearlyLstStats[row.year];
     return [
       row.year,
       {
         year: row.year,
         period: row.label || "summer",
-        lstCount: row.lst_count,
-        lstMean: row.lst_mean,
-        lstMedian: row.lst_p50,
-        lstP95: row.lst_p95,
-        anomalyMean: row.anom_mean,
+        lstCount: visible?.count ?? row.lst_count,
+        lstMean: visible?.mean ?? row.lst_mean,
+        lstMedian: visible?.median ?? row.lst_p50,
+        lstP95: visible?.p95 ?? row.lst_p95,
+        anomalyMean: visible?.anomalyMean ?? row.anom_mean,
         anomalyMedian: row.anom_p50,
         zMean: row.z_mean,
-        hotspotFraction: hotspot ? hotspot.temporal_hotspot_fraction * 100 : null,
+        hotspotFraction: visible?.hotspotFraction ?? (hotspot ? hotspot.temporal_hotspot_fraction * 100 : null),
         strongHotspotFraction: hotspot ? hotspot.temporal_hotspot_strong_fraction * 100 : null,
         structuralThreshold: hotspot?.structural_hotspot_threshold ?? null,
         acquisition,

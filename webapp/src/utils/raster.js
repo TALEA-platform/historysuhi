@@ -188,15 +188,24 @@ export function rasterLabel(layer, value, language = "it") {
     return copy.chronicYearsLabel(yearsCount);
   }
   if (layer.raster?.range && layer.legend?.length) {
-    // Rescale value into [0,1] using the layer's declared min/max, then bucket
-    // it into the matching legend entry. Math.max(.000001, ...) guards a
-    // degenerate range with min === max from triggering a divide-by-zero.
-    const [min, max] = layer.raster.range;
-    const normalized = Math.max(0, Math.min(1, (value - min) / Math.max(0.000001, max - min)));
+    // Rescale value into [0,1] using the layer's declared range. Diverging
+    // layers can declare a neutral point so 0 stays at the centre of the legend.
+    const normalized = Math.max(0, Math.min(1, normalizeRasterValue(value, layer.raster.range, layer.raster.neutral)));
     const index = Math.min(layer.legend.length - 1, Math.floor(normalized * layer.legend.length));
     return layer.legend[index];
   }
   return layer.legend[Math.min(3, layer.legend.length - 1)];
+}
+
+function normalizeRasterValue(value, range, neutral = null) {
+  const [min, max] = range;
+  if (Number.isFinite(neutral) && min < neutral && neutral < max) {
+    if (value < neutral) {
+      return 0.5 * ((value - min) / Math.max(0.000001, neutral - min));
+    }
+    return 0.5 + (0.5 * ((value - neutral) / Math.max(0.000001, max - neutral)));
+  }
+  return (value - min) / Math.max(0.000001, max - min);
 }
 
 export function rasterDetail(layer, value, language = "it") {

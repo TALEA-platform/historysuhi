@@ -296,7 +296,7 @@ const englishLayerOverrides = {
         "This is a satellite index: it separates vegetated surfaces from mineral or built surfaces.",
       ],
       valueInfo:
-        "This is a **vegetation index**, not a percentage and not a temperature. In this reading it ranges from 0 to 1: close to 0 means little observable greenery, close to 1 means more present and healthier vegetation.",
+        "This is a **vegetation index**, not a percentage and not a temperature. The legend scale is calibrated on the values visible inside Bologna: lower values mean little observable greenery, higher values mean more present and healthier vegetation.",
       legendTitle: "Vegetation",
       legend: ["little vegetation", "intermediate vegetation", "dense vegetation"],
     },
