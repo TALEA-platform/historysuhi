@@ -23,6 +23,7 @@ export const supportConfig = {
     },
     {
       selector: ".info-jump-button",
+      calloutClassName: "support-callout--above support-callout--align-right",
       label: {
         en: "Read the full explanation of the active layer.",
         it: "Leggi la spiegazione completa del layer attivo.",
@@ -30,6 +31,7 @@ export const supportConfig = {
     },
     {
       selector: ".map-floating-controls",
+      calloutClassName: "support-callout--above support-callout--align-right",
       label: {
         en: "Switch basemap, opacity and Inspect mode.",
         it: "Cambia mappa di base, opacità e modalità Ispeziona.",
@@ -69,6 +71,7 @@ export const supportConfig = {
   v2: [
     {
       selector: ".info-jump-button",
+      calloutClassName: "support-callout--above support-callout--align-right",
       label: {
         en: "Read the full explanation of the active layer.",
         it: "Leggi la spiegazione completa del layer attivo.",
@@ -76,6 +79,7 @@ export const supportConfig = {
     },
     {
       selector: ".map-floating-controls",
+      calloutClassName: "support-callout--above support-callout--align-right",
       label: {
         en: "Switch basemap, opacity and Inspect mode.",
         it: "Cambia mappa di base, opacità e modalità Ispeziona.",
@@ -122,6 +126,7 @@ export const supportConfig = {
   v3: [
     {
       selector: ".info-jump-button",
+      calloutClassName: "support-callout--above support-callout--align-right",
       label: {
         en: "Read the full explanation of the active driver.",
         it: "Leggi la spiegazione completa del fattore attivo.",
@@ -129,6 +134,7 @@ export const supportConfig = {
     },
     {
       selector: ".map-floating-controls",
+      calloutClassName: "support-callout--above support-callout--align-right",
       label: {
         en: "Switch basemap, opacity and Inspect mode.",
         it: "Cambia mappa di base, opacità e modalità Ispeziona.",
@@ -168,6 +174,7 @@ export const supportConfig = {
   v4: [
     {
       selector: ".info-jump-button",
+      calloutClassName: "support-callout--above support-callout--align-right",
       label: {
         en: "Read the full explanation of the day-night map.",
         it: "Leggi la spiegazione completa della mappa giorno-notte.",
@@ -175,6 +182,7 @@ export const supportConfig = {
     },
     {
       selector: ".map-floating-controls",
+      calloutClassName: "support-callout--above support-callout--align-right",
       label: {
         en: "Switch basemap, opacity and Inspect mode.",
         it: "Cambia mappa di base, opacità e modalità Ispeziona.",

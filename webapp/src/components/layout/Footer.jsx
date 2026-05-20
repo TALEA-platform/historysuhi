@@ -1,32 +1,31 @@
-// EU funding compliance footer.
-
+import { ExternalLink } from "lucide-react";
 import { useI18n } from "../../i18n/useI18n.js";
+
+const logoUrl = new URL(
+  "../../../docs/Copia di LOGO TALEA COLORI SFONDO BIANCO_CMYK.png",
+  import.meta.url,
+).href;
 
 export function Footer() {
   const { language } = useI18n();
-  const copy = language === "en"
-    ? {
-      projectLine: "Talea Project · Municipality of Bologna · European Urban Initiative",
-      fundingLine: "Co-funded by the European Union",
-      ctaText: "Learn more about the Talea project ↗",
-    }
-    : {
-      projectLine: "Progetto Talea · Comune di Bologna · European Urban Initiative",
-      fundingLine: "Cofinanziato dall'Unione europea",
-      ctaText: "Scopri di più sul progetto Talea ↗",
-    };
+  const linkAriaLabel = language === "en"
+    ? "Open the TALEA website"
+    : "Apri il sito TALEA";
   return (
     <footer className="footer">
-      <a
-        className="footer-cta"
-        href="https://talea.comune.bologna.it"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {copy.ctaText}
-      </a>
-      <span>{copy.projectLine}</span>
-      <strong>{copy.fundingLine}</strong>
+      <div className="footer-inner">
+        <img className="footer-logo" src={logoUrl} alt="TALEA" />
+        <a
+          className="footer-link"
+          href="https://talea.comune.bologna.it/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={linkAriaLabel}
+        >
+          <ExternalLink size={14} aria-hidden="true" />
+          talea.comune.bologna.it
+        </a>
+      </div>
     </footer>
   );
 }

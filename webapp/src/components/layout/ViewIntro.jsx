@@ -11,9 +11,9 @@ export function ViewIntro({ id, metric }) {
     <section className="view-intro">
       <div>
         <div className="section-kicker">{copy.kicker}</div>
-        <h1>
+        <h2>
           <HighlightedTitle text={copy.title} />
-        </h1>
+        </h2>
         <p>{copy.note}</p>
       </div>
       {metric && (

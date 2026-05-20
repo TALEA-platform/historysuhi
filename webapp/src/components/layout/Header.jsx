@@ -20,23 +20,27 @@ export function Header() {
   }, []);
   const copy = language === "en"
     ? {
-      brandTitle: "Talea · Bologna Surface Temperatures",
-      brandSubtitle: "Bologna · satellite data 2013-2025 · surface",
+      brandTitle: "Bologna Surface Temperature History",
+      brandSubtitle: "Satellite data 2013–2025 · surface temperature",
       guide: "Guide",
       methodology: "Methodology",
       share: "Share",
       shareCopied: "Copied!",
       shareAriaLabel: "Copy link to this view",
+      guideAriaLabel: "Open guide",
+      methodologyAriaLabel: "Open methodology",
       languageAriaLabel: "Language",
     }
     : {
-      brandTitle: "Talea · Temperature di Superficie di Bologna",
-      brandSubtitle: "Bologna · dati satellitari 2013-2025 · superficie",
+      brandTitle: "Temperature di Superficie di Bologna",
+      brandSubtitle: "Dati satellitari 2013–2025 · superficie",
       guide: "Guida",
       methodology: "Metodologia",
       share: "Condividi",
       shareCopied: "Copiato!",
       shareAriaLabel: "Copia il link a questa sezione",
+      guideAriaLabel: "Apri la guida",
+      methodologyAriaLabel: "Apri la metodologia",
       languageAriaLabel: "Lingua",
     };
 
@@ -65,14 +69,15 @@ export function Header() {
 
   return (
     <header className="header">
-      <div className="brand-left">
-        <img className="brand-logo" src={logoUrl} alt="Talea" />
-        <div>
-          <div className="brand-title">{copy.brandTitle}</div>
-          <div className="brand-subtitle">{copy.brandSubtitle}</div>
+      <div className="header-inner">
+        <div className="brand-left">
+          <img className="brand-logo" src={logoUrl} alt="Talea" />
+          <div className="brand-text">
+            <h1 className="brand-title">{copy.brandTitle}</h1>
+            <p className="brand-subtitle">{copy.brandSubtitle}</p>
+          </div>
         </div>
-      </div>
-      <div className="header-actions">
+        <div className="header-actions">
         <div className="language-switch" role="group" aria-label={copy.languageAriaLabel}>
           <button
             className={language === "it" ? "active" : ""}
@@ -91,24 +96,37 @@ export function Header() {
             EN
           </button>
         </div>
-        <button className="text-button" type="button" onClick={() => setState({ onboardingOpen: true })}>
+        <button
+          className="text-button"
+          type="button"
+          onClick={() => setState({ onboardingOpen: true })}
+          aria-label={copy.guideAriaLabel}
+          title={copy.guide}
+        >
           <BookOpen size={16} />
-          {copy.guide}
+          <span className="button-label">{copy.guide}</span>
         </button>
-        <button className="text-button" type="button" onClick={() => setState({ methodologyOpen: true })}>
+        <button
+          className="text-button"
+          type="button"
+          onClick={() => setState({ methodologyOpen: true })}
+          aria-label={copy.methodologyAriaLabel}
+          title={copy.methodology}
+        >
           <Info size={16} />
-          {copy.methodology}
+          <span className="button-label">{copy.methodology}</span>
         </button>
         <button
           className="text-button"
           type="button"
           onClick={handleShare}
           aria-label={copy.shareAriaLabel}
+          title={shareCopied ? copy.shareCopied : copy.share}
         >
           {shareCopied ? <Check size={16} /> : <LinkIcon size={16} />}
-          {shareCopied ? copy.shareCopied : copy.share}
+          <span className="button-label">{shareCopied ? copy.shareCopied : copy.share}</span>
         </button>
-        <div className="eui-mark">EUROPEAN<br />URBAN<br />INITIATIVE</div>
+        </div>
       </div>
     </header>
   );

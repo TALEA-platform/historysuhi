@@ -13,6 +13,30 @@ function isEditableTarget(target) {
   );
 }
 
+function getDocumentHeight() {
+  return Math.max(
+    document.body?.scrollHeight || 0,
+    document.documentElement?.scrollHeight || 0,
+  );
+}
+
+function getAutoCalloutClasses(rect, documentTop) {
+  const viewportWidth = window.innerWidth || document.documentElement.clientWidth || 750;
+  const documentHeight = getDocumentHeight();
+  const documentBottom = documentTop + rect.height;
+  const classes = [];
+
+  if (documentBottom > documentHeight - 170) {
+    classes.push("support-callout--above");
+  }
+
+  if (rect.left + 320 > viewportWidth - 16) {
+    classes.push("support-callout--align-right");
+  }
+
+  return classes.join(" ");
+}
+
 // Contextual support overlay: dims the page and draws persistent callout labels next
 // to the key elements of the current view. Inspired by the "support mode" on
 // my.fbk.eu/explorer — a static explanatory overlay rather than a next/prev tour.
@@ -62,13 +86,16 @@ export function SupportModeOverlay() {
       if (!el) return null;
       const rect = el.getBoundingClientRect();
       if (rect.width < 4 || rect.height < 4) return null;
+      const top = rect.top + window.scrollY;
+      const customCalloutClassName = entry.calloutClassName || "";
+      const autoCalloutClassName = customCalloutClassName ? "" : getAutoCalloutClasses(rect, top);
       return {
         label: entry.label[language] || entry.label.en,
         showOutline: entry.showOutline !== false,
-        calloutClassName: entry.calloutClassName || "",
+        calloutClassName: [customCalloutClassName, autoCalloutClassName].filter(Boolean).join(" "),
         // Document-relative coords so callouts follow the page when scrolling
         // without us having to reposition them on every scroll event.
-        top: rect.top + window.scrollY,
+        top,
         left: rect.left + window.scrollX,
         width: rect.width,
         height: rect.height,

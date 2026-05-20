@@ -2,11 +2,11 @@ import { useEffect } from "react";
 import { useAppStore } from "./store/appStore.js";
 import { useCsvInfo } from "./hooks/useCsvInfo.js";
 import { useUrlSync } from "./hooks/useUrlSync.js";
-import { BrandArcs } from "./components/layout/BrandArcs.jsx";
 import { Header } from "./components/layout/Header.jsx";
 import { ProgressIndicator } from "./components/layout/ProgressIndicator.jsx";
 import { TopNav } from "./components/layout/TopNav.jsx";
 import { Footer } from "./components/layout/Footer.jsx";
+import { CookieBanner } from "./components/layout/CookieBanner.jsx";
 import { View1 } from "./components/views/View1.jsx";
 import { View2 } from "./components/views/View2.jsx";
 import { View3 } from "./components/views/View3.jsx";
@@ -70,9 +70,8 @@ export function App() {
 
   return (
     <div className={colorblindMode ? "theme-accessible" : ""}>
-      <BrandArcs />
+      <Header />
       <div className="app-shell">
-        <Header />
         <ProgressIndicator />
         <main>
           {currentView === "v1" && <View1 csvInfo={csvInfo} />}
@@ -82,8 +81,8 @@ export function App() {
           {currentView === "v5" && <View5 />}
         </main>
         <TopNav />
-        <Footer />
       </div>
+      <Footer />
       {welcomeOpen && <WelcomeModal />}
       {onboardingOpen && <OnboardingModal />}
       {methodologyOpen && <MethodologyDrawer />}
@@ -91,6 +90,7 @@ export function App() {
       {supportModeOpen && <SupportModeOverlay />}
       <SupportToggleButton />
       <SurfaceValuesNotice />
+      <CookieBanner />
     </div>
   );
 }
