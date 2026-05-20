@@ -3,12 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <script>
-      // The layout was designed for a minimum width of ~750px. On narrow phones
-      // we lock the layout viewport to 750 so the design holds together; tablets
-      // and desktops keep device-width. The meta is written during parse via
-      // document.write so the browser commits to the right viewport on the first
-      // layout — mutating an existing meta after parse can leave DevTools'
-      // mobile emulation stuck at the original width.
+      // Phones use the 750px mobile layout. Wider devices keep their real viewport.
       (function () {
         var narrow = window.screen && window.screen.width < 750;
         var content = narrow
@@ -17,13 +12,13 @@
         document.write('<meta name="viewport" content="' + content + '">');
       })();
     </script>
-    <title>Talea · Temperatura di Superficie · Bologna</title>
+    <title>Talea - Temperatura di Superficie - Bologna</title>
     <link rel="icon" type="image/png" href="/historysuhi/assets/talea-logo-t3ID4nji.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-    <script type="module" crossorigin src="/historysuhi/assets/index-CzdzTfaD.js"></script>
-    <link rel="stylesheet" crossorigin href="/historysuhi/assets/index-BTq3drkF.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <script type="module" crossorigin src="/historysuhi/assets/index-pNqlRwDS.js"></script>
+    <link rel="stylesheet" crossorigin href="/historysuhi/assets/index-DmoRiRXh.css">
   </head>
   <body>
     <div id="root"></div>
