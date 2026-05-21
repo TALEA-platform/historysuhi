@@ -30,8 +30,8 @@ export const supportConfig = {
       },
     },
     {
-      selector: ".map-floating-controls",
-      calloutClassName: "support-callout--above support-callout--align-right",
+      selector: ".map-floating-controls .primary-control",
+      calloutClassName: "support-callout--above",
       label: {
         en: "Switch basemap, opacity and Inspect mode.",
         it: "Cambia mappa di base, opacità e modalità Ispeziona.",
@@ -39,8 +39,7 @@ export const supportConfig = {
     },
     {
       selector: ".map-values-toggle",
-      showOutline: false,
-      calloutClassName: "support-callout--values",
+      calloutClassName: "support-callout--values support-callout--map-values",
       label: {
         en: "Use the 'Values' button to show the numeric value of the active layer in the legend or in Inspect mode. It is not always a temperature: it can represent degrees, differences, years or an index.",
         it: "Usa il bottone \"Valori\" per mostrare il valore numerico del layer attivo nella legenda o in modalità Ispeziona. Non è sempre una temperatura: può indicare gradi, differenze, anni o un indice.",
@@ -78,8 +77,8 @@ export const supportConfig = {
       },
     },
     {
-      selector: ".map-floating-controls",
-      calloutClassName: "support-callout--above support-callout--align-right",
+      selector: ".map-floating-controls .primary-control",
+      calloutClassName: "support-callout--above",
       label: {
         en: "Switch basemap, opacity and Inspect mode.",
         it: "Cambia mappa di base, opacità e modalità Ispeziona.",
@@ -87,8 +86,7 @@ export const supportConfig = {
     },
     {
       selector: ".map-values-toggle",
-      showOutline: false,
-      calloutClassName: "support-callout--values",
+      calloutClassName: "support-callout--values support-callout--map-values",
       label: {
         en: "Use the 'Values' button to show the numeric value of the active layer in the legend or in Inspect mode. It is not always a temperature: it can represent degrees, differences, years or an index.",
         it: "Usa il bottone \"Valori\" per mostrare il valore numerico del layer attivo nella legenda o in modalità Ispeziona. Non è sempre una temperatura: può indicare gradi, differenze, anni o un indice.",
@@ -133,8 +131,8 @@ export const supportConfig = {
       },
     },
     {
-      selector: ".map-floating-controls",
-      calloutClassName: "support-callout--above support-callout--align-right",
+      selector: ".map-floating-controls .primary-control",
+      calloutClassName: "support-callout--above",
       label: {
         en: "Switch basemap, opacity and Inspect mode.",
         it: "Cambia mappa di base, opacità e modalità Ispeziona.",
@@ -142,8 +140,7 @@ export const supportConfig = {
     },
     {
       selector: ".map-values-toggle",
-      showOutline: false,
-      calloutClassName: "support-callout--values",
+      calloutClassName: "support-callout--values support-callout--map-values",
       label: {
         en: "Use the 'Values' button to show the numeric value of the active layer in the legend or in Inspect mode. It is not always a temperature: it can represent degrees, differences, years or an index.",
         it: "Usa il bottone \"Valori\" per mostrare il valore numerico del layer attivo nella legenda o in modalità Ispeziona. Non è sempre una temperatura: può indicare gradi, differenze, anni o un indice.",
@@ -181,8 +178,8 @@ export const supportConfig = {
       },
     },
     {
-      selector: ".map-floating-controls",
-      calloutClassName: "support-callout--above support-callout--align-right",
+      selector: ".map-floating-controls .primary-control",
+      calloutClassName: "support-callout--above",
       label: {
         en: "Switch basemap, opacity and Inspect mode.",
         it: "Cambia mappa di base, opacità e modalità Ispeziona.",
@@ -190,8 +187,7 @@ export const supportConfig = {
     },
     {
       selector: ".map-values-toggle",
-      showOutline: false,
-      calloutClassName: "support-callout--values",
+      calloutClassName: "support-callout--values support-callout--map-values",
       label: {
         en: "Use the 'Values' button to show the numeric value of the active layer in the legend or in Inspect mode. It is not always a temperature: it can represent degrees, differences, years or an index.",
         it: "Usa il bottone \"Valori\" per mostrare il valore numerico del layer attivo nella legenda o in modalità Ispeziona. Non è sempre una temperatura: può indicare gradi, differenze, anni o un indice.",

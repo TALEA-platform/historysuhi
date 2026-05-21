@@ -824,6 +824,16 @@ a {
   gap: 6px;
 }
 
+@media (min-width: 751px) {
+  .map-floating-controls .display-control {
+    margin-left: auto;
+  }
+
+  .support-callout.support-callout--map-values {
+    bottom: calc(100% + 20px);
+  }
+}
+
 .basemap-switch,
 .mode-switch {
   display: inline-flex;
@@ -3429,13 +3439,13 @@ tbody tr.active {
 
 .support-callout-wrap {
   position: absolute;
-  z-index: 31;
   pointer-events: none;
 }
 
 .support-callout-outline {
   position: absolute;
   inset: -4px;
+  z-index: 30;
   border: 2px dashed var(--t-yellow);
   border-radius: 6px;
   box-shadow: 0 0 0 9999px rgba(0, 40, 13, 0.0);
@@ -3445,6 +3455,7 @@ tbody tr.active {
   position: absolute;
   top: 100%;
   left: 0;
+  z-index: 31;
   margin-top: 8px;
   display: inline-flex;
   align-items: flex-start;
@@ -3485,6 +3496,14 @@ tbody tr.active {
   max-width: none;
   margin-top: 0;
   padding: 10px 14px;
+}
+
+@media (max-width: 750px) {
+  .support-callout.support-callout--map-values {
+    top: calc(100% + 10px);
+    bottom: auto;
+    width: min(300px, calc(100vw - 32px));
+  }
 }
 
 .support-callout--lower {
