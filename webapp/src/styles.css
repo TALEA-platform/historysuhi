@@ -180,8 +180,10 @@ a {
 .brand-subtitle {
   margin: 2px 0 0;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   line-height: 1.35;
+  text-transform: uppercase;
   color: #17231a;
 }
 
