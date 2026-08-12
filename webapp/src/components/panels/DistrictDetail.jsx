@@ -23,15 +23,15 @@ export function DistrictDetail({ district, rank, metricKey, aggregation }) {
       exposure: "Heat exposure",
       surface: "Surface temperature",
       anomaly: "Anomaly",
-      hotspot: "Critical share",
+      hotspot: "Surface with thermal anomaly",
       action: "See this area in the other views",
       metricInfoTitle: "How to read the number",
       meansTitle: "What this means",
       anomalyHotter: "In 2025 this area's temperature was **above its usual** behaviour.",
       anomalyCooler: "In 2025 this area's temperature was **below its usual** behaviour.",
       anomalyFlat: "In 2025 this area was close to its usual behaviour.",
-      hotspotHigh: "A significant share of the area is flagged as exceptionally hot.",
-      hotspotLow: "Little surface flagged as exceptionally hot.",
+      hotspotHigh: "A significant share of the area has a thermal anomaly compared with the historical average.",
+      hotspotLow: "Little surface has a thermal anomaly compared with the historical average.",
     }
     : {
       statisticalTitle: "Scheda area statistica",
@@ -41,15 +41,15 @@ export function DistrictDetail({ district, rank, metricKey, aggregation }) {
       exposure: "Esposizione al caldo",
       surface: "Temperatura di superficie",
       anomaly: "Anomalia",
-      hotspot: "Quota critica",
+      hotspot: "Superficie con anomalia termica",
       action: "Vedi questa zona nelle altre view",
       metricInfoTitle: "Come leggere il numero",
       meansTitle: "Cosa significa",
       anomalyHotter: "Nel 2025 questa zona ha avuto una **temperatura sopra il suo solito**.",
       anomalyCooler: "Nel 2025 questa zona ha avuto una **temperatura sotto il suo solito**.",
       anomalyFlat: "Nel 2025 questa zona è stata in linea con il suo solito.",
-      hotspotHigh: "Una quota significativa dell'area è classificata come eccezionalmente calda.",
-      hotspotLow: "Poca superficie classificata come eccezionalmente calda.",
+      hotspotHigh: "Una quota significativa dell'area presenta un'anomalia termica rispetto alla media storica.",
+      hotspotLow: "Poca superficie presenta un'anomalia termica rispetto alla media storica.",
     };
   const interpretations = [];
   if (typeof district.anomaly === "number") {

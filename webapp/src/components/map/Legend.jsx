@@ -17,6 +17,7 @@ export function Legend({ layer, showNumericValues }) {
   const categorical = layer.legendType === "categorical";
   const bivariate = layer.legendType === "bivariate";
   const compactLegendLayout = layer.legendLayout === "compact";
+  const steppedLegendLayout = layer.legendLayout === "stepped" && layer.legendStops;
   const colorblindMode = useAppStore((state) => state.colorblindMode);
   const [expanded, setExpanded] = useState(false);
   const copy = language === "en"
@@ -151,6 +152,27 @@ export function Legend({ layer, showNumericValues }) {
               <span className="legend-item-text">{item}</span>
             </span>
           ))}
+        </div>
+      ) : steppedLegendLayout ? (
+        <div className="stepped-legend">
+          <div
+            className="stepped-legend-scale"
+            style={{ "--legend-columns": String(layer.legendStops.length) }}
+            aria-hidden="true"
+          >
+            {layer.legendStops.map((item) => (
+              <i
+                key={item.label}
+                style={{ background: colorblindMode && item.accessibleColor ? item.accessibleColor : item.color }}
+              />
+            ))}
+          </div>
+          <div
+            className="stepped-legend-ticks"
+            style={{ "--legend-columns": String(layer.legendStops.length) }}
+          >
+            {layer.legendStops.map((item) => <span key={item.label}>{item.label}</span>)}
+          </div>
         </div>
       ) : layer.legendStops ? (
         <div className={`class-legend ${compactLegendLayout ? "class-legend--compact" : ""}`}>

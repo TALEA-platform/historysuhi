@@ -17,8 +17,8 @@ const RASTER_FETCH_RETRIES = 2;
 
 const palettesByMode = {
   default: {
-    surfaceHeat: ["#2166ac", "#66c2a5", "#fee08b", "#fdae61", "#f46d43", "#d73027", "#7f0000"],
-    habitualHeat: ["#2166ac", "#66c2a5", "#fee08b", "#fdae61", "#f46d43", "#d73027", "#7f0000"],
+    surfaceHeat: ["#2166ac", "#66c2a5", "#fee08b", "#fee08b", "#fdae61", "#f46d43", "#d73027", "#7f0000"],
+    habitualHeat: ["#2166ac", "#66c2a5", "#fee08b", "#fee08b", "#fdae61", "#f46d43", "#d73027", "#7f0000"],
     thermal: ["#fff5c0", "#fed976", "#feb24c", "#fd8d3c", "#fc4e2a", "#e31a1c", "#b10026"],
     diverging: ["#2166ac", "#4393c3", "#92c5de", "#f7f7f7", "#f4a582", "#d6604d", "#b2182b"],
     green: ["#f5f0d0", "#d9e8a3", "#87c472", "#21a84a", "#004d19"],
@@ -110,6 +110,12 @@ function normalizeToRange(value, range, neutral = null) {
     return 0.5 + (0.5 * ((value - neutral) / Math.max(0.000001, max - neutral)));
   }
   return (value - min) / Math.max(0.000001, max - min);
+}
+
+export function colorPositionForValue(value, range, neutral = null, gamma = 1) {
+  const normalized = Math.max(0, Math.min(1, normalizeToRange(value, range, neutral)));
+  const exponent = Number.isFinite(gamma) && gamma > 0 ? gamma : 1;
+  return normalized ** exponent;
 }
 
 export function getInterpolatedPaletteCss(paletteName, normalized, colorMode = "default") {
@@ -927,8 +933,13 @@ export async function renderRasterImage({ url, raster = {}, threshold, colorMode
           continue;
         }
 
-        const normalized = normalizeToRange(renderedValue, range, raster.neutral);
-        const color = interpolateColor(raster.palette || "thermal", normalized, colorMode);
+        const colorPosition = colorPositionForValue(
+          renderedValue,
+          range,
+          raster.neutral,
+          raster.gamma,
+        );
+        const color = interpolateColor(raster.palette || "thermal", colorPosition, colorMode);
         output[out] = color[0];
         output[out + 1] = color[1];
         output[out + 2] = color[2];

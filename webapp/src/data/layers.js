@@ -11,8 +11,8 @@ export const years = Array.from({ length: 13 }, (_, index) => 2013 + index);
 // View 1 changes the raster by year, so its numeric legends use one domain that
 // covers every yearly map. This keeps colors comparable across the slider and
 // in the compare modal.
-const view1LstRange = [25.9, 63.1];
-const view1ZspatRange = [-4.4, 4.4];
+const view1LstRange = [29, 52];
+const view1ZspatRange = [-2.5, 2.5];
 
 export const yearlyStats = [
   { year: 2013, lst: 40.7, anomaly: 0.35, hotspot: 5.71 },
@@ -48,7 +48,7 @@ export const view1Layers = {
     legendTitle: "Temperatura di superficie",
     legendType: "surfaceHeat",
     legend: ["tra le meno calde", "meno calda", "intermedia", "calda", "molto calda", "tra le più calde"],
-    numericLegend: ["26", "32", "38", "45", "51", "57", "63 \u00b0C"],
+    numericLegend: ["29", "33", "37", "41", "44", "48", "52 \u00b0C"],
     noDataLabel: "Dato non disponibile",
     noDataDescription:
       "In questo punto il satellite non ha raccolto osservazioni estive valide nell'anno selezionato, quindi la mappa lascia il punto come dato non disponibile.",
@@ -76,7 +76,7 @@ export const view1Layers = {
     legendTitle: "Rispetto alla città",
     legendType: "diverging",
     legend: ["molto sotto media", "sotto media", "in linea", "sopra media", "molto sopra media"],
-    numericLegend: ["-4.4\u03c3", "-2.2\u03c3", "0", "+2.2\u03c3", "+4.4\u03c3"],
+    numericLegend: ["-2.5\u03c3", "-1.25\u03c3", "0", "+1.25\u03c3", "+2.5\u03c3"],
     noDataLabel: "Dato non disponibile",
     noDataDescription:
       "In questo punto il satellite non ha raccolto osservazioni estive valide nell'anno selezionato, quindi la mappa lascia il punto come dato non disponibile.",
@@ -111,9 +111,9 @@ export const view2Layers = {
       "sopra la media storica",
       "molto sopra",
     ],
-    numericLegend: ["-9.8", "0", "+7.4 \u00b0C"],
+    numericLegend: ["-5.0", "0", "+5.0 \u00b0C"],
     dataUrl: raster("anomaly_2025_summer_30m.tif"),
-    raster: { palette: "diverging", range: [-9.8, 7.4], neutral: 0, alpha: 255 },
+    raster: { palette: "diverging", range: [-5, 5], neutral: 0, alpha: 255 },
     className: "layer-anomaly",
     method: "",
   },
@@ -136,9 +136,9 @@ export const view2Layers = {
     legendTitle: "Media storica 2013-2025",
     legendType: "habitualHeat",
     legend: ["storicamente bassa", "bassa", "intermedia", "alta", "molto alta", "storicamente tra le più alte"],
-    numericLegend: ["30.0", "42.2", "54.4 \u00b0C"],
+    numericLegend: ["31.0", "40.5", "50.0 \u00b0C"],
     dataUrl: raster("climatology_mean_2013_2025_30m.tif"),
-    raster: { palette: "habitualHeat", range: [30, 54.4], alpha: 255 },
+    raster: { palette: "habitualHeat", range: [31, 50], alpha: 255 },
     className: "layer-climatology",
   },
   persistenceTemporal: {
@@ -281,9 +281,9 @@ export const view3Layers = {
     legendTitle: "Esposizione al caldo",
     legendType: "uhei",
     legend: ["molto favorita", "favorita", "intermedia", "esposta", "molto esposta"],
-    numericLegend: ["0.84", "1.60", "2.35"],
+    numericLegend: ["0.90", "1.48", "2.05"],
     dataUrl: raster("UHEI_2025_summer_30m.tif"),
-    raster: { palette: "uhei", range: [0.84, 2.35], alpha: 255, transparentValues: [0] },
+    raster: { palette: "uhei", range: [0.90, 2.05], alpha: 255, transparentValues: [0] },
     className: "layer-uhei",
   },
   ndvi: {
@@ -320,9 +320,16 @@ export const view3Layers = {
     legendTitle: "Albedo",
     legendType: "albedo",
     legend: ["assorbente", "intermedia", "riflettente"],
-    numericLegend: ["0.14", "0.18", "0.22"],
-    dataUrl: raster("Albedo_2025_summer_30m.tif"),
-    raster: { palette: "albedo", range: [0.14, 0.22], alpha: 255, maskToBoundary: true },
+    numericLegend: ["0.12", "0.20", "0.27"],
+    dataUrl: raster("Albedo_2025_summer_10m.tif"),
+    raster: {
+      palette: "albedo",
+      range: [0.12, 0.27],
+      gamma: 1.15,
+      legendBreaks: [0.165, 0.20],
+      alpha: 255,
+      maskToBoundary: true,
+    },
     className: "layer-albedo",
   },
   hvi: {
@@ -340,9 +347,9 @@ export const view3Layers = {
     legendTitle: "Temperatura e verde",
     legendType: "diverging",
     legend: ["bassa e verde", "intermedio", "alta e poco verde"],
-    numericLegend: ["-0.93", "0", "+0.44"],
+    numericLegend: ["-0.86", "0", "+0.25"],
     dataUrl: raster("HVI_2025_summer_30m.tif"),
-    raster: { palette: "diverging", range: [-0.93, 0.44], neutral: 0, alpha: 255 },
+    raster: { palette: "diverging", range: [-0.86, 0.25], neutral: 0, alpha: 255 },
     className: "layer-hvi",
   },
   hri: {
@@ -360,9 +367,9 @@ export const view3Layers = {
     legendTitle: "Temperatura e superfici",
     legendType: "diverging",
     legend: ["temp. bassa, riflettente", "intermedio", "temp. alta, assorbente"],
-    numericLegend: ["-0.46", "0", "+0.83"],
+    numericLegend: ["-0.15", "0", "+0.60"],
     dataUrl: raster("HRI_2025_summer_30m.tif"),
-    raster: { palette: "diverging", range: [-0.46, 0.83], neutral: 0, alpha: 255 },
+    raster: { palette: "diverging", range: [-0.15, 0.60], neutral: 0, alpha: 255 },
     className: "layer-hri",
   },
 };
@@ -428,21 +435,21 @@ export const districtMetrics = {
       "È lo **scostamento medio del 2025** rispetto al comportamento abituale della stessa area selezionata. Si misura in °C perché confronta due temperature di superficie. Un valore positivo indica che nel 2025 l'area ha avuto una temperatura sopra il suo normale; un valore negativo indica che ha avuto una temperatura sotto il suo normale. Non dice se l'area è calda in assoluto: dice quanto il 2025 si è discostato dalla sua storia.",
   },
   hotspotPercent: {
-    label: "Quota area critica",
+    label: "Superficie con anomalia termica",
     unit: "%",
-    description: "Percentuale di superficie dell'area classificata come critica.",
+    description: "Percentuale di superficie dell'area con anomalia termica nell'anno analizzato rispetto alla media storica.",
     valueInfo:
-      "È la **percentuale di superficie dell'area selezionata** che rientra nelle aree critiche della mappa selezionata. Non è una temperatura e non indica quante persone sono esposte: misura quanta superficie è coinvolta. Un valore alto significa che il fenomeno è diffuso; un valore basso può indicare criticità più localizzate.",
+      "È la **percentuale di superficie dell'area selezionata** che rientra nelle aree con anomalia termica nell'anno analizzato rispetto alla media storica. Non è una temperatura e non indica quante persone sono esposte: misura quanta superficie è coinvolta. Un valore alto significa che il fenomeno è diffuso; un valore basso può indicare anomalie più localizzate.",
   },
 };
 
 export const districts = [
-  { id: "san-donato", name: "San Donato-San Vitale", uhei: 1.65, lst: 42.2, anomaly: -0.56, hotspotPercent: 4.0, persistenceMean: 1.4 },
-  { id: "navile", name: "Navile", uhei: 1.62, lst: 41.6, anomaly: -0.2, hotspotPercent: 2.4, persistenceMean: 0.9 },
-  { id: "borgo-panigale", name: "Borgo Panigale-Reno", uhei: 1.58, lst: 41.4, anomaly: -0.28, hotspotPercent: 4.7, persistenceMean: 0.9 },
-  { id: "savena", name: "Savena", uhei: 1.4, lst: 37.4, anomaly: -2.35, hotspotPercent: 0, persistenceMean: 0.1 },
-  { id: "porto-saragozza", name: "Porto-Saragozza", uhei: 1.4, lst: 37.5, anomaly: -1.03, hotspotPercent: 0.8, persistenceMean: 0.6 },
-  { id: "santo-stefano", name: "Santo Stefano", uhei: 1.27, lst: 35.7, anomaly: -1.18, hotspotPercent: 0.3, persistenceMean: 0.1 },
+  { id: "san-donato", name: "San Donato-San Vitale", uhei: 1.62, lst: 42.2, anomaly: -0.56, hotspotPercent: 4.0, persistenceMean: 1.4 },
+  { id: "navile", name: "Navile", uhei: 1.6, lst: 41.6, anomaly: -0.2, hotspotPercent: 2.4, persistenceMean: 0.9 },
+  { id: "borgo-panigale", name: "Borgo Panigale-Reno", uhei: 1.57, lst: 41.4, anomaly: -0.28, hotspotPercent: 4.7, persistenceMean: 0.9 },
+  { id: "savena", name: "Savena", uhei: 1.38, lst: 37.4, anomaly: -2.35, hotspotPercent: 0, persistenceMean: 0.1 },
+  { id: "porto-saragozza", name: "Porto-Saragozza", uhei: 1.38, lst: 37.5, anomaly: -1.03, hotspotPercent: 0.8, persistenceMean: 0.6 },
+  { id: "santo-stefano", name: "Santo Stefano", uhei: 1.25, lst: 35.7, anomaly: -1.18, hotspotPercent: 0.3, persistenceMean: 0.1 },
 ];
 
 export const dataAvailability = {

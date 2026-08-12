@@ -3,6 +3,7 @@ import maplibregl from "maplibre-gl";
 import { appUrl } from "../../lib/appPaths.js";
 import { BOLOGNA_CITY_BOUNDS, BOLOGNA_MAX_PAN_BOUNDS } from "../../lib/mapBounds.js";
 import { getOrthophotoConfig } from "../../lib/orthophoto.js";
+import { districtHeatColor, hotspotPercentColor } from "../../lib/districtColorScale.js";
 import { useAppStore } from "../../store/appStore.js";
 import { useI18n } from "../../i18n/useI18n.js";
 
@@ -116,22 +117,6 @@ function computeQuartiereBoundary(geojson) {
   return { type: "FeatureCollection", features };
 }
 
-function heatColor(value, min, max, colorblindMode) {
-  const t = (value - min) / Math.max(0.0001, max - min);
-  if (colorblindMode) {
-    if (t > 0.8) return "#00204d";
-    if (t > 0.6) return "#0868ac";
-    if (t > 0.4) return "#43a2ca";
-    if (t > 0.2) return "#7bccc4";
-    return "#f7fcf0";
-  }
-  if (t > 0.8) return "#b10026";
-  if (t > 0.6) return "#e31a1c";
-  if (t > 0.4) return "#fd8d3c";
-  if (t > 0.2) return "#feb24c";
-  return "#fff5c0";
-}
-
 export const DistrictMapLibre = forwardRef(function DistrictMapLibre({
   aggregation = "district",
   metricKey,
@@ -241,7 +226,11 @@ export const DistrictMapLibre = forwardRef(function DistrictMapLibre({
             ...feature.properties,
             districtId: match?.id || null,
             metricValue: metricValue ?? 0,
-            metricColor: metricValue == null ? "#d9e0d4" : heatColor(metricValue, min, max, colorblindMode),
+            metricColor: metricValue == null
+              ? "#d9e0d4"
+              : metricKey === "hotspotPercent"
+                ? hotspotPercentColor(metricValue, colorblindMode)
+                : districtHeatColor(metricValue, min, max, colorblindMode),
             selected: match?.id === selectedId,
           },
         };

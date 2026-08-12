@@ -387,10 +387,10 @@ const englishLayerOverrides = {
         "It is the **mean 2025 departure** from the usual behaviour of the same selected area. It is measured in °C because it compares two surface temperatures. A positive value means the area's temperature was above its usual pattern in 2025; a negative value means it was below the usual pattern. It does not say whether the area is hot in absolute terms: it says how much 2025 diverged from its own history.",
     },
     hotspotPercent: {
-      label: "Critical area share",
-      description: "Percentage of the area classified as critical.",
+      label: "Surface with thermal anomaly",
+      description: "Percentage of the area's surface with a thermal anomaly in the analysed year compared with the historical average.",
       valueInfo:
-        "It is the **percentage of the selected area's surface** that falls within the critical areas of the currently selected map. It is not a temperature and it does not say how many people are exposed: it measures how much surface is involved. A high value means the phenomenon is widespread; a low value can indicate more localized critical spots.",
+        "It is the **percentage of the selected area's surface** with a thermal anomaly in the analysed year compared with the historical average. It is not a temperature and it does not say how many people are exposed: it measures how much surface is involved. A high value means the phenomenon is widespread; a low value can indicate more localized anomalies.",
     },
   },
   rasterOverlays: {

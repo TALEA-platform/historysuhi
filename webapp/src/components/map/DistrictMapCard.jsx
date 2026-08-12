@@ -2,6 +2,7 @@ import { forwardRef, useMemo } from "react";
 import { Search } from "lucide-react";
 import { useAppStore } from "../../store/appStore.js";
 import { useI18n } from "../../i18n/useI18n.js";
+import { DISTRICT_HEAT_COLORS } from "../../lib/districtColorScale.js";
 import { DistrictMapLibre } from "./DistrictMapLibre.jsx";
 import { Legend } from "./Legend.jsx";
 import { MapFloatingControls } from "./MapFloatingControls.jsx";
@@ -56,6 +57,22 @@ export const DistrictMapCard = forwardRef(function DistrictMapCard({
       maximumFractionDigits: metricKey === "uhei" ? 2 : 1,
     });
     const formatValue = (value) => `${formatter.format(value)}${data.districtMetrics[metricKey].unit}`;
+
+    if (metricKey === "hotspotPercent") {
+      const labels = language === "en"
+        ? ["0%", "0.1–0.5%", "0.6–2%", "2.1–7%", "> 7%"]
+        : ["0%", "0,1–0,5%", "0,6–2%", "2,1–7%", "> 7%"];
+      return {
+        legendTitle: data.districtMetrics[metricKey].label,
+        legendType: "districtHeat",
+        legendLayout: "stepped",
+        legendStops: labels.map((label, index) => ({
+          label,
+          color: DISTRICT_HEAT_COLORS.default[index],
+          accessibleColor: DISTRICT_HEAT_COLORS.accessible[index],
+        })),
+      };
+    }
 
     return {
       legendTitle: data.districtMetrics[metricKey].label,

@@ -187,6 +187,11 @@ export function rasterLabel(layer, value, language = "it") {
     const yearsCount = Math.round(value);
     return copy.chronicYearsLabel(yearsCount);
   }
+  if (layer.raster?.legendBreaks?.length && layer.legend?.length) {
+    const firstHigherBreak = layer.raster.legendBreaks.findIndex((breakValue) => value < breakValue);
+    const index = firstHigherBreak === -1 ? layer.raster.legendBreaks.length : firstHigherBreak;
+    return layer.legend[Math.min(layer.legend.length - 1, index)];
+  }
   if (layer.raster?.range && layer.legend?.length) {
     // Rescale value into [0,1] using the layer's declared range. Diverging
     // layers can declare a neutral point so 0 stays at the centre of the legend.
