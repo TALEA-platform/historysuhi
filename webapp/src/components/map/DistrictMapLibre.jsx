@@ -156,7 +156,7 @@ export const DistrictMapLibre = forwardRef(function DistrictMapLibre({
   );
   const skipInitialViewportSyncRef = useRef(!initialViewStateRef.current);
   const loadingLabel = language === "en" ? "Loading areas..." : "Caricamento aree...";
-  const orthophoto = useMemo(() => getOrthophotoConfig(2025), []);
+  const orthophoto = useMemo(() => getOrthophotoConfig(2026), []);
 
   useEffect(() => {
     interactionModeRef.current = interactionMode;
@@ -239,7 +239,7 @@ export const DistrictMapLibre = forwardRef(function DistrictMapLibre({
   }, [aggregation, geojson, entities, metricKey, selectedId, colorblindMode]);
 
   useEffect(() => {
-    fetch(appUrl("data/webapp_vectors/districts_enriched_2025.geojson"))
+    fetch(appUrl("data/webapp_vectors/districts_enriched_2026.geojson"))
       .then((response) => response.json())
       .then(setGeojson)
       .catch((error) => console.error(error));

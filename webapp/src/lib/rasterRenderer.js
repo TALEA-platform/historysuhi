@@ -826,10 +826,10 @@ function categoricalColor(value, mode, colorMode = "default") {
       ? ["#f7fbff", "#c6dbef", "#6baed6", "#2171b5", "#08306b"]
       : ["#f7f4f9", "#d4b9da", "#c994c7", "#807dba", "#54278f"];
     const chronicColor = chronicYears > 0
-      ? interpolateRgb(chronicScale, chronicYears / 13)
+      ? interpolateRgb(chronicScale, chronicYears / 14)
       : null;
     const anomalousColor = anomalousYears > 0
-      ? interpolateRgb(anomalousScale, anomalousYears / 5)
+      ? interpolateRgb(anomalousScale, anomalousYears / 6)
       : null;
     const color = chronicColor && anomalousColor
       ? blendRgb(chronicColor, anomalousColor)

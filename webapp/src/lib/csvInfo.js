@@ -1,3 +1,4 @@
+import { visibleYearlyLstStats } from "../data/yearlyStats.js";
 import proj4 from "proj4";
 import { appUrl } from "./appPaths.js";
 
@@ -11,40 +12,24 @@ proj4.defs(
 );
 
 export const csvInfoSources = {
-  albedoDeltaPairs: appUrl("data/csv_info/albedo_ndvi_delta_2025_1km_pairs.csv"),
-  albedoDeltaStats: appUrl("data/csv_info/albedo_deltalst_2025_1km_stats.csv"),
-  compositeIndices: appUrl("data/csv_info/composite_indices_2025_summary.csv"),
-  structuralTemporalYearly: appUrl("data/csv_info/hotspot_structural_vs_anomalous_2013_2025_yearly_counts.csv"),
-  structuralTemporalYearlyNew: appUrl("data/csv_info/hotspot_structural_vs_anomalous_2013_2025_yearly_counts_new.csv"),
-  chronicAnomalous2025: appUrl("data/csv_info/hotspot_structural_vs_anomalous_2025_summary.csv"),
-  chronicAnomalous2025New: appUrl("data/csv_info/hotspot_structural_vs_anomalous_new_2025_summary.csv"),
-  chronicAnomalousPersistence: appUrl("data/csv_info/hotspot_structural_vs_anomalous_persistence_2013_2025_summary.csv"),
+  albedoDeltaPairs: appUrl("data/csv_info/albedo_ndvi_delta_2026_1km_pairs.csv"),
+  albedoDeltaStats: appUrl("data/csv_info/albedo_deltalst_2026_1km_stats.csv"),
+  compositeIndices: appUrl("data/csv_info/composite_indices_2026_summary.csv"),
+  structuralTemporalYearlyNew: appUrl("data/csv_info/hotspot_structural_vs_anomalous_2013_2026_yearly_counts_new.csv"),
+  chronicAnomalous2025New: appUrl("data/csv_info/hotspot_structural_vs_anomalous_new_2026_summary.csv"),
+  chronicAnomalousPersistence: appUrl("data/csv_info/hotspot_structural_vs_anomalous_persistence_2013_2026_summary.csv"),
   lstAnomalies: appUrl("data/csv_info/LST_summary_anomalies_median_30m.csv"),
   lstYearlyInput: appUrl("data/csv_info/LST_yearly_input_summary_median_30m.csv"),
-  normalized2025: appUrl("data/csv_info/normalized_2025_summary.csv"),
+  normalized2025: appUrl("data/csv_info/normalized_2026_summary.csv"),
   temporalPersistence: appUrl("data/csv_info/temporal_hotspot_persistence_summary.csv"),
   temporalHotspot: appUrl("data/csv_info/temporal_hotspot_summary.csv"),
-  lstAcquisitions: appUrl("data/csv_data_download/Bologna_LST_metadata_2013_2025_v2.csv"),
-  zscoreSpatial2025: appUrl("data/csv_info/zscore_spatial_2025_summary.csv"),
+  lstAcquisitions: appUrl("data/csv_data_download/Bologna_LST_metadata_2013_2026_v2.csv"),
+  zscoreSpatial2025: appUrl("data/csv_info/zscore_spatial_2026_summary.csv"),
 };
 
 // Derived from the clipped yearly rasters served by the app, so View 1's
 // summary numbers describe the same pixels the user sees on the map.
-const visibleYearlyLstStats = {
-  2013: { count: 156437, mean: 40.716293, anomalyMean: 0.353384, median: 41.353947, p95: 46.221207, hotspotFraction: 5.7116 },
-  2014: { count: 156437, mean: 34.903055, anomalyMean: -5.459854, median: 35.116058, p95: 40.523369, hotspotFraction: 0 },
-  2015: { count: 156437, mean: 40.827637, anomalyMean: 0.464728, median: 41.528267, p95: 47.13587, hotspotFraction: 5.6668 },
-  2016: { count: 156437, mean: 39.4165, anomalyMean: -0.946409, median: 39.573158, p95: 45.807625, hotspotFraction: 0.2551 },
-  2017: { count: 156437, mean: 41.638411, anomalyMean: 1.275502, median: 42.119583, p95: 46.238297, hotspotFraction: 28.0509 },
-  2018: { count: 156437, mean: 42.578148, anomalyMean: 2.215239, median: 43.230438, p95: 49.35553, hotspotFraction: 52.51 },
-  2019: { count: 156428, mean: 39.4745, anomalyMean: -0.888409, median: 40.137131, p95: 44.966793, hotspotFraction: 0.2525 },
-  2020: { count: 156336, mean: 39.865457, anomalyMean: -0.497452, median: 40.48748, p95: 45.775154, hotspotFraction: 1.205 },
-  2021: { count: 156433, mean: 42.726445, anomalyMean: 2.363536, median: 43.473118, p95: 48.176315, hotspotFraction: 51.0825 },
-  2022: { count: 156437, mean: 41.857111, anomalyMean: 1.494202, median: 42.295612, p95: 48.037884, hotspotFraction: 33.2894 },
-  2023: { count: 156434, mean: 40.630564, anomalyMean: 0.267655, median: 41.535103, p95: 47.137238, hotspotFraction: 9.3539 },
-  2024: { count: 156437, mean: 40.482563, anomalyMean: 0.119654, median: 40.933529, p95: 46.07423, hotspotFraction: 2.0609 },
-  2025: { count: 156437, mean: 39.601133, anomalyMean: -0.761776, median: 40.372974, p95: 45.223145, hotspotFraction: 2.3914 },
-};
+
 
 function projectRingToUtm(ring) {
   return ring.map(([lng, lat]) => proj4("EPSG:4326", "EPSG:32632", [lng, lat]));

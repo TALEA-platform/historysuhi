@@ -45,7 +45,7 @@ const view2LayerIds = [
   "structuralVsTemporal",
 ];
 const view3LayerIds = ["uhei", "hvi", "hri", "ndvi", "albedo"];
-const initialYear = Number(params.get("year") || 2025);
+const initialYear = Number(params.get("year") || 2026);
 const defaultCompareYear = Math.max(2013, initialYear - 1);
 const initialViewport = normalizeViewport({
   lng: params.get("lng"),

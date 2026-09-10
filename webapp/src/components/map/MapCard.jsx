@@ -16,7 +16,7 @@ import { Legend } from "./Legend.jsx";
 
 export function MapCard({
   layer,
-  year = 2025,
+  year = 2026,
   overlays = {},
   toolbar,
   threshold,

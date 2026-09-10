@@ -228,8 +228,8 @@ export function ScatterPanel({
           intro:
             "**How to read it:** The horizontal axis shows surfaces from more **absorbing** to more **reflective** (**albedo / reflectance**). The vertical axis shows the **day-night temperature range**. Each dot is one 1 km cell intersecting Bologna.",
           takeaway: [
-            "**Absorbing surfaces:** often show a wider day-night range.",
-            "**Reflective surfaces:** often show a smaller range because they warm less during the day.",
+            "**Trend:** read the dashed line to see whether the day-night range increases or decreases with reflectance.",
+            "These 2026 observations describe an association at 1 km scale, not the effect of changing a single roof.",
           ],
           note: "The dashed line shows the average pattern for Bologna. Dot colors follow the same cooling scale as the map, so color repeats the day-night value while position explains the relationship.",
           axisLabel: "reflectance",
@@ -241,8 +241,8 @@ export function ScatterPanel({
           intro:
             "**How to read it:** The horizontal axis shows **vegetation density (NDVI)** — sparse on the left, dense on the right. The vertical axis shows the **day-night temperature range**. Each dot is one 1 km cell intersecting Bologna.",
           takeaway: [
-            "**Greener areas:** often have a smaller day-night range.",
-            "**Sparsely vegetated or built-up areas:** tend to swing more between day and night.",
+            "**Trend:** read the dashed line to see how the day-night range varies with vegetation.",
+            "An association between cells does not isolate vegetation from the other characteristics of each area.",
           ],
           note: "The dashed line shows the average pattern for Bologna. Dot colors follow the same cooling scale as the map, so color repeats the day-night value while position explains the relationship.",
           axisLabel: "NDVI",
@@ -270,8 +270,8 @@ export function ScatterPanel({
           intro:
             "**Come leggerlo:** L'asse orizzontale mostra superfici da più **assorbenti** a più **riflettenti** (**albedo / riflettanza**). L'asse verticale mostra l'**escursione termica** tra giorno e notte. Ogni punto rappresenta una cella di 1 km che interseca Bologna.",
           takeaway: [
-            "**Superfici assorbenti:** mostrano spesso un'escursione più ampia.",
-            "**Superfici riflettenti:** mostrano spesso un'escursione più bassa perché si scaldano meno durante il giorno.",
+            "**Tendenza:** la linea tratteggiata mostra se l'escursione aumenta o diminuisce con la riflettanza.",
+            "Le osservazioni 2026 descrivono un'associazione a scala di 1 km, non l'effetto di modificare un singolo tetto.",
           ],
           note: "La linea tratteggiata mostra l'andamento medio di Bologna. I colori dei punti seguono la stessa scala di raffreddamento della mappa, mentre la posizione spiega la relazione con riflettanza ed escursione.",
           axisLabel: "riflettanza",
@@ -283,8 +283,8 @@ export function ScatterPanel({
           intro:
             "**Come leggerlo:** L'asse orizzontale mostra la **densità della vegetazione (NDVI)** — scarsa a sinistra, densa a destra. L'asse verticale mostra l'**escursione termica** tra giorno e notte. Ogni punto rappresenta una cella di 1 km che interseca Bologna.",
           takeaway: [
-            "**Aree molto verdi:** mostrano spesso un'escursione più contenuta.",
-            "**Aree poco vegetate o costruite:** tendono a oscillare di più tra giorno e notte.",
+            "**Tendenza:** la linea tratteggiata mostra come varia l'escursione con la vegetazione.",
+            "L'associazione tra celle non separa la vegetazione dalle altre caratteristiche di ciascuna zona.",
           ],
           note: "La linea tratteggiata mostra l'andamento medio di Bologna. I colori dei punti seguono la stessa scala di raffreddamento della mappa, mentre la posizione spiega la relazione con vegetazione ed escursione.",
           axisLabel: "NDVI",

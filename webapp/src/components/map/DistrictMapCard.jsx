@@ -30,7 +30,7 @@ export const DistrictMapCard = forwardRef(function DistrictMapCard({
     ? {
       statisticalPill: "statistical areas",
       districtPill: "districts",
-      dataYear: "2025 data",
+      dataYear: "2026 data",
       inspectHint: `Click ${isStatistical ? "a statistical area" : "a district"} to update the card.`,
       opacityLabel: "Transparency",
       findArea: "Find an area",
@@ -38,7 +38,7 @@ export const DistrictMapCard = forwardRef(function DistrictMapCard({
     : {
       statisticalPill: "aree statistiche",
       districtPill: "quartieri",
-      dataYear: "dati 2025",
+      dataYear: "dati 2026",
       inspectHint: `Clicca ${isStatistical ? "un'area statistica" : "un quartiere"} per aggiornare la scheda.`,
       opacityLabel: "Trasparenza",
       findArea: "Trova una zona",

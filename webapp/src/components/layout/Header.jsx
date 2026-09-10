@@ -21,7 +21,7 @@ export function Header() {
   const copy = language === "en"
     ? {
       brandTitle: "Bologna Surface Temperature History",
-      brandSubtitle: "Satellite data 2013–2025 · surface temperature",
+      brandSubtitle: "Satellite data 2013–2026 · surface temperature",
       guide: "Guide",
       methodology: "Methodology",
       share: "Share",
@@ -33,7 +33,7 @@ export function Header() {
     }
     : {
       brandTitle: "Temperature di Superficie di Bologna",
-      brandSubtitle: "Dati satellitari 2013–2025 · superficie",
+      brandSubtitle: "Dati satellitari 2013–2026 · superficie",
       guide: "Guida",
       methodology: "Metodologia",
       share: "Condividi",

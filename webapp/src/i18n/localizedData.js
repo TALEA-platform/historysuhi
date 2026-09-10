@@ -42,7 +42,7 @@ function localizeCollection(baseCollection, overrides = {}) {
 
 const englishViews = [
   { id: "v1", title: "Where it gets hot", subtitle: "Observed heat" },
-  { id: "v2", title: "What is normal, what changed", subtitle: "2013-2025 history" },
+  { id: "v2", title: "What is normal, what changed", subtitle: "2013-2026 history" },
   { id: "v3", title: "Why it gets hot here", subtitle: "Physical drivers" },
   { id: "v4", title: "Day and night", subtitle: "Cooling" },
   { id: "v5", title: "Zoom into districts", subtitle: "Area summaries" },
@@ -57,7 +57,7 @@ const englishViewCopy = {
   v2: {
     kicker: "View 2",
     title: "What is normal, what has changed over time.",
-    note: "This section distinguishes usual conditions, anomalies and heat persistence across 2013-2025.",
+    note: "This section distinguishes usual conditions, anomalies and heat persistence across 2013-2026.",
   },
   v3: {
     kicker: "View 3",
@@ -67,12 +67,12 @@ const englishViewCopy = {
   v4: {
     kicker: "View 4",
     title: "Where the city cools down, and where it holds heat.",
-    note: "The day-night dataset is calculated for 2025 at 1 km resolution: useful for reading city zones, not individual buildings.",
+    note: "The day-night dataset is calculated for 2026 at 1 km resolution: useful for reading city zones, not individual buildings.",
   },
   v5: {
     kicker: "View 5",
     title: "A summary reading for districts and statistical areas.",
-    note: "This view aggregates the main 2025 data so districts and statistical areas can be compared.",
+    note: "This view aggregates the main 2026 data so districts and statistical areas can be compared.",
   },
 };
 
@@ -123,17 +123,17 @@ const englishLayerOverrides = {
   },
   view2Layers: {
     anomaly: {
-      title: "How much 2025 differs from the usual temperature",
-      subtitle: "How much 2025 differs from this area's usual temperature",
+      title: "How much 2026 differs from the usual temperature",
+      subtitle: "How much 2026 differs from this area's usual temperature",
       description:
-        "Shows where 2025 behaved differently from the usual pattern across 2013-2025. It does not answer 'where is it hottest?', but rather 'where was 2025 **anomalous compared with its own history**?'.",
+        "Shows where 2026 behaved differently from the usual pattern across 2013-2026. It does not answer 'where is it hottest?', but rather 'where was 2026 **anomalous compared with its own history**?'.",
       explanation:
         "Blue indicates places with temperature below their usual pattern, white places in line, red places with temperature above their usual pattern. Each point is compared with its own history, not with the rest of the city.",
       details: [
-        "A location that is usually hot can appear white if in 2025 it behaved as usual.",
-        "A place that is not especially hot in absolute terms can appear red if in 2025 its temperature was above its own history.",
+        "A location that is usually hot can appear white if in 2026 it behaved as usual.",
+        "A place that is not especially hot in absolute terms can appear red if in 2026 its temperature was above its own history.",
       ],
-      inspectNote: "Here the value indicates the difference between 2025 and the usual behaviour of the same location.",
+      inspectNote: "Here the value indicates the difference between 2026 and the usual behaviour of the same location.",
       legendTitle: "Departure from normal",
       legend: [
         "below the usual",
@@ -147,21 +147,21 @@ const englishLayerOverrides = {
     },
     climatology: {
       title: "Usual temperature",
-      subtitle: "Historical mean 2013-2025: the reference for reading the other layers",
+      subtitle: "Historical mean 2013-2026: the reference for reading the other layers",
       description:
-        "Shows the **historical mean** of surface temperature across summers 2013-2025. It is the baseline map for View 2: it helps you see where the mean surface temperature is normally high or low.",
+        "Shows the **historical mean** of surface temperature across summers 2013-2026. It is the baseline map for View 2: it helps you see where the mean surface temperature is normally high or low.",
       explanation:
         "Read it as the usual behaviour of the surface. An industrial area, a large parking lot or parts of the historic centre can show a high surface temperature here even when they are not anomalous: that means the temperature is recurrently high.",
       details: [
-        "It differs from the layer in View 1: here you are not reading a selected year, but an average across 13 summers.",
+        "It differs from the layer in View 1: here you are not reading a selected year, but an average across 14 summers.",
         "It helps separate usual heat from anomalous heat.",
       ],
       moreInfo: [
-        "If an area shows a high temperature on this map it means that area tends to have a high surface temperature across the 2013-2025 series.",
+        "If an area shows a high temperature on this map it means that area tends to have a high surface temperature across the 2013-2026 series.",
         "This map is the starting point for understanding the following maps: first you see the average behaviour, then you read where heat is chronic or anomalous.",
       ],
       inspectNote: "Computed on the observed surface.",
-      legendTitle: "Historical mean 2013-2025",
+      legendTitle: "Historical mean 2013-2026",
       legend: ["historically lowest", "low", "intermediate", "high", "very high", "historically among the highest"],
     },
     persistenceTemporal: {
@@ -174,7 +174,7 @@ const englishLayerOverrides = {
       details: [
         "The number indicates in how many summers that point was anomalous compared with itself.",
         "Rare anomalies do not automatically mean low temperatures: they can also indicate stable, consistently high temperatures.",
-        "The highest value observed in this dataset is 5 years: not all 13 summers produced anomalies in the same location.",
+        "The highest value observed in this dataset is 6 years: not all 14 summers produced anomalies in the same location.",
       ],
       moreInfo: [
         "Read this map together with **Chronically hot areas**. If an area has few anomalies but many chronic years, it is probably a stable critical area rather than a temporary exception.",
@@ -182,15 +182,15 @@ const englishLayerOverrides = {
       ],
       inspectNote: "Few anomalies do not necessarily mean low temperatures: also check the chronically hot areas layer.",
       legendTitle: "Anomaly persistence",
-      legend: ["0 years", "1 year", "2 years", "3 years", "4 years", "5 years"],
-      numericLegend: ["0", "1", "2", "3", "4", "5 years"],
+      legend: ["0 years", "1 year", "2 years", "3 years", "4 years", "5-6 years"],
+      numericLegend: ["0", "1", "2", "3", "4", "5-6 years"],
       legendStops: [
         { label: "0 years", color: "#fffdf0", accessibleColor: "#f7fcf0" },
         { label: "1 year", color: "#fee391", accessibleColor: "#ccebc5" },
         { label: "2 years", color: "#fec44f", accessibleColor: "#7bccc4" },
         { label: "3 years", color: "#fe9929", accessibleColor: "#43a2ca" },
         { label: "4 years", color: "#e31a1c", accessibleColor: "#0868ac" },
-        { label: "5 years", color: "#b10026", accessibleColor: "#00204d" },
+        { label: "5-6 years", color: "#b10026", accessibleColor: "#00204d" },
       ],
     },
     persistenceStructural: {
@@ -201,7 +201,7 @@ const englishLayerOverrides = {
       explanation:
         "Use it to identify places that often have the highest surface temperature in the city, even when they are not anomalous compared with their own history.",
       details: [
-        "The number can reach 13 because the display covers 13 summers, from 2013 to 2025.",
+        "The number can reach 14 because the display covers 14 summers, from 2013 to 2026.",
         "Compare it with 'Chronic heat and anomalous heat' to understand whether a critical condition is stable, recurring or both.",
       ],
       moreInfo: [
@@ -213,45 +213,45 @@ const englishLayerOverrides = {
       ],
       inspectNote: "",
       legendTitle: "Structural persistence",
-      legend: ["0 years", "1 year", "2-4 years", "5-8 years", "9-12 years", "13 years"],
-      numericLegend: ["0", "1", "2-4", "5-8", "9-12", "13 years"],
+      legend: ["0 years", "1 year", "2-4 years", "5-8 years", "9-12 years", "13-14 years"],
+      numericLegend: ["0", "1", "2-4", "5-8", "9-12", "13-14 years"],
       legendStops: [
         { label: "0 years", color: "#fffdf0", accessibleColor: "#f7fcf0" },
         { label: "1 year", color: "#fee391", accessibleColor: "#ccebc5" },
         { label: "2-4 years", color: "#fec44f", accessibleColor: "#7bccc4" },
         { label: "5-8 years", color: "#fc4e2a", accessibleColor: "#43a2ca" },
         { label: "9-12 years", color: "#bd0026", accessibleColor: "#0868ac" },
-        { label: "13 years", color: "#800026", accessibleColor: "#00204d" },
+        { label: "13-14 years", color: "#800026", accessibleColor: "#00204d" },
       ],
     },
     chronicVsAnomalous2025: {
-      title: "Chronic heat and 2025 anomalies",
-      subtitle: "Separates long-term critical areas from those that emerged in 2025",
+      title: "Chronic heat and 2026 anomalies",
+      subtitle: "Separates long-term critical areas from those that emerged in 2026",
       description:
-        "Crosses multi-year chronic heat with the 2025 anomaly. It helps distinguish long-standing critical areas from those that emerged in the latest available year.",
+        "Crosses the top 5% of surface temperatures in 2026 with anomalies in the same year. It helps distinguish long-standing critical areas from those that emerged in the latest available year.",
       explanation:
-        "Orange indicates chronic heat; purple indicates a 2025 anomaly; the darker colour indicates both conditions in the same location.",
+        "Orange indicates chronic heat; purple indicates a 2026 anomaly; the darker colour indicates both conditions in the same location.",
       details: [
-        "Chronic means that the point falls within the **top 5% of areas with the highest surface temperature** of the selected year (2025).",
-        "Anomalous 2025 means that in 2025 the point was **anomalous compared with its own history**.",
-        "The both class marks places that were already critical and in 2025 also behaved outside the norm.",
+        "Chronic means that the point falls within the **top 5% of areas with the highest surface temperature** of the selected year (2026).",
+        "Anomalous 2026 means that in 2026 the point was **anomalous compared with its own history**.",
+        "The both class marks places that were already critical and in 2026 also behaved outside the norm.",
       ],
-      inspectNote: "This class combines two readings: structural heat compared with the city and the 2025 anomaly compared with the point's own history.",
+      inspectNote: "This class combines two readings: structural heat compared with the city and the 2026 anomaly compared with the point's own history.",
       legendTitle: "4 classes",
-      legend: ["no critical pattern", "chronic", "2025 anomaly", "chronic and anomalous"],
+      legend: ["no critical pattern", "chronic", "2026 anomaly", "chronic and anomalous"],
     },
     structuralVsTemporal: {
       title: "Chronic heat and anomalous heat",
       subtitle: "Separates places that are always hot from those often anomalous",
       description:
-        "Crosses, for the full 2013-2025 period, how many times an area ranked in the **top 5% of areas with the highest surface temperature** and how many times it was **anomalous compared with its own history**.",
+        "Crosses, for the full 2013-2026 period, how many times an area ranked in the **top 5% of areas with the highest surface temperature** and how many times it was **anomalous compared with its own history**.",
       explanation:
         "",
       details: [
         "Orange increases with the years of chronic heat.",
         "Purple increases with the years of anomalous heat.",
         "Where the two conditions coexist, the colour is mixed: it signals both structural criticality and recurring anomalies.",
-        "Chronic reaches 13 years because the series covers 13 summers. Anomalous reaches 5 years because that is the maximum currently present in the anomaly persistence dataset.",
+        "Chronic reaches 14 years because the series covers 14 summers. Anomalous reaches 6 years because that is the maximum currently present in the anomaly persistence dataset.",
       ],
       moreInfo: [
         "Low anomaly does not necessarily mean low temperatures. It can also indicate a place that is always hot and stable, such as some parts of the historic centre.",
@@ -264,7 +264,7 @@ const englishLayerOverrides = {
       ],
       inspectNote: "",
       legendTitle: "Chronic/anomalous intensity",
-      legend: ["chronic: 1-13 years", "anomalous: 1-5 years", "both: mixed colours"],
+      legend: ["chronic: 1-14 years", "anomalous: 1-6 years", "both: mixed colours"],
     },
   },
   view3Layers: {
@@ -306,7 +306,7 @@ const englishLayerOverrides = {
       description:
         "Indicates how much surfaces reflect sunlight instead of absorbing it as heat. Dark surfaces tend to accumulate more heat; more reflective surfaces can help reduce it.",
       explanation:
-        "The scale uses quantiles because albedo varies only slightly across Bologna: small differences can still help read roofs, paved areas and urban materials.",
+        "The colour scale highlights differences in reflectance: small differences can help read roofs, paved areas and urban materials. Values outside the legend limits keep the colour of the corresponding endpoint.",
       details: [
         "Lower values indicate more absorbent surfaces; higher values more reflective surfaces.",
         "High albedo alone is not enough to solve heat: vegetation, ventilation, shade and materials all matter.",
@@ -356,6 +356,7 @@ const englishLayerOverrides = {
     explanation:
       "This map does not simply say where it is hottest. It helps read the daily behaviour of surfaces. The centre can cool around the average at night, but during the day it can absorb a lot of heat because it has many absorbent surfaces. Hills can show a lower difference because their temperature is already lower and they accumulate less heat to lose.",
     details: [
+      "Provisional 2026 data: the MODIS composite starting on 29 August is not included.",
       "The grid is coarser than the Landsat layers: each cell represents a broad area of about 1 km.",
       "A low value should not automatically be read as a problem: it can indicate a place that stays warm, but also a place that does not heat up much during the day.",
     ],
@@ -382,9 +383,9 @@ const englishLayerOverrides = {
     },
     anomaly: {
       label: "Departure from normal",
-      description: "How much 2025 differs from the area's usual behaviour.",
+      description: "How much 2026 differs from the area's usual behaviour.",
       valueInfo:
-        "It is the **mean 2025 departure** from the usual behaviour of the same selected area. It is measured in °C because it compares two surface temperatures. A positive value means the area's temperature was above its usual pattern in 2025; a negative value means it was below the usual pattern. It does not say whether the area is hot in absolute terms: it says how much 2025 diverged from its own history.",
+        "It is the **mean 2026 departure** from the usual behaviour of the same selected area. It is measured in °C because it compares two surface temperatures. A positive value means the area's temperature was above its usual pattern in 2026; a negative value means it was below the usual pattern. It does not say whether the area is hot in absolute terms: it says how much 2026 diverged from its own history.",
     },
     hotspotPercent: {
       label: "Surface with thermal anomaly",

@@ -234,8 +234,8 @@ export const supportConfig = {
     {
       selector: ".district-map-shell .legend",
       label: {
-        en: "Legend for the active 2025 metric shown on the map.",
-        it: "Legenda della metrica 2025 attiva mostrata sulla mappa.",
+        en: "Legend for the active 2026 metric shown on the map.",
+        it: "Legenda della metrica 2026 attiva mostrata sulla mappa.",
       },
     },
     {
@@ -272,8 +272,8 @@ export const supportConfig = {
     {
       selector: ".side-panel .panel-card",
       label: {
-        en: "Choose which 2025 indicator to rank by.",
-        it: "Scegli l'indicatore 2025 con cui ordinare.",
+        en: "Choose which 2026 indicator to rank by.",
+        it: "Scegli l'indicatore 2026 con cui ordinare.",
       },
     },
     {

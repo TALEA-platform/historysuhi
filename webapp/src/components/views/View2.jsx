@@ -30,54 +30,54 @@ export function View2() {
   const copy = language === "en"
     ? {
       metricLabel: "Period",
-      metricDetail: "13 summers observed",
+      metricDetail: "14 summers observed",
       bannerLabel: "Reading",
       bannerValue: "historical pattern",
       bannerText:
-        "This view starts from conditions that repeat over time: **historical mean**, recurring anomalies and chronic heat, before showing how 2025 fits into that pattern.",
+        "This view starts from conditions that repeat over time: **historical mean**, recurring anomalies and chronic heat, before showing how 2026 fits into that pattern.",
       panelTitle: "Analysis path",
-      historicalGroup: "Historical heat pattern (2013-2025)",
+      historicalGroup: "Historical heat pattern (2013-2026)",
       historicalDescription:
-        "Start here to read the **historical mean**, chronic heat and recurring anomalies before looking at 2025.",
-      climatologyBody: "Historical summer mean 2013-2025: the normal reference",
+        "Start here to read the **historical mean**, chronic heat and recurring anomalies before looking at 2026.",
+      climatologyBody: "Historical summer mean 2013-2026: the normal reference",
       temporalBody: "How many summers a point's temperature was above its own normal",
       thresholdLabel: "Minimum threshold",
       thresholdSuffix: "years",
       structuralBody: "How many summers a point ranks among the city's highest surface temperatures",
       bivariateBody: "Long-term critical areas and repeated anomalies",
-      recentGroup: "How 2025 fits into the historical pattern",
+      recentGroup: "How 2026 fits into the historical pattern",
       recentDescription:
-        "After the aggregated overview, use these layers to understand where 2025 was **anomalous compared with its own history**.",
-      anomalyBody: "Where 2025 diverges from the history of the same location",
-      chronicVsAnomalousBody: "Long-standing critical areas and critical areas that emerged in 2025",
+        "After the aggregated overview, use these layers to understand where 2026 was **anomalous compared with its own history**.",
+      anomalyBody: "Where 2026 diverges from the history of the same location",
+      chronicVsAnomalousBody: "Long-standing critical areas and critical areas that emerged in 2026",
     }
     : {
       metricLabel: "Periodo",
-      metricDetail: "13 estati osservate",
+      metricDetail: "14 estati osservate",
       bannerLabel: "Lettura",
       bannerValue: "schema storico",
       bannerText:
-        "Questa sezione parte dalle condizioni che si ripetono nel tempo: **media storica**, anomalie ricorrenti e caldo cronico, per poi mostrare come il 2025 si inserisce in quello schema.",
+        "Questa sezione parte dalle condizioni che si ripetono nel tempo: **media storica**, anomalie ricorrenti e caldo cronico, per poi mostrare come il 2026 si inserisce in quello schema.",
       panelTitle: "Percorso di analisi",
-      historicalGroup: "Schema storico del caldo (2013-2025)",
+      historicalGroup: "Schema storico del caldo (2013-2026)",
       historicalDescription:
-        "La lettura parte dalla **media storica**, dal caldo cronico e dalle anomalie ricorrenti, prima del confronto con il 2025.",
-      climatologyBody: "Media storica estiva 2013-2025: il riferimento normale",
+        "La lettura parte dalla **media storica**, dal caldo cronico e dalle anomalie ricorrenti, prima del confronto con il 2026.",
+      climatologyBody: "Media storica estiva 2013-2026: il riferimento normale",
       temporalBody: "Quante estati il punto ha avuto temperatura sopra il proprio normale",
       thresholdLabel: "Soglia minima",
       thresholdSuffix: "anni",
       structuralBody: "Quante estati il punto è tra le superfici con la temperatura più alta della città",
       bivariateBody: "Criticità di sempre e anomalie ripetute",
-      recentGroup: "Come il 2025 si inserisce nello schema storico",
+      recentGroup: "Come il 2026 si inserisce nello schema storico",
       recentDescription:
-        "Dopo il quadro aggregato, questi layer aiutano a capire dove il 2025 è stato **anomalo rispetto alla propria storia**.",
-      anomalyBody: "Dove il 2025 si discosta dalla storia dello stesso punto",
-      chronicVsAnomalousBody: "Criticità storiche e criticità emerse nel 2025",
+        "Dopo il quadro aggregato, questi layer aiutano a capire dove il 2026 è stato **anomalo rispetto alla propria storia**.",
+      anomalyBody: "Dove il 2026 si discosta dalla storia dello stesso punto",
+      chronicVsAnomalousBody: "Criticità storiche e criticità emerse nel 2026",
     };
 
   return (
     <>
-      <ViewIntro id="v2" metric={{ label: copy.metricLabel, value: "2013-2025", detail: copy.metricDetail }} />
+      <ViewIntro id="v2" metric={{ label: copy.metricLabel, value: "2013-2026", detail: copy.metricDetail }} />
       <ContextBanner
         label={copy.bannerLabel}
         value={copy.bannerValue}
@@ -109,7 +109,7 @@ export function View2() {
                   label={copy.thresholdLabel}
                   value={persistenceTemporalThreshold}
                   min={1}
-                  max={5}
+                  max={6}
                   suffix={copy.thresholdSuffix}
                   onChange={(value) => setState({ persistenceTemporalThreshold: value })}
                 />
@@ -120,7 +120,7 @@ export function View2() {
                   label={copy.thresholdLabel}
                   value={persistenceStructuralThreshold}
                   min={1}
-                  max={13}
+                  max={14}
                   suffix={copy.thresholdSuffix}
                   onChange={(value) => setState({ persistenceStructuralThreshold: value })}
                 />

@@ -10,7 +10,7 @@ import { MapCard } from "../map/MapCard.jsx";
 import { InfoPanel } from "../map/InfoPanel.jsx";
 
 // View 3 — physical drivers (UHEI / HVI / HRI / NDVI / albedo). All layers share the same
-// 2025 baseline, so there is no year picker.
+// 2026 baseline, so there is no year picker.
 
 export function View3() {
   const { data, language } = useI18n();
@@ -24,7 +24,7 @@ export function View3() {
       bannerLabel: "Reading",
       bannerValue: "physical drivers",
       bannerText:
-        "All layers in this view are calculated from **2025** summer data: the **overall heat exposure index**, vegetation presence, the surface reflectance and indices relating those factors to heat.",
+        "All layers in this view are calculated from **2026** summer data: the **overall heat exposure index**, vegetation presence, the surface reflectance and indices relating those factors to heat.",
       panelTitle: "Drivers and indices",
       syntheticGroup: "Synthetic indices",
       physicalGroup: "Physical drivers",
@@ -40,7 +40,7 @@ export function View3() {
       bannerLabel: "Lettura",
       bannerValue: "fattori fisici",
       bannerText:
-        "Tutti i layer di questa sezione sono calcolati sui dati estivi **2025**: l'**indice di esposizione complessiva al caldo**, la presenza di verde, la riflettanza delle superfici e indici di relazione con il caldo.",
+        "Tutti i layer di questa sezione sono calcolati sui dati estivi **2026**: l'**indice di esposizione complessiva al caldo**, la presenza di verde, la riflettanza delle superfici e indici di relazione con il caldo.",
       panelTitle: "Fattori e indici",
       syntheticGroup: "Indici sintetici",
       physicalGroup: "Fattori fisici",
@@ -53,7 +53,7 @@ export function View3() {
 
   return (
     <>
-      <ViewIntro id="v3" metric={{ label: copy.metricLabel, value: "2025", detail: copy.metricDetail }} />
+      <ViewIntro id="v3" metric={{ label: copy.metricLabel, value: "2026", detail: copy.metricDetail }} />
       <ContextBanner
         label={copy.bannerLabel}
         value={copy.bannerValue}

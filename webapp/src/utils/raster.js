@@ -14,7 +14,7 @@ const rasterCopy = {
     noCriticality: "Nessuna criticità",
     hotspotArea: "Area eccezionalmente calda",
     chronicHeat: "Caldo cronico",
-    anomalous2025: "Anomalia 2025",
+    anomalous2025: "Anomalia 2026",
     chronicAndAnomalous: "Cronico e anomalo",
     anomalousHeat: "Caldo anomalo",
     yearsValue: (value) => `${value} anni`,
@@ -26,15 +26,15 @@ const rasterCopy = {
       if (yearsCount <= 4) return "2-4 anni cronici";
       if (yearsCount <= 8) return "5-8 anni cronici";
       if (yearsCount <= 12) return "9-12 anni cronici";
-      return "13 anni cronici";
+      return "13-14 anni cronici";
     },
     hoverHint: "Passa su una zona della mappa per leggere cosa indica quel punto.",
     structuralDetail: (chronicYears, anomalousYears) => `${chronicYears} anni cronici, ${anomalousYears} anni anomali.`,
     detailByLayer: {
       lst: "Temperatura di superficie osservata dal satellite.",
       zspat: "Confronto con la media urbana dello stesso anno.",
-      anomaly: "Scostamento del 2025 rispetto alla storia dello stesso punto.",
-      climatology: "**Media storica** estiva dello stesso punto: riferimento 2013-2025.",
+      anomaly: "Scostamento del 2026 rispetto alla storia dello stesso punto.",
+      climatology: "**Media storica** estiva dello stesso punto: riferimento 2013-2026.",
       persistenceTemporal: "Numero di estati in cui il punto è stato **anomalo rispetto alla propria storia**.",
       persistenceStructural: "Numero di estati in cui il punto è rientrato nel **top 5% delle aree con la temperatura di superficie più alta** della città.",
       uhei: "Indice sintetico: più alto significa maggiore esposizione a temperature di superficie elevate.",
@@ -52,7 +52,7 @@ const rasterCopy = {
     noCriticality: "No critical pattern",
     hotspotArea: "Exceptionally hot area",
     chronicHeat: "Chronic heat",
-    anomalous2025: "2025 anomaly",
+    anomalous2025: "2026 anomaly",
     chronicAndAnomalous: "Chronic and anomalous",
     anomalousHeat: "Anomalous heat",
     yearsValue: (value) => `${value} years`,
@@ -64,15 +64,15 @@ const rasterCopy = {
       if (yearsCount <= 4) return "2-4 chronic years";
       if (yearsCount <= 8) return "5-8 chronic years";
       if (yearsCount <= 12) return "9-12 chronic years";
-      return "13 chronic years";
+      return "13-14 chronic years";
     },
     hoverHint: "Hover over an area of the map to read what that point indicates.",
     structuralDetail: (chronicYears, anomalousYears) => `${chronicYears} chronic years, ${anomalousYears} anomalous years.`,
     detailByLayer: {
       lst: "Surface temperature observed by satellite.",
       zspat: "Comparison with the urban average of the same year.",
-      anomaly: "Departure of 2025 from the history of the same point.",
-      climatology: "**Historical mean** summer value for the same point: 2013-2025 reference.",
+      anomaly: "Departure of 2026 from the history of the same point.",
+      climatology: "**Historical mean** summer value for the same point: 2013-2026 reference.",
       persistenceTemporal: "Number of summers in which the point was **anomalous compared with its own history**.",
       persistenceStructural: "Number of summers in which the point ranked within the city's **top 5% by surface temperature**.",
       uhei: "Synthetic index: higher values mean greater exposure to high surface temperatures.",
@@ -231,18 +231,18 @@ function rasterContext(layer, value, language = "it") {
     const rounded = Math.round(value);
     if (rounded === 1) {
       return isEnglish
-        ? "This point shows a structural heat signal compared with the rest of Bologna, but not a specific anomalous signal in 2025."
-        : "Questo punto mostra un segnale di caldo strutturale rispetto al resto di Bologna, ma non un segnale anomalo specifico nel 2025.";
+        ? "This point shows a structural heat signal compared with the rest of Bologna, but not a specific anomalous signal in 2026."
+        : "Questo punto mostra un segnale di caldo strutturale rispetto al resto di Bologna, ma non un segnale anomalo specifico nel 2026.";
     }
     if (rounded === 2 || rounded === 10) {
       return isEnglish
-        ? "This point stands out in 2025 compared with its own history, even if it is not among Bologna's areas with the structurally highest surface temperature."
-        : "Questo punto emerge nel 2025 rispetto alla propria storia, anche se non rientra tra le aree strutturalmente con la temperatura di superficie più alta di Bologna.";
+        ? "This point stands out in 2026 compared with its own history, even if it is not among Bologna's areas with the structurally highest surface temperature."
+        : "Questo punto emerge nel 2026 rispetto alla propria storia, anche se non rientra tra le aree strutturalmente con la temperatura di superficie più alta di Bologna.";
     }
     if (rounded === 3 || rounded === 11) {
       return isEnglish
-        ? "This point combines a long-term structural heat signal with an anomalous behaviour in 2025."
-        : "Questo punto combina un segnale di caldo strutturale di lungo periodo con un comportamento anomalo nel 2025.";
+        ? "This point combines a long-term structural heat signal with an anomalous behaviour in 2026."
+        : "Questo punto combina un segnale di caldo strutturale di lungo periodo con un comportamento anomalo nel 2026.";
     }
     return isEnglish
       ? "This point does not show a chronic or anomalous critical pattern in the selected classification."
@@ -294,20 +294,20 @@ function rasterContext(layer, value, language = "it") {
     case "anomaly":
       if (Math.abs(value) < 0.5) {
         return isEnglish
-          ? "In 2025 this point stayed broadly in line with its own historical behaviour."
-          : "Nel 2025 questo punto è rimasto nel complesso in linea con il proprio comportamento storico.";
+          ? "In 2026 this point stayed broadly in line with its own historical behaviour."
+          : "Nel 2026 questo punto è rimasto nel complesso in linea con il proprio comportamento storico.";
       }
       return value > 0
         ? (isEnglish
-          ? "In 2025 this point's surface temperature was above its own historical pattern."
-          : "Nel 2025 questo punto ha avuto una temperatura sopra il proprio comportamento storico.")
+          ? "In 2026 this point's surface temperature was above its own historical pattern."
+          : "Nel 2026 questo punto ha avuto una temperatura sopra il proprio comportamento storico.")
         : (isEnglish
-          ? "In 2025 this point's surface temperature was below its own historical pattern."
-          : "Nel 2025 questo punto ha avuto una temperatura sotto il proprio comportamento storico.");
+          ? "In 2026 this point's surface temperature was below its own historical pattern."
+          : "Nel 2026 questo punto ha avuto una temperatura sotto il proprio comportamento storico.");
     case "climatology":
       return isEnglish
-        ? "This value represents the usual summer surface behaviour of this point across the 2013-2025 series."
-        : "Questo valore rappresenta il comportamento superficiale estivo abituale di questo punto nella serie 2013-2025.";
+        ? "This value represents the usual summer surface behaviour of this point across the 2013-2026 series."
+        : "Questo valore rappresenta il comportamento superficiale estivo abituale di questo punto nella serie 2013-2026.";
     case "persistenceTemporal":
       if (value <= 0) {
         return isEnglish

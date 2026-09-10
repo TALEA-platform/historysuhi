@@ -3,7 +3,7 @@
 
 export const views = [
   { id: "v1", title: "Dove fa caldo", subtitle: "Temperatura di superficie osservata" },
-  { id: "v2", title: "Cosa è normale, cosa è cambiato", subtitle: "Storia 2013-2025" },
+  { id: "v2", title: "Cosa è normale, cosa è cambiato", subtitle: "Storia 2013-2026" },
   { id: "v3", title: "Perché fa caldo qui", subtitle: "Fattori fisici" },
   { id: "v4", title: "Giorno e notte", subtitle: "Raffreddamento" },
   { id: "v5", title: "Zoom sui quartieri", subtitle: "Sintesi per aree" },
@@ -18,7 +18,7 @@ export const viewCopy = {
   v2: {
     kicker: "Sezione 2",
     title: "Cosa è normale, cosa è cambiato rispetto alla storia.",
-    note: "La sezione distingue condizioni abituali, anomalie e persistenze del caldo nel periodo 2013-2025.",
+    note: "La sezione distingue condizioni abituali, anomalie e persistenze del caldo nel periodo 2013-2026.",
   },
   v3: {
     kicker: "Sezione 3",
@@ -28,12 +28,12 @@ export const viewCopy = {
   v4: {
     kicker: "Sezione 4",
     title: "Dove la città si raffredda, e dove trattiene calore.",
-    note: "Il dato giorno-notte è calcolato sul 2025 e ha risoluzione 1 km: utile per leggere zone della città, non singoli edifici.",
+    note: "Il dato giorno-notte è calcolato sul 2026 e ha risoluzione 1 km: utile per leggere zone della città, non singoli edifici.",
   },
   v5: {
     kicker: "Sezione 5",
     title: "Una lettura sintetica per quartieri e aree statistiche.",
-    note: "La sezione aggrega i dati principali del 2025 per rendere confrontabili quartieri e aree statistiche.",
+    note: "La sezione aggrega i dati principali del 2026 per rendere confrontabili quartieri e aree statistiche.",
   },
 };
 

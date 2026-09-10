@@ -26,7 +26,7 @@ export function WelcomeModal() {
       kicker: "Welcome",
       title: "Bologna Surface Temperatures",
       lead:
-        "An interactive map developed within the Talea project, showing how Bologna's **surfaces** heat up in summer (2013–2025) — roads, roofs, paved areas and vegetation, observed by satellite. Not the air people breathe, but a useful reading of where heat accumulates and why.",
+        "An interactive map developed within the Talea project, showing how Bologna's **surfaces** heat up in summer (2013–2026) — roads, roofs, paved areas and vegetation, observed by satellite. Not the air people breathe, but a useful reading of where heat accumulates and why.",
       hint:
         "Press the **?** button at any time to see what each control on screen does. The full **Guide** and **Methodology** are always available in the top bar.",
       enter: "Enter the map",
@@ -38,7 +38,7 @@ export function WelcomeModal() {
       kicker: "Benvenuto",
       title: "Temperature di Superficie di Bologna",
       lead:
-        "In questa webapp interattiva, sviluppata nell'ambito del progetto Talea, si osserva come si scaldano le **superfici** di Bologna in estate (2013–2025): strade, tetti, piazzali e vegetazione osservati dal satellite. Non è la temperatura dell'aria, ma una lettura utile di dove si accumula il caldo e perché.",
+        "In questa webapp interattiva, sviluppata nell'ambito del progetto Talea, si osserva come si scaldano le **superfici** di Bologna in estate (2013–2026): strade, tetti, piazzali e vegetazione osservati dal satellite. Non è la temperatura dell'aria, ma una lettura utile di dove si accumula il caldo e perché.",
       hint:
         "Premi il pulsante **?** in qualsiasi momento per scoprire a cosa serve ogni controllo a schermo. La **Guida** completa e la **Metodologia** sono sempre disponibili nella barra in alto.",
       enter: "Entra nella mappa",

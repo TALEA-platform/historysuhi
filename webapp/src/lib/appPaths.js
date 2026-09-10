@@ -56,7 +56,7 @@ function decodeYear(token) {
   const offset = decodeBase36(token);
   if (offset == null) return null;
   const year = 2013 + offset;
-  return year >= 2013 && year <= 2025 ? String(year) : null;
+  return year >= 2013 && year <= 2026 ? String(year) : null;
 }
 
 function encodeInteger(value) {

@@ -34,7 +34,7 @@ export function Legend({ layer, showNumericValues }) {
           title: "Chronic heat",
           description: "How many summers this place stays in Bologna's top 5% by surface temperature.",
           start: "1 year",
-          end: "13 years",
+          end: "14 years",
           swatches: ["chronic c1", "chronic c2", "chronic c3"],
         },
         {
@@ -43,7 +43,7 @@ export function Legend({ layer, showNumericValues }) {
           title: "Anomalous heat",
           description: "How many summers this place's surface temperature goes above its usual.",
           start: "1 year",
-          end: "5 years",
+          end: "6 years",
           swatches: ["anomalous a1", "anomalous a2", "anomalous a3"],
         },
         {
@@ -70,7 +70,7 @@ export function Legend({ layer, showNumericValues }) {
           title: "Caldo cronico",
           description: "Quante estati questo punto rimane nel 5% di Bologna con la temperatura di superficie più alta.",
           start: "1 anno",
-          end: "13 anni",
+          end: "14 anni",
           swatches: ["chronic c1", "chronic c2", "chronic c3"],
         },
         {
@@ -79,7 +79,7 @@ export function Legend({ layer, showNumericValues }) {
           title: "Caldo anomalo",
           description: "Quante estati la temperatura di superficie di questo punto sale sopra il suo comportamento abituale.",
           start: "1 anno",
-          end: "5 anni",
+          end: "6 anni",
           swatches: ["anomalous a1", "anomalous a2", "anomalous a3"],
         },
         {

@@ -18,7 +18,7 @@ export function MethodologyDrawer() {
         "This section summarises which satellite datasets are used, at which resolution, how observations are selected and which limits should be kept in mind when interpreting the maps.",
       summary: {
         period: "Period",
-        periodDetail: "13 summers observed",
+        periodDetail: "14 summers observed",
         mainResolution: "Main resolution",
         mainResolutionDetail: "Landsat 8/9 maps",
         dayNight: "Day-night resolution",
@@ -35,7 +35,7 @@ export function MethodologyDrawer() {
         satellites: {
           title: "Satellites and resolutions used",
           paragraphs: [
-            "The most detailed maps in the app use **Landsat 8 and Landsat 9**, at **30 m resolution**. At this scale the data can read urban blocks, wide streets, paved areas, roofs and larger green spaces, but not small individual objects.",
+            "Temperature maps use **Landsat 8 and Landsat 9**, at **30 m resolution**. The standalone vegetation (NDVI) and reflectance (albedo) maps use Sentinel-2 at **10 m**. Indices combining these observations with temperature remain at 30 m.",
             "Landsat supports the summer LST maps, historical anomalies, persistence layers and the main physical indices shown at 30 m. Only summer overpasses with readable data are kept after excluding clouds or unusable pixels.",
             "The day-night reading uses **MODIS**, at **1 km resolution**. This scale is much coarser: it is not meant for single blocks, but for broader patterns across the city, outskirts, green areas and hills.",
           ],
@@ -54,7 +54,7 @@ export function MethodologyDrawer() {
             "The satellite looks at the surface from above: shade, facades, porticoes and perceived comfort are not fully described.",
             "The 30 m resolution reads city blocks and urban portions, not small single objects. The day-night map is even more general, at 1 km resolution.",
             "District and statistical-area data are averages: they help comparisons, but they do not remove internal differences within each area.",
-            `The orthophoto basemap follows the closest available Bologna orthophoto year. Available years in the app are ${ORTHOPHOTO_AVAILABLE_YEARS_LABEL}: summers 2013-2016 use 2017, 2019 uses 2020, and aggregated or 2025-only views use 2025. Buildings, roofs and vegetation can therefore reflect a nearby year rather than the exact summer being analysed.`,
+            `The orthophoto basemap follows the closest available Bologna orthophoto year. Available years in the app are ${ORTHOPHOTO_AVAILABLE_YEARS_LABEL}: summers 2013-2016 use 2017, 2019 uses 2020, and aggregated or 2026-only views use the 2025 orthophoto, the closest available year. Buildings, roofs and vegetation can therefore reflect a nearby year rather than the exact summer being analysed.`,
           ],
         },
         availableData: {
@@ -62,7 +62,7 @@ export function MethodologyDrawer() {
           yearlyLst: `${dataAvailability.yearlyLst.length} annual summer surface temperature maps`,
           yearlyHotspots: `${dataAvailability.yearlyTemporalHotspots.length} annual exceptionally hot area maps`,
           boundaries: "Municipal boundaries, districts and statistical areas used to make comparisons easier to read",
-          metadata: "Dates, times, satellite and observation quality for every summer from 2013 to 2025",
+          metadata: "Dates, times, satellite and observation quality for every summer from 2013 to 2026",
           period: "Main period: summer, from 1 June to 31 August",
         },
       },
@@ -75,7 +75,7 @@ export function MethodologyDrawer() {
         "Questa sezione riassume quali dati satellitari sono usati, a quale risoluzione, come vengono selezionate le osservazioni e quali limiti bisogna considerare nell'interpretazione delle mappe.",
       summary: {
         period: "Periodo",
-        periodDetail: "13 estati osservate",
+        periodDetail: "14 estati osservate",
         mainResolution: "Risoluzione principale",
         mainResolutionDetail: "mappe Landsat 8/9",
         dayNight: "Risoluzione giorno-notte",
@@ -92,7 +92,7 @@ export function MethodologyDrawer() {
         satellites: {
           title: "Satelliti e risoluzioni usati",
           paragraphs: [
-            "Le mappe più dettagliate della webapp usano **Landsat 8 e Landsat 9**, con **risoluzione di 30 m**. A questa scala si leggono isolati, strade larghe, piazzali, tetti e grandi aree verdi, ma non piccoli oggetti singoli.",
+            "Le mappe della temperatura usano **Landsat 8 e Landsat 9**, con **risoluzione di 30 m**. Le mappe autonome della vegetazione (NDVI) e della riflettanza (albedo) usano Sentinel-2 a **10 m**. Gli indici che combinano queste osservazioni con la temperatura restano a 30 m.",
             "Con Landsat sono costruite le mappe LST estive, le anomalie rispetto alla storia, le persistenze e i principali indici fisici mostrati nella webapp. Per ogni anno vengono tenuti solo i passaggi estivi leggibili, dopo avere escluso nuvole e dati non utilizzabili.",
             "La lettura giorno-notte usa **MODIS**, con **risoluzione di 1 km**. È una scala molto più grossolana: non descrive il singolo isolato, ma aiuta a confrontare tendenze più ampie tra centro, periferie, aree verdi e colline.",
           ],
@@ -111,7 +111,7 @@ export function MethodologyDrawer() {
             "Il satellite vede la superficie dall'alto: ombra, facciate, portici e comfort percepito dalle persone non sono descritti completamente.",
             "La risoluzione a 30 m legge isolati e porzioni urbane, non singoli oggetti piccoli. La mappa giorno-notte è ancora più generale, a 1 km di risoluzione.",
             "I dati per quartiere e per area statistica sono medie: aiutano il confronto, ma non cancellano le differenze interne a ogni zona.",
-            `L'ortofoto di sfondo segue l'anno di ortofoto disponibile più vicino tra quelli pubblicati dal Comune di Bologna. Nell'app sono disponibili ${ORTHOPHOTO_AVAILABLE_YEARS_LABEL}: per le estati 2013-2016 viene usata l'ortofoto 2017, per il 2019 viene usata quella 2020, mentre nelle viste aggregate o centrate sul 2025 viene usata la 2025. Per questo edifici, tetti e vegetazione possono riflettere un anno vicino, ma non sempre esattamente l'estate analizzata.`,
+            `L'ortofoto di sfondo segue l'anno di ortofoto disponibile più vicino tra quelli pubblicati dal Comune di Bologna. Nell'app sono disponibili ${ORTHOPHOTO_AVAILABLE_YEARS_LABEL}: per le estati 2013-2016 viene usata l'ortofoto 2017, per il 2019 viene usata quella 2020, mentre nelle viste aggregate o centrate sul 2026 viene usata la 2025, la più vicina disponibile. Per questo edifici, tetti e vegetazione possono riflettere un anno vicino, ma non sempre esattamente l'estate analizzata.`,
           ],
         },
         availableData: {
@@ -119,7 +119,7 @@ export function MethodologyDrawer() {
           yearlyLst: `${dataAvailability.yearlyLst.length} mappe annuali della temperatura di superficie estiva`,
           yearlyHotspots: `${dataAvailability.yearlyTemporalHotspots.length} mappe annuali delle aree eccezionalmente calde`,
           boundaries: "Confini comunali, quartieri e aree statistiche usati per rendere più leggibile il confronto",
-          metadata: "Date, orari, satellite e qualità delle osservazioni per ogni estate dal 2013 al 2025",
+          metadata: "Date, orari, satellite e qualità delle osservazioni per ogni estate dal 2013 al 2026",
           period: "Periodo principale: estate, dal 1 giugno al 31 agosto",
         },
       },
@@ -141,7 +141,7 @@ export function MethodologyDrawer() {
         <div className="methodology-summary">
           <div>
             <span>{copy.summary.period}</span>
-            <strong>2013-2025</strong>
+            <strong>2013-2026</strong>
             <small>{copy.summary.periodDetail}</small>
           </div>
           <div>

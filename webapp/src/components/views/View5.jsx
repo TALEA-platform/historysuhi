@@ -45,13 +45,13 @@ export function View5() {
   const rank = selected ? sorted.findIndex((entity) => entity.id === selected.id) + 1 : 0;
   const copy = language === "en"
     ? {
-      metricDetail: selected ? `${selected.name} · 2025` : "Pick an area to read its 2025 value",
+      metricDetail: selected ? `${selected.name} · 2026` : "Pick an area to read its 2026 value",
       missingValue: "n/a",
-      bannerLabel: "2025 data",
+      bannerLabel: "2026 data",
       bannerValue: view5Aggregation === "statistical" ? "90 areas" : "6 districts",
       bannerText:
-        "This view aggregates **2025** summer data. You can read mean values by **district** or move down to **statistical areas**, which are smaller units and show internal differences within districts.",
-      panelTitle: "2025 reading",
+        "This view aggregates **2026** summer data. You can read mean values by **district** or move down to **statistical areas**, which are smaller units and show internal differences within districts.",
+      panelTitle: "2026 reading",
       aggregationAria: "Reading unit",
       districts: "Districts",
       statisticalAreas: "Statistical areas",
@@ -61,13 +61,13 @@ export function View5() {
         "To choose an area from the map, enable **Inspect** in the controls below the map and then click the district or statistical area.",
     }
     : {
-      metricDetail: selected ? `${selected.name} · 2025` : "Scegli una zona per leggere il valore 2025",
+      metricDetail: selected ? `${selected.name} · 2026` : "Scegli una zona per leggere il valore 2026",
       missingValue: "n.d.",
-      bannerLabel: "Dati 2025",
+      bannerLabel: "Dati 2026",
       bannerValue: view5Aggregation === "statistical" ? "90 aree" : "6 quartieri",
       bannerText:
-        "Questa sezione aggrega i dati estivi **2025**. Sono leggibili valori medi per **quartiere** oppure il dettaglio delle **aree statistiche**, unità più piccole che mostrano differenze interne ai quartieri.",
-      panelTitle: "Lettura 2025",
+        "Questa sezione aggrega i dati estivi **2026**. Sono leggibili valori medi per **quartiere** oppure il dettaglio delle **aree statistiche**, unità più piccole che mostrano differenze interne ai quartieri.",
+      panelTitle: "Lettura 2026",
       aggregationAria: "Unità di lettura",
       districts: "Quartieri",
       statisticalAreas: "Aree statistiche",

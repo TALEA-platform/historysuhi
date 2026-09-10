@@ -57,7 +57,7 @@ export function OnboardingModal() {
         },
         {
           title: "2. Heat history",
-          text: "This view reads heat over time, separating usual conditions, recurring anomalies, chronic heat and the specific behaviour of 2025.",
+          text: "This view reads heat over time, separating usual conditions, recurring anomalies, chronic heat and the specific behaviour of 2026.",
         },
         {
           title: "3. Why it happens",
@@ -69,7 +69,7 @@ export function OnboardingModal() {
         },
         {
           title: "5. Districts and statistical areas",
-          text: "This final view summarizes 2025 indicators for recognizable areas, letting you compare districts and then statistical areas for finer internal differences.",
+          text: "This final view summarizes 2026 indicators for recognizable areas, letting you compare districts and then statistical areas for finer internal differences.",
         },
       ],
       enter: "Got it",
@@ -119,7 +119,7 @@ export function OnboardingModal() {
         },
         {
           title: "2. Storia del caldo",
-          text: "Il caldo viene letto nel tempo, distinguendo condizioni abituali, anomalie ricorrenti, caldo cronico e comportamento specifico del 2025.",
+          text: "Il caldo viene letto nel tempo, distinguendo condizioni abituali, anomalie ricorrenti, caldo cronico e comportamento specifico del 2026.",
         },
         {
           title: "3. Perché succede",
@@ -131,7 +131,7 @@ export function OnboardingModal() {
         },
         {
           title: "5. Quartieri e aree statistiche",
-          text: "Questa sezione finale riassume gli indicatori 2025 per aree riconoscibili, permettendo di confrontare i quartieri e poi le aree statistiche con maggiore dettaglio.",
+          text: "Questa sezione finale riassume gli indicatori 2026 per aree riconoscibili, permettendo di confrontare i quartieri e poi le aree statistiche con maggiore dettaglio.",
         },
       ],
       enter: "Ho capito",

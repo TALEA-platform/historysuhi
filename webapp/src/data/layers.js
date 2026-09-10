@@ -6,7 +6,7 @@ const gee = (year) => appUrl(`data/gee_lst/Bologna_LST_${year}_summer_median_30m
 const hotspot = (year) => appUrl(`data/hotspots/hotspot_temporal_${year}_zgt1p0.tif`);
 const hotspotData = (name) => appUrl(`data/hotspots/${name}`);
 
-export const years = Array.from({ length: 13 }, (_, index) => 2013 + index);
+export const years = Array.from({ length: 14 }, (_, index) => 2013 + index);
 
 // View 1 changes the raster by year, so its numeric legends use one domain that
 // covers every yearly map. This keeps colors comparable across the slider and
@@ -14,21 +14,7 @@ export const years = Array.from({ length: 13 }, (_, index) => 2013 + index);
 const view1LstRange = [29, 52];
 const view1ZspatRange = [-2.5, 2.5];
 
-export const yearlyStats = [
-  { year: 2013, lst: 40.7, anomaly: 0.35, hotspot: 5.71 },
-  { year: 2014, lst: 34.9, anomaly: -5.46, hotspot: 0 },
-  { year: 2015, lst: 40.8, anomaly: 0.46, hotspot: 5.67 },
-  { year: 2016, lst: 39.4, anomaly: -0.95, hotspot: 0.26 },
-  { year: 2017, lst: 41.6, anomaly: 1.28, hotspot: 28.05 },
-  { year: 2018, lst: 42.6, anomaly: 2.22, hotspot: 52.51 },
-  { year: 2019, lst: 39.5, anomaly: -0.89, hotspot: 0.25 },
-  { year: 2020, lst: 39.9, anomaly: -0.5, hotspot: 1.21 },
-  { year: 2021, lst: 42.7, anomaly: 2.36, hotspot: 51.08 },
-  { year: 2022, lst: 41.9, anomaly: 1.49, hotspot: 33.29 },
-  { year: 2023, lst: 40.6, anomaly: 0.27, hotspot: 9.35 },
-  { year: 2024, lst: 40.5, anomaly: 0.12, hotspot: 2.06 },
-  { year: 2025, lst: 39.6, anomaly: -0.76, hotspot: 2.39 },
-];
+export { yearlyStats } from "./yearlyStats.js";
 
 export const view1Layers = {
   lst: {
@@ -52,7 +38,7 @@ export const view1Layers = {
     noDataLabel: "Dato non disponibile",
     noDataDescription:
       "In questo punto il satellite non ha raccolto osservazioni estive valide nell'anno selezionato, quindi la mappa lascia il punto come dato non disponibile.",
-    dataUrl: gee(2025),
+    dataUrl: gee(2026),
     dataUrlForYear: gee,
     raster: { palette: "surfaceHeat", range: view1LstRange, alpha: 255, noDataStyle: "hatched", maskToBoundary: true },
     className: "layer-lst",
@@ -80,7 +66,7 @@ export const view1Layers = {
     noDataLabel: "Dato non disponibile",
     noDataDescription:
       "In questo punto il satellite non ha raccolto osservazioni estive valide nell'anno selezionato, quindi la mappa lascia il punto come dato non disponibile.",
-    dataUrl: gee(2025),
+    dataUrl: gee(2026),
     dataUrlForYear: gee,
     raster: { palette: "diverging", range: view1ZspatRange, neutral: 0, alpha: 255, transform: "zscore", noDataStyle: "hatched", maskToBoundary: true },
     className: "layer-zspat",
@@ -91,16 +77,16 @@ export const view1Layers = {
 export const view2Layers = {
   anomaly: {
     id: "anomaly",
-    title: "Quanto il 2025 si discosta dalla temperatura abituale",
-    subtitle: "Quanto il 2025 si discosta dalla temperatura abituale della stessa zona",
+    title: "Quanto il 2026 si discosta dalla temperatura abituale",
+    subtitle: "Quanto il 2026 si discosta dalla temperatura abituale della stessa zona",
     description:
-      "Mostra dove il 2025 è stato diverso dal comportamento abituale negli anni 2013-2025. Non risponde a 'dove fa più caldo?', ma a 'dove il 2025 è stato **anomalo rispetto alla propria storia**?'.",
+      "Mostra dove il 2026 è stato diverso dal comportamento abituale negli anni 2013-2026. Non risponde a 'dove fa più caldo?', ma a 'dove il 2026 è stato **anomalo rispetto alla propria storia**?'.",
     explanation: "Blu indica zone con temperatura sotto la propria media storica, bianco zone in linea, rosso zone con temperatura sopra la propria media storica. Ogni punto viene confrontato con la propria storia, non con il resto della città.",
     details: [
-      "Una zona abitualmente calda può risultare bianca se nel 2025 si è comportata come al solito.",
-      "Una zona non molto calda in assoluto può risultare rossa se nel 2025 ha avuto temperature sopra la sua media storica.",
+      "Una zona abitualmente calda può risultare bianca se nel 2026 si è comportata come al solito.",
+      "Una zona non molto calda in assoluto può risultare rossa se nel 2026 ha avuto temperature sopra la sua media storica.",
     ],
-    inspectNote: "Il valore indica la differenza fra il 2025 e il comportamento abituale dello stesso punto.",
+    inspectNote: "Il valore indica la differenza fra il 2026 e il comportamento abituale dello stesso punto.",
     legendTitle: "Scostamento dal normale",
     legendType: "diverging",
     legend: [
@@ -112,7 +98,7 @@ export const view2Layers = {
       "molto sopra",
     ],
     numericLegend: ["-5.0", "0", "+5.0 \u00b0C"],
-    dataUrl: raster("anomaly_2025_summer_30m.tif"),
+    dataUrl: raster("anomaly_2026_summer_30m.tif"),
     raster: { palette: "diverging", range: [-5, 5], neutral: 0, alpha: 255 },
     className: "layer-anomaly",
     method: "",
@@ -120,24 +106,24 @@ export const view2Layers = {
   climatology: {
     id: "climatology",
     title: "Temperatura abituale",
-    subtitle: "Media storica 2013-2025: il riferimento con cui leggere gli altri layer",
+    subtitle: "Media storica 2013-2026: il riferimento con cui leggere gli altri layer",
     description:
-      "Mostra la **media storica** della temperatura di superficie nelle estati 2013-2025. È la mappa di base della seconda sezione: aiuta a capire dove la temperatura media è alta o bassa.",
+      "Mostra la **media storica** della temperatura di superficie nelle estati 2013-2026. È la mappa di base della seconda sezione: aiuta a capire dove la temperatura media è alta o bassa.",
     explanation: "Questa mappa descrive il comportamento abituale della superficie. Un'area industriale, un grande parcheggio o parti del centro possono avere temperature alte anche quando non sono anomale: significa che la loro temperatura è alta in modo ricorrente.",
     details: [
-      "È diversa dal layer della prima sezione: non mostra un anno selezionato, ma una media su 13 estati.",
+      "È diversa dal layer della prima sezione: non mostra un anno selezionato, ma una media su 14 estati.",
       "Serve per distinguere il caldo abituale dal caldo anomalo.",
     ],
     moreInfo: [
-      "Se una zona è calda in questa mappa significa che quella zona tende a essere calda nella serie 2013-2025.",
+      "Se una zona è calda in questa mappa significa che quella zona tende a essere calda nella serie 2013-2026.",
       "Questa mappa è il punto di partenza per capire le mappe successive: prima viene mostrato il comportamento medio, poi si distinguono le aree in cui il caldo è cronico o anomalo.",
     ],
     inspectNote: "Calcolato sulla superficie osservata.",
-    legendTitle: "Media storica 2013-2025",
+    legendTitle: "Media storica 2013-2026",
     legendType: "habitualHeat",
     legend: ["storicamente bassa", "bassa", "intermedia", "alta", "molto alta", "storicamente tra le più alte"],
     numericLegend: ["31.0", "40.5", "50.0 \u00b0C"],
-    dataUrl: raster("climatology_mean_2013_2025_30m.tif"),
+    dataUrl: raster("climatology_mean_2013_2026_30m.tif"),
     raster: { palette: "habitualHeat", range: [31, 50], alpha: 255 },
     className: "layer-climatology",
   },
@@ -152,7 +138,7 @@ export const view2Layers = {
     details: [
       "Il numero indica in quante estati il punto è stato anomalo rispetto a se stesso.",
       "Anomalia rara non significa automaticamente temperatura bassa: può indicare anche temperatura alta in modo costante e poco variabile.",
-      "Il massimo osservato in questo dato è 5 anni: non tutte le 13 estati hanno prodotto anomalie nello stesso punto.",
+      "Il massimo osservato in questo dato è 6 anni: non tutte le 14 estati hanno prodotto anomalie nello stesso punto.",
     ],
     moreInfo: [
       "Questa mappa va letta insieme ad **Aree cronicamente calde**. Se una zona ha poche anomalie ma molti anni cronici, probabilmente è una criticità stabile più che un'eccezione temporanea.",
@@ -162,18 +148,18 @@ export const view2Layers = {
     legendTitle: "Persistenza anomalie",
     legendType: "persistence",
     legendLayout: "compact",
-    legend: ["0 anni", "1 anno", "2 anni", "3 anni", "4 anni", "5 anni"],
-    numericLegend: ["0", "1", "2", "3", "4", "5 anni"],
+    legend: ["0 anni", "1 anno", "2 anni", "3 anni", "4 anni", "5-6 anni"],
+    numericLegend: ["0", "1", "2", "3", "4", "5-6 anni"],
     legendStops: [
       { label: "0 anni", color: "#fffdf0", accessibleColor: "#f7fcf0" },
       { label: "1 anno", color: "#fee391", accessibleColor: "#ccebc5" },
       { label: "2 anni", color: "#fec44f", accessibleColor: "#7bccc4" },
       { label: "3 anni", color: "#fe9929", accessibleColor: "#43a2ca" },
       { label: "4 anni", color: "#e31a1c", accessibleColor: "#0868ac" },
-      { label: "5 anni", color: "#b10026", accessibleColor: "#00204d" },
+      { label: "5-6 anni", color: "#b10026", accessibleColor: "#00204d" },
     ],
-    dataUrl: raster("hotspot_temporal_persistence_2013_2025.tif"),
-    raster: { palette: "persistence", range: [0, 5], alpha: 255 },
+    dataUrl: raster("hotspot_temporal_persistence_2013_2026.tif"),
+    raster: { palette: "persistence", range: [0, 6], alpha: 255 },
     className: "layer-pers-temp",
   },
   persistenceStructural: {
@@ -184,7 +170,7 @@ export const view2Layers = {
       "Mostra quante volte ogni punto è rientrato nel **top 5% delle aree con la temperatura di superficie più alta** di Bologna. In questa lettura, 'cronico' indica una criticità ripetuta nello spazio urbano, anno dopo anno.",
     explanation: "Serve a riconoscere le zone che spesso hanno la temperatura di superficie più alta della città, anche quando non risultano anomale rispetto alla propria storia.",
     details: [
-      "Il numero può arrivare a 13 perché la visualizzazione copre 13 estati, dal 2013 al 2025.",
+      "Il numero può arrivare a 14 perché la visualizzazione copre 14 estati, dal 2013 al 2026.",
       "Confrontala con 'Caldo cronico e caldo anomalo' per capire se una criticità è stabile, ricorrente o entrambe.",
     ],
     moreInfo: [
@@ -198,38 +184,38 @@ export const view2Layers = {
     legendTitle: "Persistenza strutturale",
     legendType: "persistence",
     legendLayout: "compact",
-    legend: ["0 anni", "1 anno", "2-4 anni", "5-8 anni", "9-12 anni", "13 anni"],
-    numericLegend: ["0", "1", "2-4", "5-8", "9-12", "13 anni"],
+    legend: ["0 anni", "1 anno", "2-4 anni", "5-8 anni", "9-12 anni", "13-14 anni"],
+    numericLegend: ["0", "1", "2-4", "5-8", "9-12", "13-14 anni"],
     legendStops: [
       { label: "0 anni", color: "#fffdf0", accessibleColor: "#f7fcf0" },
       { label: "1 anno", color: "#fee391", accessibleColor: "#ccebc5" },
       { label: "2-4 anni", color: "#fec44f", accessibleColor: "#7bccc4" },
       { label: "5-8 anni", color: "#fc4e2a", accessibleColor: "#43a2ca" },
       { label: "9-12 anni", color: "#bd0026", accessibleColor: "#0868ac" },
-      { label: "13 anni", color: "#800026", accessibleColor: "#00204d" },
+      { label: "13-14 anni", color: "#800026", accessibleColor: "#00204d" },
     ],
-    dataUrl: raster("hotspot_structural_persistence_2013_2025.tif"),
-    raster: { palette: "persistence", range: [0, 13], alpha: 255 },
+    dataUrl: raster("hotspot_structural_persistence_2013_2026.tif"),
+    raster: { palette: "persistence", range: [0, 14], alpha: 255 },
     className: "layer-pers-struct",
   },
   chronicVsAnomalous2025: {
     id: "chronicVsAnomalous2025",
-    title: "Caldo cronico e anomalie 2025",
-    subtitle: "Distingue criticità storiche e criticità emerse nel 2025",
-    description: "Incrocia il caldo cronico multi-anno con l'anomalia del 2025. Serve a distinguere le criticità storiche da quelle emerse nell'ultimo anno disponibile.",
+    title: "Caldo cronico e anomalie 2026",
+    subtitle: "Distingue criticità storiche e criticità emerse nel 2026",
+    description: "Incrocia le aree nel top 5% delle temperature del 2026 con le anomalie dello stesso anno. Serve a distinguere le criticità storiche da quelle emerse nell'ultimo anno disponibile.",
     explanation:
-      "Arancio indica caldo cronico; viola indica anomalia del 2025; il colore più scuro indica entrambe le condizioni nello stesso luogo.",
+      "Arancio indica caldo cronico; viola indica anomalia del 2026; il colore più scuro indica entrambe le condizioni nello stesso luogo.",
     details: [
-      "Cronico significa che il punto è nel **top 5% delle aree con la temperatura di superficie più alta** dell'anno selezionato (2025).",
-      "Anomalo 2025 significa che nel 2025 il punto è stato **anomalo rispetto alla propria storia**.",
-      "La classe entrambe segnala luoghi già critici che nel 2025 sono stati anche fuori dal normale.",
+      "Cronico significa che il punto è nel **top 5% delle aree con la temperatura di superficie più alta** dell'anno selezionato (2026).",
+      "Anomalo 2026 significa che nel 2026 il punto è stato **anomalo rispetto alla propria storia**.",
+      "La classe entrambe segnala luoghi già critici che nel 2026 sono stati anche fuori dal normale.",
     ],
-    inspectNote: "Questa classe combina due letture: caldo strutturale rispetto alla città e anomalia del 2025 rispetto alla storia del punto.",
+    inspectNote: "Questa classe combina due letture: caldo strutturale rispetto alla città e anomalia del 2026 rispetto alla storia del punto.",
     legendTitle: "4 classi",
     legendType: "categorical",
     legendLayout: "compact",
-    legend: ["nessuna criticità", "cronico", "anomalo 2025", "cronico e anomalo"],
-    dataUrl: raster("hotspot_structural_vs_anomalous_2025.tif"),
+    legend: ["nessuna criticità", "cronico", "anomalo 2026", "cronico e anomalo"],
+    dataUrl: raster("hotspot_structural_vs_anomalous_2026.tif"),
     raster: { mode: "categorical", category: "hotAnomalous", maskToBoundary: true },
     className: "layer-cat",
   },
@@ -237,13 +223,13 @@ export const view2Layers = {
     id: "structuralVsTemporal",
     title: "Caldo cronico e caldo anomalo",
     subtitle: "Distingue le zone da sempre calde da quelle spesso anomale",
-    description: "Incrocia, sull'intero periodo 2013-2025, quante volte una zona è stata nel **top 5% delle aree con la temperatura di superficie più alta** e quante volte è stata **anomala rispetto alla propria storia**.",
+    description: "Incrocia, sull'intero periodo 2013-2026, quante volte una zona è stata nel **top 5% delle aree con la temperatura di superficie più alta** e quante volte è stata **anomala rispetto alla propria storia**.",
     explanation: "",
     details: [
       "La tinta arancio aumenta con gli anni di caldo cronico.",
       "La tinta viola aumenta con gli anni di caldo anomalo.",
       "Dove le due condizioni convivono, il colore è una miscela: indica sia criticità strutturale sia ricorrenza di anomalie.",
-      "Cronico arriva a 13 anni perché la serie copre 13 estati. Anomalo arriva a 5 anni perché questo è il massimo presente nell'attuale dato di persistenza delle anomalie.",
+      "Cronico arriva a 14 anni perché la serie copre 14 estati. Anomalo arriva a 6 anni perché questo è il massimo presente nell'attuale dato di persistenza delle anomalie.",
     ],
     moreInfo: [
       "Bassa anomalia non significa necessariamente area con temperatura bassa. Può anche indicare una zona con temperatura sempre alta e stabile, come alcune parti del centro storico.",
@@ -257,8 +243,8 @@ export const view2Layers = {
     inspectNote: "",
     legendTitle: "Intensità cronica/anomala",
     legendType: "bivariate",
-    legend: ["cronico: 1-13 anni", "anomalo: 1-5 anni", "entrambi: colori miscelati"],
-    dataUrl: hotspotData("hotspot_structural_vs_anomalous_persistence_new_2013_2025.tif"),
+    legend: ["cronico: 1-14 anni", "anomalo: 1-6 anni", "entrambi: colori miscelati"],
+    dataUrl: hotspotData("hotspot_structural_vs_anomalous_persistence_new_2013_2026.tif"),
     raster: { mode: "structuralTemporal", maskToBoundary: true },
     className: "layer-cat",
   },
@@ -282,7 +268,7 @@ export const view3Layers = {
     legendType: "uhei",
     legend: ["molto favorita", "favorita", "intermedia", "esposta", "molto esposta"],
     numericLegend: ["0.90", "1.48", "2.05"],
-    dataUrl: raster("UHEI_2025_summer_30m.tif"),
+    dataUrl: raster("UHEI_2026_summer_30m.tif"),
     raster: { palette: "uhei", range: [0.90, 2.05], alpha: 255, transparentValues: [0] },
     className: "layer-uhei",
   },
@@ -301,7 +287,7 @@ export const view3Layers = {
     legendType: "green",
     legend: ["poco verde", "verde intermedio", "verde denso"],
     numericLegend: ["0.07", "0.50", "0.89"],
-    dataUrl: raster("NDVI_2025_summer_30m.tif"),
+    dataUrl: raster("NDVI_2026_summer_10m.tif"),
     raster: { palette: "green", range: [0.07, 0.89], alpha: 255, maskToBoundary: true },
     className: "layer-ndvi",
   },
@@ -310,7 +296,7 @@ export const view3Layers = {
     title: "Superfici più riflettenti e più assorbenti",
     subtitle: "Utile per distinguere superfici più riflettenti da quelle che assorbono più calore",
     description: "Indica quanto le superfici riflettono la luce solare invece di assorbirla come calore. Superfici scure tendono ad accumulare più calore; superfici più riflettenti possono contribuire a ridurlo.",
-    explanation: "La scala è a quantili perché a Bologna l'albedo varia poco: piccole differenze possono comunque essere utili per leggere tetti, piazzali e materiali urbani.",
+    explanation: "La scala cromatica evidenzia le differenze di riflettanza: piccole differenze possono aiutare a leggere tetti, piazzali e materiali urbani. I valori oltre gli estremi della legenda mantengono il colore dell'estremo corrispondente.",
     details: [
       "Valori bassi indicano superfici più assorbenti; valori alti superfici più riflettenti.",
       "Non basta avere albedo alta per risolvere il caldo: contano anche verde, ventilazione, ombra e materiali.",
@@ -321,7 +307,7 @@ export const view3Layers = {
     legendType: "albedo",
     legend: ["assorbente", "intermedia", "riflettente"],
     numericLegend: ["0.12", "0.20", "0.27"],
-    dataUrl: raster("Albedo_2025_summer_10m.tif"),
+    dataUrl: raster("Albedo_2026_summer_10m.tif"),
     raster: {
       palette: "albedo",
       range: [0.12, 0.27],
@@ -348,7 +334,7 @@ export const view3Layers = {
     legendType: "diverging",
     legend: ["bassa e verde", "intermedio", "alta e poco verde"],
     numericLegend: ["-0.86", "0", "+0.25"],
-    dataUrl: raster("HVI_2025_summer_30m.tif"),
+    dataUrl: raster("HVI_2026_summer_30m.tif"),
     raster: { palette: "diverging", range: [-0.86, 0.25], neutral: 0, alpha: 255 },
     className: "layer-hvi",
   },
@@ -368,7 +354,7 @@ export const view3Layers = {
     legendType: "diverging",
     legend: ["temp. bassa, riflettente", "intermedio", "temp. alta, assorbente"],
     numericLegend: ["-0.15", "0", "+0.60"],
-    dataUrl: raster("HRI_2025_summer_30m.tif"),
+    dataUrl: raster("HRI_2026_summer_30m.tif"),
     raster: { palette: "diverging", range: [-0.15, 0.60], neutral: 0, alpha: 255 },
     className: "layer-hri",
   },
@@ -382,6 +368,7 @@ export const deltaLayer = {
     "Mostra quanto cambia la temperatura tra giorno e notte sulla superficie osservata. Un valore alto significa che la superficie è molto più calda di giorno rispetto alla notte; un valore basso significa che cambia meno.",
   explanation: "Questa mappa non dice semplicemente dove fa più caldo. Aiuta a capire il comportamento giornaliero delle superfici. Il centro può raffreddarsi intorno alla media durante la notte, ma durante il giorno può assorbire molto calore perché ha molte superfici assorbenti. Le colline possono mostrare una differenza più bassa perché hanno già una temperatura più bassa e accumulano meno calore da perdere.",
   details: [
+      "Dati 2026 provvisori: manca il composito MODIS con inizio 29 agosto.",
     "La griglia è più grossolana dei layer Landsat: ogni cella rappresenta un'area ampia di circa 1 km.",
     "Un valore basso non va letto automaticamente come problema: può indicare una zona che resta calda, ma anche una zona che non si scalda molto durante il giorno.",
   ],
@@ -393,8 +380,8 @@ export const deltaLayer = {
   legendTitle: "Raffreddamento",
   legendType: "thermal",
   legend: ["si raffredda poco", "medio", "si raffredda molto"],
-  numericLegend: ["6.0", "9.0", "12.0 \u00b0C"],
-  dataUrl: csvInfo("albedo_deltalst_2025_1km_pairs.csv"),
+  numericLegend: ["4.9", "7.1", "9.2 \u00b0C"],
+  dataUrl: csvInfo("albedo_deltalst_2026_1km_pairs.csv"),
   raster: {
     sourceType: "csvGrid",
     rowKey: "row",
@@ -404,7 +391,8 @@ export const deltaLayer = {
     valueKey: "delta_lst_1km",
     cellSize: 1000,
     palette: "thermal",
-    range: [5.98, 12.01],
+    // Outward-rounded extent of the 185 displayed 2026 cells: 4.9473–9.1655.
+    range: [4.9, 9.2],
     alpha: 255,
     maskToBoundary: true,
     renderScale: 16,
@@ -430,9 +418,9 @@ export const districtMetrics = {
   anomaly: {
     label: "Scostamento dal normale",
     unit: "°C",
-    description: "Quanto il 2025 si discosta dal comportamento abituale dell'area.",
+    description: "Quanto il 2026 si discosta dal comportamento abituale dell'area.",
     valueInfo:
-      "È lo **scostamento medio del 2025** rispetto al comportamento abituale della stessa area selezionata. Si misura in °C perché confronta due temperature di superficie. Un valore positivo indica che nel 2025 l'area ha avuto una temperatura sopra il suo normale; un valore negativo indica che ha avuto una temperatura sotto il suo normale. Non dice se l'area è calda in assoluto: dice quanto il 2025 si è discostato dalla sua storia.",
+      "È lo **scostamento medio del 2026** rispetto al comportamento abituale della stessa area selezionata. Si misura in °C perché confronta due temperature di superficie. Un valore positivo indica che nel 2026 l'area ha avuto una temperatura sopra il suo normale; un valore negativo indica che ha avuto una temperatura sotto il suo normale. Non dice se l'area è calda in assoluto: dice quanto il 2026 si è discostato dalla sua storia.",
   },
   hotspotPercent: {
     label: "Superficie con anomalia termica",
@@ -443,19 +431,12 @@ export const districtMetrics = {
   },
 };
 
-export const districts = [
-  { id: "san-donato", name: "San Donato-San Vitale", uhei: 1.62, lst: 42.2, anomaly: -0.56, hotspotPercent: 4.0, persistenceMean: 1.4 },
-  { id: "navile", name: "Navile", uhei: 1.6, lst: 41.6, anomaly: -0.2, hotspotPercent: 2.4, persistenceMean: 0.9 },
-  { id: "borgo-panigale", name: "Borgo Panigale-Reno", uhei: 1.57, lst: 41.4, anomaly: -0.28, hotspotPercent: 4.7, persistenceMean: 0.9 },
-  { id: "savena", name: "Savena", uhei: 1.38, lst: 37.4, anomaly: -2.35, hotspotPercent: 0, persistenceMean: 0.1 },
-  { id: "porto-saragozza", name: "Porto-Saragozza", uhei: 1.38, lst: 37.5, anomaly: -1.03, hotspotPercent: 0.8, persistenceMean: 0.6 },
-  { id: "santo-stefano", name: "Santo Stefano", uhei: 1.25, lst: 35.7, anomaly: -1.18, hotspotPercent: 0.3, persistenceMean: 0.1 },
-];
+export { districts } from "./districts.js";
 
 export const dataAvailability = {
   yearlyLst: years.map((year) => ({ year, url: gee(year) })),
   yearlyTemporalHotspots: years.map((year) => ({ year, url: hotspot(year) })),
-  districts: appUrl("data/webapp_vectors/districts_enriched_2025.geojson"),
+  districts: appUrl("data/webapp_vectors/districts_enriched_2026.geojson"),
 };
 
 export const rasterOverlays = {

@@ -5,9 +5,9 @@ import { fromFile } from "geotiff";
 // mean NDVI computed by averaging the 30 m NDVI raster pixels whose centers fall inside
 // each 1 km UTM cell. Output feeds the View 4 NDVI scatter and the 3D popup.
 
-const pairsCsvPath = "data/csv_info/albedo_deltalst_2025_1km_pairs.csv";
-const ndviPath = "data/webapp_rasters/NDVI_2025_summer_30m.tif";
-const outputPath = "data/csv_info/albedo_ndvi_delta_2025_1km_pairs.csv";
+const pairsCsvPath = "data/csv_info/albedo_deltalst_2026_1km_pairs.csv";
+const ndviPath = "data/webapp_rasters/NDVI_2026_summer_30m.tif";
+const outputPath = "data/csv_info/albedo_ndvi_delta_2026_1km_pairs.csv";
 const CELL_HALF = 500;
 
 async function loadRaster(path) {

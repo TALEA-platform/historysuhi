@@ -224,12 +224,12 @@ function describeYear(stat, language) {
     else if (hotspot >= 0.5) exceptional = "few areas flagged as exceptionally hot";
     else exceptional = "almost no area flagged as exceptionally hot";
     if (anomaly >= 2.5) {
-      return `Summer ${mood}: the one with the highest mean surface temperature in the 2013-2025 series, with ${exceptional}.`;
+      return `Summer ${mood}: the one with the highest mean surface temperature in the 2013-2026 series, with ${exceptional}.`;
     }
     if (anomaly < -3) {
-      return `One of the summers with the lowest mean surface temperature in the 2013-2025 series, with ${exceptional}.`;
+      return `One of the summers with the lowest mean surface temperature in the 2013-2026 series, with ${exceptional}.`;
     }
-    return `Summer ${mood} compared with the 2013-2025 historical average, with ${exceptional}.`;
+    return `Summer ${mood} compared with the 2013-2026 historical average, with ${exceptional}.`;
   }
   let mood;
   if (anomaly < -3) mood = "**con temperature eccezionalmente basse**";
@@ -247,10 +247,10 @@ function describeYear(stat, language) {
   else if (hotspot >= 0.5) exceptional = "poche aree classificate come eccezionalmente calde";
   else exceptional = "quasi nessuna area classificata come eccezionalmente calda";
   if (anomaly >= 2.5) {
-    return `Estate ${mood}: quella con la temperatura di superficie media più alta della serie 2013-2025, con ${exceptional}.`;
+    return `Estate ${mood}: quella con la temperatura di superficie media più alta della serie 2013-2026, con ${exceptional}.`;
   }
   if (anomaly < -3) {
-    return `Una delle estati con la temperatura di superficie media più bassa della serie 2013-2025, con ${exceptional}.`;
+    return `Una delle estati con la temperatura di superficie media più bassa della serie 2013-2026, con ${exceptional}.`;
   }
-  return `Estate ${mood} rispetto alla media storica 2013-2025, con ${exceptional}.`;
+  return `Estate ${mood} rispetto alla media storica 2013-2026, con ${exceptional}.`;
 }
