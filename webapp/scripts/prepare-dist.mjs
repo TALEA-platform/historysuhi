@@ -7,12 +7,15 @@ const rootDir = path.resolve(__dirname, "..");
 const distDir = path.join(rootDir, "dist");
 const dataDir = path.join(rootDir, "data");
 const distDataDir = path.join(distDir, "data");
+const previewImagePath = path.join(rootDir, "docs", "preview_historysuhi.png");
+const distPreviewImagePath = path.join(distDir, "preview_historysuhi.png");
 const indexPath = path.join(distDir, "index.html");
 const noJekyllPath = path.join(distDir, ".nojekyll");
 
 await mkdir(distDir, { recursive: true });
 await access(indexPath);
 await cp(dataDir, distDataDir, { recursive: true, force: true });
+await cp(previewImagePath, distPreviewImagePath, { force: true });
 const redirect404Html = `<!doctype html>
 <html lang="it">
   <head>
