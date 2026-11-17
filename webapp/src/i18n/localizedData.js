@@ -269,6 +269,9 @@ const englishLayerOverrides = {
   },
   view3Layers: {
     uhei: {
+      noDataLabel: "Water (excluded from the index)",
+      noDataDescription:
+        "At least half of this surface is water (rivers, lakes or sea). The index is not computed here: water has no vegetation and reflects little sunlight, so it would look \"exposed\" even though it is not a hot spot. Its cooling effect remains visible in the temperatures along the shores.",
       title: "Overall heat exposure",
       subtitle: "Where high surface temperature, little vegetation and dark surfaces show up together",
       description:
@@ -316,6 +319,9 @@ const englishLayerOverrides = {
       legend: ["absorbent", "intermediate", "reflective"],
     },
     hvi: {
+      noDataLabel: "Water (excluded from the index)",
+      noDataDescription:
+        "At least half of this surface is water (rivers, lakes or sea). The index is not computed here: water has no vegetation and reflects little sunlight, so it would look \"exposed\" even though it is not a hot spot. Its cooling effect remains visible in the temperatures along the shores.",
       title: "Surface temperature and lack of vegetation",
       subtitle: "Helps show where additional greenery could make a bigger difference",
       description:
@@ -332,6 +338,9 @@ const englishLayerOverrides = {
       legend: ["low and green", "intermediate", "high and low vegetation"],
     },
     hri: {
+      noDataLabel: "Water (excluded from the index)",
+      noDataDescription:
+        "At least half of this surface is water (rivers, lakes or sea). The index is not computed here: water has no vegetation and reflects little sunlight, so it would look \"exposed\" even though it is not a hot spot. Its cooling effect remains visible in the temperatures along the shores.",
       title: "Surface temperature and poorly reflective surfaces",
       subtitle: "Helps read the weight of roofs, pavements and materials that absorb heat",
       description:

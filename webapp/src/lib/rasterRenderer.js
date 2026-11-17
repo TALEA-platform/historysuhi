@@ -161,6 +161,17 @@ function noDataPixelColor(index, width, colorMode = "default") {
   return stripe ? [201, 206, 198, 245] : [236, 239, 232, 245];
 }
 
+// Water excluded from the composite indices (UHEI/HVI/HRI): a blue hatch, distinct from the grey "no data" one.
+function waterPixelColor(index, width, colorMode = "default") {
+  const row = Math.floor(index / width);
+  const col = index % width;
+  const stripe = (row + col) % 10 < 4;
+  if (colorMode === "accessible") {
+    return stripe ? [166, 182, 196, 245] : [232, 237, 242, 245];
+  }
+  return stripe ? [160, 196, 220, 245] : [228, 239, 247, 245];
+}
+
 function delay(ms) {
   return new Promise((resolve) => {
     window.setTimeout(resolve, ms);
@@ -852,6 +863,12 @@ export async function renderRasterImage({ url, raster = {}, threshold, colorMode
 
   const promise = (async () => {
     const data = await loadRaster(url, raster);
+    // Optional companion mask on the same grid (1 = water excluded from this index).
+    const waterData = raster.waterMaskUrl ? await loadRaster(raster.waterMaskUrl) : null;
+    const waterValues = waterData && waterData.width === data.width && waterData.height === data.height
+      ? waterData.values
+      : null;
+    const isWater = (index) => waterValues != null && waterValues[index] === 1;
     // renderScale supersamples the output canvas so boundary masks on coarse rasters
     // (e.g. 1 km day-night delta) don't show a staircase edge. Values are nearest-neighbor
     // on the native grid; the polygon mask is painted at the higher resolution.
@@ -894,6 +911,14 @@ export async function renderRasterImage({ url, raster = {}, threshold, colorMode
           continue;
         }
         if (isNoData(value, data.nodata)) {
+          if (isWater(nativeIndex)) {
+            const color = waterPixelColor(outIndex, outWidth, colorMode);
+            output[out] = color[0];
+            output[out + 1] = color[1];
+            output[out + 2] = color[2];
+            output[out + 3] = color[3];
+            continue;
+          }
           if (raster.noDataStyle === "hatched") {
             const color = noDataPixelColor(outIndex, outWidth, colorMode);
             output[out] = color[0];
@@ -982,7 +1007,7 @@ export async function renderRasterImage({ url, raster = {}, threshold, colorMode
         if (!cell) return null;
         if (visibleCellMask && !visibleCellMask[cell.index]) return null;
         if (isNoData(cell.value, data.nodata)) {
-          return raster.noDataStyle === "hatched" ? { kind: "nodata", cell } : null;
+          return raster.noDataStyle === "hatched" || isWater(cell.index) ? { kind: "nodata", cell } : null;
         }
         const value = data.sampleAt(lng, lat, raster.transform);
         if (value == null) return null;

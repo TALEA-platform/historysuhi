@@ -3,7 +3,7 @@ export const districts = [
   {
     "id": "san-donato",
     "name": "San Donato-San Vitale",
-    "uhei": 1.72,
+    "uhei": 1.85,
     "lst": 43.2,
     "anomaly": 0.46,
     "hotspotPercent": 7.8,
@@ -12,7 +12,7 @@ export const districts = [
   {
     "id": "navile",
     "name": "Navile",
-    "uhei": 1.65,
+    "uhei": 1.77,
     "lst": 42.1,
     "anomaly": 0.26,
     "hotspotPercent": 3.5,
@@ -21,7 +21,7 @@ export const districts = [
   {
     "id": "borgo-panigale",
     "name": "Borgo Panigale-Reno",
-    "uhei": 1.65,
+    "uhei": 1.76,
     "lst": 42.3,
     "anomaly": 0.54,
     "hotspotPercent": 6.8,
@@ -30,7 +30,7 @@ export const districts = [
   {
     "id": "savena",
     "name": "Savena",
-    "uhei": 1.56,
+    "uhei": 1.66,
     "lst": 40.4,
     "anomaly": 0.6,
     "hotspotPercent": 3.1,
@@ -39,7 +39,7 @@ export const districts = [
   {
     "id": "porto-saragozza",
     "name": "Porto-Saragozza",
-    "uhei": 1.49,
+    "uhei": 1.58,
     "lst": 39.2,
     "anomaly": 0.6,
     "hotspotPercent": 13.8,
@@ -48,7 +48,7 @@ export const districts = [
   {
     "id": "santo-stefano",
     "name": "Santo Stefano",
-    "uhei": 1.37,
+    "uhei": 1.45,
     "lst": 37.7,
     "anomaly": 0.77,
     "hotspotPercent": 7.8,

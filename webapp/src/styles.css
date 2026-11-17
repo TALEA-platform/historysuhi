@@ -1837,6 +1837,10 @@ a {
   background: repeating-linear-gradient(135deg, #c9cec6 0 6px, #ecefe8 6px 12px);
 }
 
+.legend-nodata-water i {
+  background: repeating-linear-gradient(135deg, #a0c4dc 0 6px, #e4eff7 6px 12px);
+}
+
 .legend-nodata small {
   color: var(--ink-3);
   font-size: 11px;

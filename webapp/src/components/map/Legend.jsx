@@ -194,7 +194,7 @@ export function Legend({ layer, showNumericValues }) {
         </>
       )}
       {layer.noDataLabel && (
-        <div className="legend-nodata">
+        <div className={layer.raster?.waterMaskUrl ? "legend-nodata legend-nodata-water" : "legend-nodata"}>
           <span>
             <i aria-hidden="true" />
             {layer.noDataLabel}
